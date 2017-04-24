@@ -1,0 +1,287 @@
+html, body, table {
+    font: 13px Tahoma, "Trebuchet MS", Helvetica, Verdana, Arial, "sans serif";
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-collapse: collapse;
+    color: #666 !important;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+/*welcome page*/
+#welcomeTitle {
+    font-size: 2.3em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: 20px;
+    color: #33af65;
+}
+
+.welcomeButton {
+    width: 400px;
+    margin-left: calc(100%/2 - 220px);
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #106194);
+    background-image: -moz-linear-gradient(top, #3498db, #106194);
+    background-image: -ms-linear-gradient(top, #3498db, #106194);
+    background-image: -o-linear-gradient(top, #3498db, #106194);
+    background-image: linear-gradient(to bottom, #3498db, #106194);
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.welcomeButton:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
+.welButClose {
+    color: #ff7f7f;
+}
+
+.blank{
+    height: 20px;
+}
+
+/*login page*/
+#login_block {
+    width: 500px;
+    margin-top: 100px;
+    margin-left: calc(100%/2 - 250px);
+    display: block;
+    border: 1px solid #666;
+    background-color: #f7fbff;
+    text-align: center;
+}
+
+.login_title {
+    font-size: 1.7em;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 15px;
+}
+
+.login_input {
+    width: 250px;
+    height: 30px;
+    border: 2px solid grey;
+    margin-top: 10px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    padding-left: 15px;
+
+}
+
+.submit_button {
+    width: 250px;
+    height: 30px;
+    margin-top: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background:    #3d85c6;
+    background:    -webkit-linear-gradient(#3d85c6, #073763);
+    background:    linear-gradient(#3d85c6, #073763);
+    border-radius: 10px;
+    color:         #fff;
+    display:       inline-block;
+    text-align:    center;
+    text-shadow:   2px 2px 0 #000;
+}
+
+.information {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 20px;
+}
+
+.errorInfo {
+    margin-bottom: 5px;
+    color: red;
+    font-size: 1.1em;
+}
+
+/* ----------------------------   TOP PANE */
+div#errorBlock {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    font-size: 1.8em;
+    background-color: #ff9dae;
+    text-align: center;
+    color: black;
+    padding-top: 15px;
+}
+
+div#savedSuccessfullyBlock {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    font-size: 1.8em;
+    background-color: #a1ff3f;
+    text-align: center;
+    color: black;
+    padding-top: 15px;
+}
+
+#head_pane {
+    width  : 100%;
+    height : 50px;
+    background: white url("../images/bg_logo.gif") repeat-x 0% 0%;
+    color: #666 !important;
+}
+
+#loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -40px;
+    margin-left: -150px;
+    z-index: 1000;
+    display: none;
+    background: #FFFFFF;
+    line-height: 80px;
+    width: 280px;
+    height: 80px;
+    text-align: center;
+    border: solid 1px;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+#loader img {
+    height: 80%;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+#top_separate {
+    /*width : 100%;*/
+    height: 2px;
+    background-color: #5680AB;
+}
+
+.report_title {
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 12px;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+#filter_pane {
+    height : 100%;
+    margin-left : 500px;
+    padding-right: 10px;
+    padding-top : 10px;
+}
+
+#logoff_pane {
+    float : right;
+}
+
+#exit {
+    float : right;
+    margin-left: 20px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #45619C !important;
+    color: #fff;
+    font-weight: bold;
+    border-width: 0px;
+    padding: 5px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.347656) 2px 2px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.347656) 2px 2px 3px;
+    box-shadow: rgba(0, 0, 0, 0.347656) 2px 2px 3px;
+    filter: progid:DXImageTransform.Microsoft.shadow(Color=#000000, Direction=120, Strength=2);
+    cursor: pointer;
+}
+
+#lbl_user_name {
+    float : left;
+    margin-top : 6px;
+    margin-right : 10px;
+    font-weight : bold;
+}
+
+/* ----------------------------     ALL PANES */
+
+a {
+    /*text-decoration: none;*/
+    color:  #6e8ac4;
+    cursor: pointer !important;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.reports.visible {
+    display: block;
+}
+
+#reports {
+    padding: 5px 0 0 1%;
+}
+
+#reports .title {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 12px;
+    margin-left: 15px;
+    border-bottom: 1px solid #5680ab;
+    width: 600px;
+}
+
+#reports .report_group {
+
+}
+
+#reports .group_title {
+    width: 300px;
+    color:white;
+    background-color: rgba(26, 26, 108, 0.78);
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 5 5 5 25;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#reports .report_link {
+    padding: 5 5 5 40;
+}
+
+
+

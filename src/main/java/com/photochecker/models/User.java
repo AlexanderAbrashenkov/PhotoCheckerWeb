@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class User {
+    private int id;
     private String userLogin;
     private String userName;
     private int role;
@@ -15,11 +16,20 @@ public class User {
     public User() {
     }
 
-    public User(String userLogin, String userName, int role, List<Integer> reportTypeList) {
+    public User(int id, String userLogin, String userName, int role, List<Integer> reportTypeList) {
+        this.id = id;
         this.userLogin = userLogin;
         this.userName = userName;
         this.role = role;
         this.reportTypeList = reportTypeList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUserLogin() {
@@ -57,7 +67,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userLogin='" + userLogin + '\'' +
+                "id=" + id +
+                ", userLogin='" + userLogin + '\'' +
                 ", userName='" + userName + '\'' +
                 ", role=" + role +
                 ", reportTypeList=" + reportTypeList +

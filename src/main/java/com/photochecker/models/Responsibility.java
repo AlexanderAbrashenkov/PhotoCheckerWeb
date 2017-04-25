@@ -10,21 +10,21 @@ public class Responsibility {
     String regionName;
     int distrId;
     String distrName;
-    String responsibleLogin;
+    int responsibleId;
     String responsibleName;
 
     public Responsibility() {
     }
 
     public Responsibility(int reportType, String reportName, int regionId, String regionName,
-                          int distrId, String distrName, String responsibleLogin, String responsibleName) {
+                          int distrId, String distrName, int responsibleId, String responsibleName) {
         this.reportType = reportType;
         this.reportName = reportName;
         this.regionId = regionId;
         this.regionName = regionName;
         this.distrId = distrId;
         this.distrName = distrName;
-        this.responsibleLogin = responsibleLogin;
+        this.responsibleId = responsibleId;
         this.responsibleName = responsibleName;
     }
 
@@ -76,12 +76,12 @@ public class Responsibility {
         this.distrName = distrName;
     }
 
-    public String getResponsibleLogin() {
-        return responsibleLogin;
+    public int getResponsibleId() {
+        return responsibleId;
     }
 
-    public void setResponsibleLogin(String responsibleLogin) {
-        this.responsibleLogin = responsibleLogin;
+    public void setResponsibleId(int responsibleId) {
+        this.responsibleId = responsibleId;
     }
 
     public String getResponsibleName() {
@@ -101,7 +101,7 @@ public class Responsibility {
                 ", regionName='" + regionName + '\'' +
                 ", distrId=" + distrId +
                 ", distrName='" + distrName + '\'' +
-                ", responsibleLogin='" + responsibleLogin + '\'' +
+                ", responsibleId='" + responsibleId + '\'' +
                 ", responsibleName='" + responsibleName + '\'' +
                 '}';
     }

@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 
             if (resultSet.next()) {
 
+                int id = resultSet.getInt("id");
                 String userName = resultSet.getString("user_name");
                 String userPass = resultSet.getString("user_pass");
                 String userSalt = resultSet.getString("salt");
@@ -80,8 +81,8 @@ public class LoginServlet extends HttpServlet {
                 statement.close();
 
                 statement = connection.prepareStatement("SELECT `report_type` FROM `report_type_user`\n" +
-                        "WHERE user_login = ?");
-                statement.setString(1, login);
+                        "WHERE `user_id` = ?");
+                statement.setInt(1, id);
                 resultSet = statement.executeQuery();
 
                 List<Integer> reportTypeList = new ArrayList<>();
@@ -90,7 +91,7 @@ public class LoginServlet extends HttpServlet {
                     reportTypeList.add(resultSet.getInt("report_type"));
                 }
 
-                User user = new User(login, userName, userRole, reportTypeList);
+                User user = new User(id, login, userName, userRole, reportTypeList);
 
                 resultSet.close();
                 statement.close();

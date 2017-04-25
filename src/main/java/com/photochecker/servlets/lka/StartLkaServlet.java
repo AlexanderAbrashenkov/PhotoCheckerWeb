@@ -1,5 +1,6 @@
 package com.photochecker.servlets.lka;
 
+import com.photochecker.models.User;
 import com.photochecker.models.lka.LkaExpert;
 
 import javax.servlet.RequestDispatcher;
@@ -27,7 +28,7 @@ public class StartLkaServlet extends HttpServlet {
         request.setAttribute("endDate", endDate);
         endDate = endDate.plusDays(1);
         LkaExpert.setEndDate(endDate);
-        request.setAttribute("regionMap", LkaExpert.getRegionMap());
+        request.setAttribute("regionMap", LkaExpert.getRegionMap((User) request.getSession().getAttribute("user")));
         request.setAttribute("pageTitle", "Фотоотчет LKA");
         request.setAttribute("pageCategory", "lka");
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("../WEB-INF/view/lka/lkaPage.jsp");

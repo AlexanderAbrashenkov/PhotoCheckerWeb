@@ -1,4 +1,4 @@
-package com.photochecker.servlets;
+package com.photochecker.servlets.admin;
 
 import com.photochecker.models.Upload;
 import com.photochecker.models.lka.LkaExpert;

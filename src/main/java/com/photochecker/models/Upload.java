@@ -82,7 +82,7 @@ public class Upload {
                 }
 
                 //todo: add report type
-                Double resp_pair = Double.parseDouble(5 + "." + distr_id);
+                double resp_pair = Double.parseDouble(5 + "." + distr_id);
                 if (!responsibilitySet.contains(resp_pair)) {
                     //todo: enter report_type
                     statementResponsibility.setInt(1, 5);
@@ -242,6 +242,7 @@ public class Upload {
             while (resultSet.next()) {
                 Double resp = Double.parseDouble(resultSet.getInt("report_type") + "." +
                     resultSet.getInt("distr_id"));
+                responsibilitySet.add(resp);
             }
             statement.close();
         } catch (SQLException e) {

@@ -50,7 +50,7 @@ function getLkaNameById(lka_id, element) {
             lkaId: lka_id
         })
         .done(function (data) {
-            checkForRedirect(data)
+            checkForRedirect(data);
             element.val(data.lkaName);
         })
         .fail(function () {
@@ -137,7 +137,7 @@ function saveResponsibilities() {
         var respElem = {
             reportType: respList.eq(i).children('.type_name').attr('name'),
             distrId: respList.eq(i).children('.distr_name').attr('name'),
-            responsibleName: respList.eq(i).children('.resp_name').children('option').filter(':selected').text()
+            responsibleId: respList.eq(i).children('.resp_name').children('option').filter(':selected').attr('name')
         };
         respArray.push(respElem);
     };

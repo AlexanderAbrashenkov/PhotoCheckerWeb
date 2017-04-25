@@ -41,7 +41,7 @@ public class LkaExpert {
         return endDate;
     }
 
-    public static Map<Integer, String> getRegionMap() {
+    public static Map<Integer, String> getRegionMap(User user) {
         Map<Integer, String> regionMap = new TreeMap<>();
         try {
             Connection connection = DataSourcePhotochecker.getDataSource().getConnection();
@@ -58,6 +58,29 @@ public class LkaExpert {
             }
             resultSet.close();
             statement.close();
+
+            if (user.getRole() == 1) {
+                Statement statement1 = connection.createStatement();
+
+                ResultSet resultSet1 = statement1.executeQuery("SELECT DISTINCT r.`region_id`\n" +
+                        "FROM `responsibility_db` res\n" +
+                        "INNER JOIN `distr_db` d ON res.`distr_id` = d.`distr_id`\n" +
+                        "INNER JOIN `region_db` r ON d.`region_id` = r.`region_id`\n" +
+                        "WHERE\n" +
+                        "res.`report_type` = 5\n" +
+                        "AND res.`resp_user` = " + user.getId());
+
+                Set<Integer> regionAllowed = new HashSet<>();
+                while (resultSet1.next()) {
+                    regionAllowed.add(resultSet1.getInt("region_id"));
+                }
+
+                regionMap.entrySet().removeIf(entry -> !regionAllowed.contains(entry.getKey()));
+
+                resultSet1.close();
+                statement1.close();
+            }
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,7 +88,7 @@ public class LkaExpert {
         return regionMap;
     }
 
-    public static Map<Integer, String> getDistrMap(int regionId) {
+    public static Map<Integer, String> getDistrMap(int regionId, User user) {
         Map<Integer, String> distrMap = new TreeMap<>();
         try {
             Connection connection = DataSourcePhotochecker.getDataSource().getConnection();
@@ -84,6 +107,27 @@ public class LkaExpert {
             }
             resultSet.close();
             statement.close();
+
+            if (user.getRole() == 1) {
+                Statement statement1 = connection.createStatement();
+
+                ResultSet resultSet1 = statement1.executeQuery("SELECT DISTINCT res.`distr_id`\n" +
+                        "FROM `responsibility_db` res\n" +
+                        "WHERE\n" +
+                        "res.`report_type` = 5\n" +
+                        "AND res.`resp_user` = " + user.getId());
+
+                Set<Integer> distrAllowed = new HashSet<>();
+                while (resultSet1.next()) {
+                    distrAllowed.add(resultSet1.getInt("distr_id"));
+                }
+
+                distrMap.entrySet().removeIf(entry -> !distrAllowed.contains(entry.getKey()));
+
+                resultSet1.close();
+                statement1.close();
+            }
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -426,7 +470,7 @@ public class LkaExpert {
                     "left join `report_type` t on res.`report_type` = t.`id`\n" +
                     "left join `distr_db` d on res.`distr_id` = d.`distr_id`\n" +
                     "left join `region_db` r on d.`region_id` = r.`region_id`\n" +
-                    "left join `users` u on res.`resp_user` = u.`user_login`\n" +
+                    "left join `users` u on res.`resp_user` = u.`id`\n" +
                     "order by 1, 6, 4");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -437,7 +481,7 @@ public class LkaExpert {
                         resultSet.getString("region_name"),
                         resultSet.getInt("distr_id"),
                         resultSet.getString("distr_name"),
-                        resultSet.getString("resp_user"),
+                        resultSet.getInt("resp_user"),
                         resultSet.getString("user_name")
                         );
                 responsibilities.add(responsibility);
@@ -455,9 +499,9 @@ public class LkaExpert {
         Map<Integer, List<User>> userMap = new HashMap<>();
         try {
             Connection connection = DataSourcePhotochecker.getDataSource().getConnection();
-            PreparedStatement statement = connection.prepareStatement("select ru.`user_login`, u.`user_name`\n" +
+            PreparedStatement statement = connection.prepareStatement("select ru.`user_id`, u.`user_name`\n" +
                     "from `report_type_user` ru\n" +
-                    "inner join `users` u on ru.`user_login` = u.`user_login`\n" +
+                    "inner join `users` u on ru.`user_id` = u.`id`\n" +
                     "where u.`user_role` = 1\n" +
                     "and ru.`report_type` = ?");
 
@@ -468,7 +512,7 @@ public class LkaExpert {
                 List<User> users = new ArrayList<>();
 
                 while (resultSet.next()) {
-                    User user = new User(resultSet.getString("user_login"),
+                    User user = new User(resultSet.getInt("user_id"), "",
                             resultSet.getString("user_name"),
                             1, null);
                     users.add(user);
@@ -486,15 +530,25 @@ public class LkaExpert {
     }
 
     public static boolean writeResponsibilities(List<Responsibility> respList) {
+        boolean succeed = false;
         try {
             Connection connection = DataSourcePhotochecker.getDataSource().getConnection();
             PreparedStatement statement = connection.prepareStatement("UPDATE `responsibility_db`\n" +
                     "SET `resp_user` = ?\n" +
                     "WHERE `report_type` = ?\n" +
                     "AND `distr_id` = ?");
+
+            for (Responsibility responsibility : respList) {
+                statement.setInt(1, responsibility.getResponsibleId());
+                statement.setInt(2, responsibility.getReportType());
+                statement.setInt(3, responsibility.getDistrId());
+                statement.execute();
+            }
+
+            succeed = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return succeed;
     }
 }

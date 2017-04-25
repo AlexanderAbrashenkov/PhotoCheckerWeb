@@ -1,5 +1,6 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
+import com.photochecker.models.User;
 import com.photochecker.models.lka.LkaExpert;
 
 import javax.servlet.RequestDispatcher;
@@ -32,7 +33,7 @@ public class DownloadDistrsServlet extends HttpServlet {
         LkaExpert.setStartDate(dateFrom);
         LkaExpert.setEndDate(dateTo);
 
-        Map<Integer, String> distrMap = LkaExpert.getDistrMap(regionId);
+        Map<Integer, String> distrMap = LkaExpert.getDistrMap(regionId, (User) request.getSession().getAttribute("user"));
         request.setAttribute("distrMap", distrMap);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/distrOptions.jsp");
         dispatcher.forward(request, response);

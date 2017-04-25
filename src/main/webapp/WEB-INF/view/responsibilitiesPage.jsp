@@ -20,9 +20,11 @@
                 <div class="resp region_name" name="${respItem.regionId}">${respItem.regionName}</div>
                 <div class="resp distr_name" name="${respItem.distrId}">${respItem.distrName}"</div>
                 <select class="resp resp_name">
-                    <option></option>
+                    <option name="0"></option>
                     <c:forEach items="${respUsers[respItem.reportType]}" var="userItem">
-                        <option>${userItem.userName}</option>
+                        <option name="${userItem.id}" <c:if test="${respItem.responsibleId == userItem.id}"> selected="selected" </c:if>>
+                            ${userItem.userName}
+                        </option>
                     </c:forEach>
                 </select>
             </div>

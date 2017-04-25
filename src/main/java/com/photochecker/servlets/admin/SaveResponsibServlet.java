@@ -1,4 +1,4 @@
-package com.photochecker.servlets;
+package com.photochecker.servlets.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,7 +30,7 @@ public class SaveResponsibServlet extends HttpServlet {
         boolean succeed = LkaExpert.writeResponsibilities(respList);
 
         JsonObject jsonObject = Json.createObjectBuilder()
-                .add("answer", true)
+                .add("answer", succeed)
                 .build();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -1,4 +1,4 @@
-package com.photochecker.servlets;
+package com.photochecker.servlets.admin;
 
 import com.photochecker.models.Responsibility;
 import com.photochecker.models.User;

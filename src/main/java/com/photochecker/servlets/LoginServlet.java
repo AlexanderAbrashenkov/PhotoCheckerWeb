@@ -3,6 +3,7 @@ package com.photochecker.servlets;
 import com.photochecker.models.DataSourcePhotochecker;
 import com.photochecker.models.User;
 import com.photochecker.models.WrongUserException;
+import com.photochecker.models.lka.LkaExpert;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,14 +45,15 @@ public class LoginServlet extends HttpServlet {
         ResultSet resultSet = null;
 
         try {
+            if (LkaExpert.checkLogin(login)) {
 
-            connection = DataSourcePhotochecker.getDataSource().getConnection();
-            statement = connection.prepareStatement("SELECT * FROM `users` " +
-                    "WHERE `user_login` = ? ");
-            statement.setString(1, login);
-            resultSet = statement.executeQuery();
+                connection = DataSourcePhotochecker.getDataSource().getConnection();
+                statement = connection.prepareStatement("SELECT * FROM `users` " +
+                        "WHERE `user_login` = ? ");
+                statement.setString(1, login);
+                resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
+                resultSet.next();
 
                 int id = resultSet.getInt("id");
                 String userName = resultSet.getString("user_name");

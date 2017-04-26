@@ -41,6 +41,23 @@ $(function () {
     $('#resp_cancel').on('click', function () {
         location.reload();
     });
+
+    $('#crus_container').on('change', '#login', function () {
+        var login = $(this).val();
+        checkUserExist(login);
+    });
+
+    $('#crus_container').on('change', '#password', function () {
+        arePasswordsSame();
+    });
+
+    $('#crus_container').on('change', '#repeat_password', function () {
+        arePasswordsSame();
+    });
+
+    $('#crus_save').on('click', function () {
+        saveNewUser();
+    });
 });
 
 function getLkaNameById(lka_id, element) {
@@ -141,9 +158,105 @@ function saveResponsibilities() {
         };
         respArray.push(respElem);
     };
-    $.post('saveResponsibs',
+    $.post('responsib/save',
         {
             respList: JSON.stringify(respArray)
+        })
+        .done(function (data) {
+            checkForRedirect(data);
+            if (data.answer === true) {
+                showSavedSuccessfullyPane();
+            } else {
+                showErrorPane();
+            }
+        })
+        .fail(function (data) {
+            showErrorPane();
+        })
+        .always(function () {
+            $('#loader').css('display', 'none');
+        })
+}
+
+function checkUserExist(login) {
+    if (login === undefined || login === "") {
+        $('#loginError').css('display', 'none');
+        $('#loginSuccess').css('display', 'none');
+        return;
+    }
+
+    $('#loader').css('display', 'block');
+
+    $.post('create_user/check_login',
+        {
+            login: login
+        })
+        .done(function (data) {
+            checkForRedirect(data);
+            if (data.answer === true) {
+                $('#loginError').css('display', 'none');
+                $('#loginSuccess').css('display', 'block');
+            } else {
+                $('#loginError').css('display', 'block');
+                $('#loginSuccess').css('display', 'none');
+            }
+        })
+        .fail(function (data) {
+            showErrorPane();
+        })
+        .always(function () {
+            $('#loader').css('display', 'none');
+        })
+}
+
+function arePasswordsSame() {
+    var pass = $('#password').val();
+    var pass2 = $('#repeat_password').val();
+
+    if (pass === undefined || pass2 === undefined || pass === "" || pass2 === "") {
+        $('#passError').css('display', 'none');
+        $('#passSuccess').css('display', 'none');
+        return;
+    }
+
+    if (pass === pass2) {
+        $('#passError').css('display', 'none');
+        $('#passSuccess').css('display', 'block');
+    } else {
+        $('#passError').css('display', 'block');
+        $('#passSuccess').css('display', 'none');
+    }
+}
+
+function saveNewUser() {
+    if ($('#loginError').css('display') === 'block' ||
+            $('#passError').css('display') === 'block' ||
+            $('#user_name').val() === "" || $('#user_name').val() === undefined) {
+        return;
+    }
+
+    $('#loader').css('display', 'block');
+
+    var login = $('#login').val();
+    var password = $('#password').val();
+    var fio = $('#user_name').val();
+    var role = $('#role').children('option').filter(':selected').attr('name');
+    var report_types = [];
+
+    for (var i = 0; i < $('#report_types').children('input').length; i++) {
+        var elem = $('#report_types').children('input').eq(i);
+        if (elem.prop('checked')) {
+            report_types.push(elem.attr('name'));
+        }
+    }
+
+    $.post('create_user/add_user',
+        {
+            login: login,
+            password: password,
+            fio: fio,
+            role: role,
+            report_types: JSON.stringify(report_types)
         })
         .done(function (data) {
             checkForRedirect(data);

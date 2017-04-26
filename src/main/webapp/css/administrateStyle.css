@@ -245,3 +245,48 @@ select.resp_name {
     margin-left: 20px;
     margin-top: 60px;
 }
+
+/* create user */
+
+#crus_container {
+    width: 100%;
+    height: calc(100% - 100px);
+    margin-top: 40px;
+}
+
+#crus_container table {
+    border: none !important;
+    border-collapse: collapse;
+    font-size: 1.1em;
+    margin-left: 50px;
+}
+
+#crus_container table td {
+    padding: 15px;
+}
+
+#crus_container table input[type=text], input[type=password], select {
+    width: 300px;
+    border-radius: 5px;
+    float: left;
+}
+
+#crus_container table input[type=checkbox] {
+    margin-bottom: 5px;
+}
+
+#crus_container .errorLabel {
+    color: red;
+    width: 200px;
+    float: left;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#crus_container .successLabel {
+    color: green;
+    width: 200px;
+    float: left;
+    margin-left: 20px;
+    font-weight: bold;
+}

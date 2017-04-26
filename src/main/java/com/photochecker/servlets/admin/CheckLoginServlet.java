@@ -1,8 +1,5 @@
 package com.photochecker.servlets.admin;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.photochecker.models.Responsibility;
 import com.photochecker.models.lka.LkaExpert;
 
 import javax.json.Json;
@@ -13,24 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 
 /**
- * Created by market6 on 21.04.2017.
+ * Created by market6 on 26.04.2017.
  */
-@WebServlet(name = "SaveResponsibServlet",
-urlPatterns = "/reports/responsib/save")
-public class SaveResponsibServlet extends HttpServlet {
+@WebServlet(name = "CheckLoginServlet",
+        urlPatterns = "/reports/create_user/check_login")
+public class CheckLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<Responsibility>>(){}.getType();
-        List<Responsibility> respList = gson.fromJson(request.getParameter("respList"), type);
+        String login = request.getParameter("login");
 
-        boolean succeed = LkaExpert.writeResponsibilities(respList);
+        boolean isLoginFree = !LkaExpert.checkLogin(login);
 
         JsonObject jsonObject = Json.createObjectBuilder()
-                .add("answer", succeed)
+                .add("answer", isLoginFree)
                 .build();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

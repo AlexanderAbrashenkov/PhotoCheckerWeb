@@ -6,7 +6,6 @@
 <head>
     <title>Авторизация</title>
     <link type="text/css" href="css/style.css" rel="stylesheet">
-    <script src="userName.js" style="text/javascript"></script>
 </head>
 <body>
 <div id="login_block">

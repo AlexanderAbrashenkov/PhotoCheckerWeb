@@ -1,4 +1,4 @@
-package com.photochecker.models;
+package com.photochecker.model;
 
 import java.util.List;
 
@@ -73,5 +73,20 @@ public class User {
                 ", role=" + role +
                 ", reportTypeList=" + reportTypeList +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

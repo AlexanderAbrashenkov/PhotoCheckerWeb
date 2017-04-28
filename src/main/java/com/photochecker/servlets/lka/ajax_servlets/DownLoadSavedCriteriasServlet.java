@@ -1,8 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.google.gson.Gson;
-import com.photochecker.models.lka.ClientCriterias;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.lka.ClientCriterias;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

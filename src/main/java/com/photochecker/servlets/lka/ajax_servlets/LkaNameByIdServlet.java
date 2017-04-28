@@ -1,6 +1,6 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.json.Json;
 import javax.json.JsonObject;

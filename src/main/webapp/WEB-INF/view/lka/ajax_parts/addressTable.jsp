@@ -9,7 +9,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:useBean id="clientsList" type="java.util.List<com.photochecker.models.ClientCard>" scope="request" />
+<jsp:useBean id="clientsList" type="java.util.List<com.photochecker.model.ClientCard>" scope="request" />
 
 <tr class="addrTitle">
     <th>Наименование</th>

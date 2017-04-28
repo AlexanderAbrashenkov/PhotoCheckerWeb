@@ -1,4 +1,4 @@
-package com.photochecker.models;
+package com.photochecker.model;
 
 /**
  * Created by market6 on 27.03.2017.
@@ -9,16 +9,25 @@ public class ClientCard {
     private String clientAddress;
     private String clientType;
     private boolean checked;
+    private Distr distr;
+    private String obl;
+    private int channelId;
+    private Lka lka;
 
     public ClientCard() {
     }
 
-    public ClientCard(int clientId, String clientName, String clientAddress, String clientType, boolean checked) {
+    public ClientCard(int clientId, String clientName, String clientAddress, String clientType,
+                      boolean checked, Distr distr, String obl, int channelId, Lka lka) {
         this.clientId = clientId;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
         this.clientType = clientType;
         this.checked = checked;
+        this.distr = distr;
+        this.obl = obl;
+        this.channelId = channelId;
+        this.lka = lka;
     }
 
     public int getClientId() {
@@ -61,6 +70,38 @@ public class ClientCard {
         this.checked = checked;
     }
 
+    public Distr getDistr() {
+        return distr;
+    }
+
+    public void setDistr(Distr distr) {
+        this.distr = distr;
+    }
+
+    public String getObl() {
+        return obl;
+    }
+
+    public void setObl(String obl) {
+        this.obl = obl;
+    }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
+    }
+
+    public Lka getLka() {
+        return lka;
+    }
+
+    public void setLka(Lka lka) {
+        this.lka = lka;
+    }
+
     @Override
     public String toString() {
         return "ClientCard{" +
@@ -69,6 +110,25 @@ public class ClientCard {
                 ", clientAddress='" + clientAddress + '\'' +
                 ", clientType='" + clientType + '\'' +
                 ", checked=" + checked +
+                ", distr=" + distr +
+                ", obl='" + obl + '\'' +
+                ", channelId=" + channelId +
+                ", lka=" + lka +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ClientCard that = (ClientCard) o;
+
+        return clientId == that.clientId;
+    }
+
+    @Override
+    public int hashCode() {
+        return clientId;
     }
 }

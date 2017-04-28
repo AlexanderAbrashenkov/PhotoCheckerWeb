@@ -1,7 +1,9 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.models.User;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.Distr;
+import com.photochecker.model.User;
+import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.LkaService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,13 +31,14 @@ public class DownloadDistrsServlet extends HttpServlet {
 
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
-        dateTo = dateTo.plusDays(1);
+        //dateTo = dateTo.plusDays(1);
 
-        LkaExpert.setStartDate(dateFrom);
+        /*LkaExpert.setStartDate(dateFrom);
         LkaExpert.setEndDate(dateTo);
-
-        Map<Integer, String> distrMap = LkaExpert.getDistrMap(regionId, (User) request.getSession().getAttribute("user"));
-        request.setAttribute("distrMap", distrMap);
+        Map<Integer, String> distrMap = LkaExpert.getDistrMap(regionId, (User) request.getSession().getAttribute("user"));*/
+        User user = (User) request.getSession().getAttribute("user");
+        List<Distr> distrList = LkaService.getDistrs(user, regionId, dateFrom, dateTo);
+        request.setAttribute("distrList", distrList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/distrOptions.jsp");
         dispatcher.forward(request, response);
     }

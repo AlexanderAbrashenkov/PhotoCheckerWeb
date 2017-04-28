@@ -1,7 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.models.lka.LkaCriterias;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.lka.LkaCriterias;
+import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.LkaService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -22,7 +23,8 @@ import java.io.IOException;
 public class DownloadCriteriasServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int lkaId = Integer.parseInt(request.getParameter("lkaId"));
-        LkaCriterias lkaCriterias = LkaExpert.getLkaCriterias(lkaId);
+        /*LkaCriterias lkaCriterias = LkaExpert.getLkaCriterias(lkaId);*/
+        LkaCriterias lkaCriterias = LkaService.getLkaCriterias(lkaId);
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("hasMz", lkaCriterias.getCrit1Mz() > 0)
                 .add("crit1Mz", lkaCriterias.getCrit1Name() + ": " + lkaCriterias.getCrit1Mz() + "%")

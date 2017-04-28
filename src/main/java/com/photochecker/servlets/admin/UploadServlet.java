@@ -1,7 +1,6 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.models.Upload;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.Upload;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

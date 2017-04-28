@@ -1,7 +1,9 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.models.User;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.Region;
+import com.photochecker.model.User;
+import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.LkaService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,13 +30,15 @@ public class DownloadRegionsServlet extends HttpServlet {
 
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
-        dateTo = dateTo.plusDays(1);
+        //dateTo = dateTo.plusDays(1);
 
-        LkaExpert.setStartDate(dateFrom);
+        /*LkaExpert.setStartDate(dateFrom);
         LkaExpert.setEndDate(dateTo);
+        Map<Integer, String> regions = LkaExpert.getRegionMap((User) request.getSession().getAttribute("user"));*/
 
-        Map<Integer, String> regions = LkaExpert.getRegionMap((User) request.getSession().getAttribute("user"));
-        request.setAttribute("regionMap", regions);
+        User user = (User) request.getSession().getAttribute("user");
+        List<Region> regionList = LkaService.getRegions(user, dateFrom, dateTo);
+        request.setAttribute("regionList", regionList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/regionOptions.jsp");
         dispatcher.forward(request, response);
     }

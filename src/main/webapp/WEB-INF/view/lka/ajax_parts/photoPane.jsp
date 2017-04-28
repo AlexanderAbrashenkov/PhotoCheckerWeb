@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:useBean id="photoList" type="java.util.List<com.photochecker.models.PhotoCard>" scope="request"></jsp:useBean>
+<jsp:useBean id="photoList" type="java.util.List<com.photochecker.model.PhotoCard>" scope="request"></jsp:useBean>
 <c:forEach items="${photoList}" var="photo" varStatus="theCount">
 
     <fmt:parseDate value="${photo.date}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />

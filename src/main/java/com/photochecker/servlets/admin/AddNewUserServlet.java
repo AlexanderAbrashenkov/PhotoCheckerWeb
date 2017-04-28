@@ -1,7 +1,7 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.models.User;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.User;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.json.Json;
 import javax.json.JsonObject;

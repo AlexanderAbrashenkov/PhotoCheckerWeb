@@ -44,6 +44,12 @@
     <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
 
-
+/*1 - MySql database*/
+  <env-entry>
+    <description>Type of DAO</description>
+    <env-entry-name>DAOType</env-entry-name>
+    <env-entry-type>java.lang.Integer</env-entry-type>
+    <env-entry-value>1</env-entry-value>
+  </env-entry>
 
 </web-app>

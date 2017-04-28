@@ -2,8 +2,8 @@ package com.photochecker.servlets.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.photochecker.models.Responsibility;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.Responsibility;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.json.Json;
 import javax.json.JsonObject;

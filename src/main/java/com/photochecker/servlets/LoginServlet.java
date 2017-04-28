@@ -1,9 +1,9 @@
 package com.photochecker.servlets;
 
-import com.photochecker.models.DataSourcePhotochecker;
-import com.photochecker.models.User;
-import com.photochecker.models.WrongUserException;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.DataSourcePhotochecker;
+import com.photochecker.model.User;
+import com.photochecker.model.WrongUserException;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

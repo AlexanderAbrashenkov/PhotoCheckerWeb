@@ -1,9 +1,8 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.models.Responsibility;
-import com.photochecker.models.User;
-import com.photochecker.models.lka.LkaCriterias;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.Responsibility;
+import com.photochecker.model.User;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

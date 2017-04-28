@@ -1,4 +1,4 @@
-package com.photochecker.models.lka;
+package com.photochecker.model.lka;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

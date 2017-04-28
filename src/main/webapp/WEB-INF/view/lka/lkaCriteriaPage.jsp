@@ -2,7 +2,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="../header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="critList" type="java.util.List<com.photochecker.models.lka.LkaCriterias>" scope="request"></jsp:useBean>
+<jsp:useBean id="critList" type="java.util.List<com.photochecker.model.lka.LkaCriterias>" scope="request"></jsp:useBean>
 
 <div class="report_title">Редактирование критериев по сетям</div>
 <div id="lka_crit_container">

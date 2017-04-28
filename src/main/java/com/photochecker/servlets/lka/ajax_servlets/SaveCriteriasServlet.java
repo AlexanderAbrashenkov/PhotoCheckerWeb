@@ -1,7 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.models.lka.ClientCriterias;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.lka.ClientCriterias;
+import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.LkaService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,7 +57,8 @@ public class SaveCriteriasServlet extends HttpServlet {
                 request.getParameter("comm")
         );
 
-        boolean isSaveSucceed = LkaExpert.saveCriterias(clientCriterias);
+        //boolean isSaveSucceed = LkaExpert.saveCriterias(clientCriterias);
+        boolean isSaveSucceed = LkaService.saveCriterias(clientCriterias);
         response.getWriter().write(String.valueOf(isSaveSucceed));
     }
 }

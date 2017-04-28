@@ -1,7 +1,7 @@
 package com.photochecker.servlets.lka;
 
-import com.photochecker.models.lka.LkaCriterias;
-import com.photochecker.models.lka.LkaExpert;
+import com.photochecker.model.lka.LkaCriterias;
+import com.photochecker.model.lka.LkaExpert;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

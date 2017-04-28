@@ -1,4 +1,4 @@
-package com.photochecker.models;
+package com.photochecker.model;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

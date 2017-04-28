@@ -1,6 +1,6 @@
 package com.photochecker.filters;
 
-import com.photochecker.models.User;
+import com.photochecker.model.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

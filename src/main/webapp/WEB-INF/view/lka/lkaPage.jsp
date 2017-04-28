@@ -2,6 +2,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="../header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="regionList" type="java.util.List<com.photochecker.model.Region>" scope="request"></jsp:useBean>
 
 <div id="content_pane">
     <div id="showPhoto">
@@ -59,8 +60,8 @@
                     <h4>Регион:</h4>
                     <select class="selectBox" name="selRegion" id="selRegion">
                         <option disabled selected value="nothing"> -- регион -- </option>
-                        <c:forEach items="${regionMap}" var="region">
-                            <option data-value="${region.key}">${region.value}</option>
+                        <c:forEach items="${regionList}" var="region">
+                            <option data-value="${region.id}">${region.name}</option>
                         </c:forEach>
                     </select>
                 </div>

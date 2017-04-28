@@ -1,11 +1,7 @@
-package com.photochecker.models.lka;
+package com.photochecker.model.lka;
 
-import com.photochecker.models.*;
+import com.photochecker.model.*;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -188,12 +184,12 @@ public class LkaExpert {
             statement.setInt(7, lkaId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                ClientCard clientCard = new ClientCard(resultSet.getInt("client_id"),
+                /*ClientCard clientCard = new ClientCard(resultSet.getInt("client_id"),
                         resultSet.getString("client_name"),
                         resultSet.getString("client_address"),
                         resultSet.getString("type_name"),
                         resultSet.getBoolean("checked"));
-                clientCardList.add(clientCard);
+                clientCardList.add(clientCard);*/
             }
             resultSet.close();
             statement.close();
@@ -221,12 +217,12 @@ public class LkaExpert {
             while (resultSet.next()) {
                 String comment = resultSet.getString("comment");
                 if (comment == null || comment.equals("null")) comment = "";
-                PhotoCard photoCard = new PhotoCard(resultSet.getString("url"),
+                /*PhotoCard photoCard = new PhotoCard(resultSet.getString("url"),
                         resultSet.getTimestamp("date").toLocalDateTime().toLocalDate(),
                         resultSet.getTimestamp("date_add").toLocalDateTime().toLocalDate(),
                         comment,
                         resultSet.getBoolean("checked"));
-                photoCardList.add(photoCard);
+                photoCardList.add(photoCard);*/
             }
             resultSet.close();
             statement.close();
@@ -247,7 +243,7 @@ public class LkaExpert {
             statement.setInt(1, lkaId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                lkaCriterias = new LkaCriterias(
+                /*lkaCriterias = new LkaCriterias(
                         resultSet.getString("lka_name"),
                         lkaId,
                         resultSet.getString("crit1_name"),
@@ -255,11 +251,11 @@ public class LkaExpert {
                         resultSet.getInt("crit1_k"),
                         resultSet.getInt("crit1_s"),
                         resultSet.getInt("crit1_m"),
-                        resultSet.getString("crit2_name"));
+                        resultSet.getString("crit2_name"));*/
             } else {
-                lkaCriterias = new LkaCriterias("", lkaId, "Доля полки",
+                /*lkaCriterias = new LkaCriterias("", lkaId, "Доля полки",
                         10, 10, 10, 10,
-                        "Бренд-блок");
+                        "Бренд-блок");*/
             }
             resultSet.close();
             statement.close();
@@ -279,7 +275,7 @@ public class LkaExpert {
                     "order by 1");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                LkaCriterias lkaCriterias = new LkaCriterias(
+                /*LkaCriterias lkaCriterias = new LkaCriterias(
                         resultSet.getString("lka_name") != null ? resultSet.getString("lka_name") : "",
                         resultSet.getInt("lka_id"),
                         resultSet.getString("crit1_name"),
@@ -288,7 +284,7 @@ public class LkaExpert {
                         resultSet.getInt("crit1_s"),
                         resultSet.getInt("crit1_m"),
                         resultSet.getString("crit2_name"));
-                lkaCriteriasList.add(lkaCriterias);
+                lkaCriteriasList.add(lkaCriterias);*/
             }
             resultSet.close();
             statement.close();
@@ -445,7 +441,7 @@ public class LkaExpert {
                     "VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             for (LkaCriterias crit : criteriasList) {
-                statement1.setInt(1, crit.getLkaId());
+                //statement1.setInt(1, crit.getLkaId());
                 statement1.setString(2, crit.getCrit1Name());
                 statement1.setInt(3, crit.getCrit1Mz());
                 statement1.setInt(4, crit.getCrit1K());
@@ -477,7 +473,7 @@ public class LkaExpert {
                     "order by 1, 6, 4");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Responsibility responsibility = new Responsibility(
+                /*Responsibility responsibility = new Responsibility(
                         resultSet.getInt("report_type"),
                         resultSet.getString("type"),
                         resultSet.getInt("region_id"),
@@ -487,7 +483,7 @@ public class LkaExpert {
                         resultSet.getInt("resp_user"),
                         resultSet.getString("user_name")
                         );
-                responsibilities.add(responsibility);
+                responsibilities.add(responsibility);*/
             }
             resultSet.close();
             statement.close();
@@ -542,10 +538,10 @@ public class LkaExpert {
                     "AND `distr_id` = ?");
 
             for (Responsibility responsibility : respList) {
-                statement.setInt(1, responsibility.getResponsibleId());
+                /*statement.setInt(1, responsibility.getResponsibleId());
                 statement.setInt(2, responsibility.getReportType());
                 statement.setInt(3, responsibility.getDistrId());
-                statement.execute();
+                statement.execute();*/
             }
 
             succeed = true;

@@ -1,5 +1,6 @@
 package com.photochecker.mysqlDAO.lka;
 
+import com.photochecker.dao.DAOFactory;
 import com.photochecker.dao.lka.LkaCriteriasDAO;
 import com.photochecker.model.DataSourcePhotochecker;
 import com.photochecker.model.Lka;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +47,7 @@ public class LkaCriteriasDAOMySqlImpl implements LkaCriteriasDAO {
                         10, 10, 10, 10,
                         "Бренд-блок");
             }
-            resultSet.close();
+
             statement.close();
             connection.close();
         } catch (SQLException e) {
@@ -56,7 +58,37 @@ public class LkaCriteriasDAOMySqlImpl implements LkaCriteriasDAO {
 
     @Override
     public List<LkaCriterias> findAll() {
-        return null;
+        List<LkaCriterias> lkaCriteriasList = new ArrayList<>();
+        try {
+            List<Lka> lkaList = DAOFactory.getDAOFactory().getLkaDAO().findAll();
+
+            Connection connection = DAOFactoryMySqlImpl.getDataSource().getConnection();
+
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM `lka_criterias_db`");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int lkaId = resultSet.getInt("lka_id");
+                Lka lka = lkaList.stream()
+                        .filter(lka1 -> lka1.getId() == lkaId)
+                        .findFirst()
+                        .get();
+                LkaCriterias lkaCriterias = new LkaCriterias(
+                        lka,
+                        resultSet.getString("crit1_name"),
+                        resultSet.getInt("crit1_mz"),
+                        resultSet.getInt("crit1_k"),
+                        resultSet.getInt("crit1_s"),
+                        resultSet.getInt("crit1_m"),
+                        resultSet.getString("crit2_name"));
+                lkaCriteriasList.add(lkaCriterias);
+            }
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lkaCriteriasList;
     }
 
     @Override

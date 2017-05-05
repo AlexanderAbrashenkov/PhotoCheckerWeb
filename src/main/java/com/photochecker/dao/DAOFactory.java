@@ -2,6 +2,7 @@ package com.photochecker.dao;
 
 import com.photochecker.dao.lka.ClientCriteriasDAO;
 import com.photochecker.dao.lka.LkaCriteriasDAO;
+import com.photochecker.dao.lka.LkaReportItemDAO;
 import com.photochecker.model.ClientCard;
 import com.photochecker.model.ReportType;
 import com.photochecker.mysqlDAO.DAOFactoryMySqlImpl;
@@ -29,6 +30,7 @@ public abstract class DAOFactory {
 
     public abstract ClientCriteriasDAO getClientCriteriasDAO();
     public abstract LkaCriteriasDAO getLkaCriteriasDAO();
+    public abstract LkaReportItemDAO getLkaReportItemDAO();
 
     public static DAOFactory getDAOFactory() {
         return daoFactory;

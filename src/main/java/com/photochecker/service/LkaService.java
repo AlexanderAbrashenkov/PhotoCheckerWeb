@@ -1,11 +1,22 @@
 package com.photochecker.service;
 
+import com.photochecker.apache_poi.ApachePoi;
+import com.photochecker.apache_poi.ApachePoiManager;
 import com.photochecker.dao.DAOFactory;
 import com.photochecker.model.*;
 import com.photochecker.model.lka.ClientCriterias;
 import com.photochecker.model.lka.LkaCriterias;
+import com.photochecker.model.lka.LkaReportItem;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +90,11 @@ public class LkaService {
         return lkaCriterias;
     }
 
+    public static List<LkaCriterias> getAllLkaCriterias() {
+        List<LkaCriterias> lkaCriteriasList = daoFactory.getLkaCriteriasDAO().findAll();
+        return lkaCriteriasList;
+    }
+
     public static List<PhotoCard> getPhotoList(int clientId, LocalDate dateFrom, LocalDate dateTo) {
         ReportType reportType = daoFactory.getReportTypeDAO().find(5);
         List<PhotoCard> photoCardList = daoFactory.getPhotoCardDAO().findAllByDateClientRepType(reportType, clientId, dateFrom, dateTo);
@@ -95,5 +111,40 @@ public class LkaService {
             succeed = daoFactory.getClientCriteriasDAO().create(clientCriterias);
         }
         return succeed;
+    }
+
+    public static XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {
+        List<LkaReportItem> lkaReportItemList = daoFactory.getLkaReportItemDAO().findAllByDate(dateFrom, dateTo, 5);
+
+        if (user.getRole() == 1) {
+            List<Responsibility> responsibilityList = daoFactory.getResponsibilityDAO().find(user);
+            List<String> allowedDistrNames = responsibilityList.stream()
+                    .filter(resp -> resp.getReportType().getId() == 5)
+                    .map(resp -> resp.getDistr().getName())
+                    .distinct()
+                    .collect(Collectors.toList());
+            lkaReportItemList.removeIf(lkaReportItem -> !allowedDistrNames.contains(lkaReportItem.getDistr()));
+        }
+
+        ApachePoiManager.createApachePoi(5);
+        ApachePoi apachePoi = ApachePoiManager.getInstance();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        apachePoi.createReportFile(dateFrom.format(formatter), dateTo.format(formatter));
+
+        String sheetName = "LKA";
+        if (user.getRole() == 1) {
+            sheetName = user.getUserName().substring(0, user.getUserName().indexOf(" ") + 2);
+        }
+
+        apachePoi.createConcreteSheet(sheetName, null);
+        for (LkaReportItem lkaReportItem : lkaReportItemList) {
+            apachePoi.writeOneTtToConcreteSheet(new ArrayList(Arrays.asList(lkaReportItem)));
+        }
+
+        apachePoi.calcSumRowConcreteSheet("LKA");
+        XSSFWorkbook workbook = apachePoi.endWriting("LKA");
+
+        return workbook;
     }
 }

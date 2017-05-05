@@ -127,6 +127,7 @@
             <textarea id="comment" class="commentArea"></textarea>
             <input type="button" id="saveButton" name="saveButton" value="Сохранить">
             <input type="button" id="clearButton" name="clearButton" value="Очистить">
+            <input type="button" id="to_xlsx" name="to_xlsx" value="Выгрузить в Excel">
         </div>
     </div>
 </div>

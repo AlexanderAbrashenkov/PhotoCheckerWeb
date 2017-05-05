@@ -14,7 +14,8 @@ import java.io.IOException;
 
 @WebFilter(filterName = "SessionFilter",
     urlPatterns = {"/reports", "/reports/*",
-                    "/route", "/route/*"})
+                    "/route", "/route/*",
+                    "/css/*", "/js/*", "/images/*"})
 public class SessionFilter implements Filter {
     public void destroy() {
     }

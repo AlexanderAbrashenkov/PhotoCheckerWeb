@@ -100,7 +100,6 @@ public class ClientCriteriasDAOMySqlImpl implements ClientCriteriasDAO {
 
     @Override
     public boolean update(ClientCriterias clientCriterias) {
-        System.out.println(clientCriterias);
         String query = "UPDATE `save_lka_db` SET\n" +
                 "`save_date` = ?, " +
                 "`has_mz` = ?, `has_photo_mz` = ?, `is_correct_mz` = ?, `has_add_prod_mz` = ?, `crit1_mz` = ?, `crit2_mz` = ?, " +
@@ -154,8 +153,6 @@ public class ClientCriteriasDAOMySqlImpl implements ClientCriteriasDAO {
             statement.setInt(25, clientCriterias.getClientId());
             statement.setDate(26, Date.valueOf(clientCriterias.getDateFrom()));
             statement.setDate(27, Date.valueOf(clientCriterias.getDateTo()));
-
-            System.out.println(Date.valueOf(clientCriterias.getDateTo()));
 
             statement.execute();
 

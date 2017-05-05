@@ -1,0 +1,92 @@
+/* Always set the map height explicitly to define the size of the div
+   * element that contains the map. */
+
+#map {
+    height: calc(100% - 50px);
+}
+/* Optional: Makes the sample page fill the window. */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#floating-panel {
+    background: #fff;
+    font-size: 14px;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+#right-panel:hover {
+    width: 390px;
+}
+
+#start,
+#end {
+    width: 300px;
+}
+
+#right-panel {
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 35px;
+    padding-left: 10px;
+    transition-property: width;
+    transition-duration: 2s;
+}
+
+.adp-directions {
+    display: none;
+}
+
+#right-panel select,
+#right-panel input {
+    font-size: 15px;
+}
+
+#right-panel select {
+    width: 100%;
+}
+
+#right-panel i {
+    font-size: 12px;
+}
+
+#right-panel {
+    height: calc(100% - 50px);
+    float: right;
+    width: 25px;
+    overflow: auto;
+}
+
+#but,
+#butSav {
+    width: 150px;
+    height: 30px;
+}
+
+#centr {
+    text-align: center;
+    padding-top: 8px
+}
+
+textarea {
+    resize: none;
+}
+/* #map {
+//     margin-right: 400px;
+// }*/
+
+@media print {
+    #map {
+        height: 500px;
+        margin: 0;
+    }
+    #right-panel {
+        float: none;
+        width: auto;
+    }
+}

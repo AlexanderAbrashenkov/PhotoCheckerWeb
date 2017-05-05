@@ -156,6 +156,12 @@ $(function () {
     $('#clearButton').on('click', function () {
         clearCriteriasPane();
     });
+
+    $('#to_xlsx').on('click', function (e) {
+        e.preventDefault();
+        window.location.href = 'lka/getExcelReport?dateFrom=' + $('#dateFrom').val() +
+                '&dateTo=' + $('#dateTo').val();
+    });
 });
 
 function dateDiff(dateFrom, dateTo) {
@@ -248,6 +254,7 @@ function loadRegions(dateFrom, dateTo) {
         })
         .done (function (data) {
             checkForRedirect(data);
+            clearAllFromDates();
             $('#selRegion').append(data);
         })
         .fail (function() {

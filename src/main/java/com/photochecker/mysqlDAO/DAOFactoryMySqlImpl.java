@@ -3,8 +3,10 @@ package com.photochecker.mysqlDAO;
 import com.photochecker.dao.*;
 import com.photochecker.dao.lka.ClientCriteriasDAO;
 import com.photochecker.dao.lka.LkaCriteriasDAO;
+import com.photochecker.dao.lka.LkaReportItemDAO;
 import com.photochecker.mysqlDAO.lka.ClientCriteriasDAOMySqlImpl;
 import com.photochecker.mysqlDAO.lka.LkaCriteriasDAOMySqlImpl;
+import com.photochecker.mysqlDAO.lka.LkaReportItemDAOMySqlImpl;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -90,5 +92,10 @@ public class DAOFactoryMySqlImpl extends DAOFactory {
     @Override
     public LkaCriteriasDAO getLkaCriteriasDAO() {
         return new LkaCriteriasDAOMySqlImpl();
+    }
+
+    @Override
+    public LkaReportItemDAO getLkaReportItemDAO() {
+        return new LkaReportItemDAOMySqlImpl();
     }
 }

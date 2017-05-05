@@ -281,6 +281,17 @@ tr.addr:hover{
     margin-top: 10px;
 }
 
+#right_pane #to_xlsx {
+    background-color: #3498db;
+    color: white;
+    width: 150px;
+    height: 25px;
+    border-radius: 8px;
+    margin-left: 55px;
+    margin-top: 20px;
+}
+
+
 /*Central part of page content*/
 #center_pane {
     width: calc(100% - 602px);

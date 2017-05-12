@@ -60,4 +60,13 @@ public class Responsibility {
         result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Responsibility{" +
+                "reportType=" + reportType +
+                ", distr=" + distr +
+                ", user=" + user +
+                '}';
+    }
 }

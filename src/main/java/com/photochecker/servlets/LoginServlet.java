@@ -1,9 +1,8 @@
 package com.photochecker.servlets;
 
-import com.photochecker.model.DataSourcePhotochecker;
-import com.photochecker.model.User;
-import com.photochecker.model.WrongUserException;
-import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.dao.DAOFactory;
+import com.photochecker.model.*;
+import com.photochecker.service.MainService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,9 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +42,7 @@ public class LoginServlet extends HttpServlet {
         ResultSet resultSet = null;
 
         try {
-            if (LkaExpert.checkLogin(login)) {
+            if (MainService.checkLogin(login)) {
 
                 connection = DataSourcePhotochecker.getDataSource().getConnection();
                 statement = connection.prepareStatement("SELECT * FROM `users` " +
@@ -82,22 +79,16 @@ public class LoginServlet extends HttpServlet {
                 resultSet.close();
                 statement.close();
 
-                statement = connection.prepareStatement("SELECT `report_type` FROM `report_type_user`\n" +
-                        "WHERE `user_id` = ?");
-                statement.setInt(1, id);
-                resultSet = statement.executeQuery();
+                User user = new User(id, login, userName, userRole, null);
 
-                List<Integer> reportTypeList = new ArrayList<>();
-
-                while (resultSet.next()) {
-                    reportTypeList.add(resultSet.getInt("report_type"));
+                List<ReportType> reportTypeList = null;
+                try {
+                    reportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAllByParameters(user);
+                } catch (PersistException e) {
+                    e.printStackTrace();
                 }
 
-                User user = new User(id, login, userName, userRole, reportTypeList);
-
-                resultSet.close();
-                statement.close();
-                connection.close();
+                user.setReportTypeList(reportTypeList);
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
@@ -139,38 +130,5 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
-    }
-
-    public static void main(String[] args) {
-        String login = "user1";
-        String password = "uXirUtfYa2";
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[20];
-        random.nextBytes(bytes);
-
-        StringBuffer saltBuffer = new StringBuffer();
-
-        for (byte b : bytes) {
-            saltBuffer.append(Integer.toHexString(0x0100 + (b & 0x00FF)).substring(1));
-        }
-
-        String salt = saltBuffer.toString();
-
-        String passwordSalt = password + salt;
-
-        StringBuffer code = new StringBuffer();
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-            byte[] bytes1 = passwordSalt.getBytes();
-            byte digest[] = messageDigest.digest(bytes1); //create code
-            for (int i = 0; i < digest.length; ++i) {
-                code.append(Integer.toHexString(0x0100 + (digest[i] & 0x00FF)).substring(1));
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        System.err.println("login: " + login + ", password: " + password + ", salt: " + salt +
-            ", passSalt: " + passwordSalt + ", hash: " + code.toString());
     }
 }

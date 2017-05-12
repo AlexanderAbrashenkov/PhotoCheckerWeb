@@ -112,8 +112,10 @@ function saveAllCriterias() {
 
     for (var i = 0; i < lkaCritList.length; i++) {
         var critElem = {
-            lkaName: lkaCritList.eq(i).children('.lka_name').val(),
-            lkaId: lkaCritList.eq(i).children('.lka_id').val(),
+            lka: {
+                name: lkaCritList.eq(i).children('.lka_name').val(),
+                id: lkaCritList.eq(i).children('.lka_id').val()
+            },
             crit1Name: lkaCritList.eq(i).children('.crit1_name').val(),
             crit1Mz: lkaCritList.eq(i).children('.crit1_mz').val(),
             crit1K: lkaCritList.eq(i).children('.crit1_k').val(),
@@ -152,9 +154,15 @@ function saveResponsibilities() {
 
     for (var i = 0; i < respList.length; i++) {
         var respElem = {
-            reportType: respList.eq(i).children('.type_name').attr('name'),
-            distrId: respList.eq(i).children('.distr_name').attr('name'),
-            responsibleId: respList.eq(i).children('.resp_name').children('option').filter(':selected').attr('name')
+            reportType: {
+                id: respList.eq(i).children('.type_name').attr('name')
+            },
+            distr: {
+                id: respList.eq(i).children('.distr_name').attr('name')
+            },
+            user: {
+                id: respList.eq(i).children('.resp_name').children('option').filter(':selected').attr('name')
+            }
         };
         respArray.push(respElem);
     };

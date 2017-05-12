@@ -19,8 +19,8 @@
     <div id="criteria_editor_pane">
         <c:forEach items="${critList}" var="critItem">
             <div class="lka_criteria">
-                <input type="text" class="crit lka_name" value="${critItem.lkaName}" readonly>
-                <input type="text" class="crit lka_id" value="${critItem.lkaId}">
+                <input type="text" class="crit lka_name" value="${critItem.lka.name}" readonly>
+                <input type="text" class="crit lka_id" value="${critItem.lka.id}">
                 <input type="text" class="crit crit_name crit1_name" value="${critItem.crit1Name}">
                 <input type="text" class="crit crit_value crit1_mz" value="${critItem.crit1Mz}">
                 <div class="crit perc">%</div>

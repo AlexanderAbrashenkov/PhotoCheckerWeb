@@ -45,4 +45,12 @@ public class Lka {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Lka{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -55,4 +55,13 @@ public class Distr {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Distr{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", region=" + region +
+                '}';
+    }
 }

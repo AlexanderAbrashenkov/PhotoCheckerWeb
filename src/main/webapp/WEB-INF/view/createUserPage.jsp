@@ -2,6 +2,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="reportTypes" type="java.util.List<com.photochecker.model.ReportType>" scope="request"></jsp:useBean>
 
 <div class="report_title">Создание нового пользователя</div>
 <div id="crus_container">
@@ -45,7 +46,7 @@
             <td>
                 <div name="report_types" id="report_types">
                     <c:forEach items="${reportTypes}" var="reportType">
-                        <input type="checkbox" name="${reportType.key}">${reportType.key}. ${reportType.value}<br>
+                        <input type="checkbox" name="${reportType.id}">${reportType.id}. ${reportType.name}<br>
                     </c:forEach>
                 </div>
             </td>

@@ -2,7 +2,6 @@ package com.photochecker.servlets.lka;
 
 import com.photochecker.model.Region;
 import com.photochecker.model.User;
-import com.photochecker.model.lka.LkaExpert;
 import com.photochecker.service.LkaService;
 import com.photochecker.service.MainService;
 
@@ -26,8 +25,8 @@ import java.util.List;
 public class StartLkaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LocalDate startDate = LkaService.getInitialStartDate();
-        LocalDate endDate = LkaService.getInitialEndDate();
+        LocalDate startDate = MainService.getInitialStartDate();
+        LocalDate endDate = MainService.getInitialEndDate();
         request.setAttribute("startDate", startDate);
         request.setAttribute("endDate", endDate);
         //endDate = endDate.plusDays(1);

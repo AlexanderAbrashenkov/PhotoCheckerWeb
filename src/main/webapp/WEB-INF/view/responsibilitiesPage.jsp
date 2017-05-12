@@ -16,13 +16,13 @@
     <div id="resp_editor_pane">
         <c:forEach items="${respList}" var="respItem">
             <div class="responsib">
-                <div class="resp type_name" name="${respItem.reportType}">${respItem.reportName}</div>
-                <div class="resp region_name" name="${respItem.regionId}">${respItem.regionName}</div>
-                <div class="resp distr_name" name="${respItem.distrId}">${respItem.distrName}"</div>
+                <div class="resp type_name" name="${respItem.reportType.id}">${respItem.reportType.name}</div>
+                <div class="resp region_name" name="${respItem.distr.region.id}">${respItem.distr.region.name}</div>
+                <div class="resp distr_name" name="${respItem.distr.id}">${respItem.distr.name}"</div>
                 <select class="resp resp_name">
                     <option name="0"></option>
-                    <c:forEach items="${respUsers[respItem.reportType]}" var="userItem">
-                        <option name="${userItem.id}" <c:if test="${respItem.responsibleId == userItem.id}"> selected="selected" </c:if>>
+                    <c:forEach items="${respUsers[respItem.reportType.id]}" var="userItem">
+                        <option name="${userItem.id}" <c:if test="${respItem.user.id == userItem.id}"> selected="selected" </c:if>>
                             ${userItem.userName}
                         </option>
                     </c:forEach>

@@ -25,18 +25,12 @@ public class DownloadClientsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sDateFrom = request.getParameter("dateFrom");
         String sDateTo = request.getParameter("dateTo");
-        /*int regionId = Integer.parseInt(request.getParameter("regionId"));*/
         int distrId = Integer.parseInt(request.getParameter("distrId"));
         int lkaId = Integer.parseInt(request.getParameter("lkaId"));
 
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
-        /*dateTo = dateTo.plusDays(1);
 
-        LkaExpert.setStartDate(dateFrom);
-        LkaExpert.setEndDate(dateTo);*/
-
-        /*List<ClientCard> clientCardList = LkaExpert.getClientList(regionId, distrId, lkaId);*/
         List<ClientCard> clientCardList = LkaService.getClientCardList(distrId, lkaId, dateFrom, dateTo);
         request.setAttribute("clientsList", clientCardList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/addressTable.jsp");

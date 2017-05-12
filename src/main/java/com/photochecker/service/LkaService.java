@@ -7,17 +7,11 @@ import com.photochecker.model.*;
 import com.photochecker.model.lka.ClientCriterias;
 import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.model.lka.LkaReportItem;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,21 +20,23 @@ import java.util.stream.Collectors;
 public class LkaService {
     private static DAOFactory daoFactory = DAOFactory.getDAOFactory();
 
-    public static LocalDate getInitialStartDate() {
-        LocalDate startDate = LocalDate.now().minusDays(2);
-        return startDate;
-    }
-
-    public static LocalDate getInitialEndDate() {
-        LocalDate endDate = LocalDate.now().minusDays(2);
-        return endDate;
-    }
-
     public static List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate) {
-        List<Region> allRegions = daoFactory.getRegionDAO().findAllByDates(startDate, endDate);
+        List<Region> allRegions = new ArrayList<>();
+        try {
+            allRegions = daoFactory.getRegionDAO().findAllByParameters(startDate, endDate);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
 
         if (user.getRole() == 1) {
-            List<Responsibility> responsibilityList = daoFactory.getResponsibilityDAO().find(user);
+
+            List<Responsibility> responsibilityList = new ArrayList<>();
+            try {
+                responsibilityList = daoFactory.getResponsibilityDAO().findAllByParameters(user);
+            } catch (PersistException e) {
+                e.printStackTrace();
+            }
+
             List<Region> allowedRegions = responsibilityList.stream()
                     .filter(resp -> resp.getReportType().getId() == 5)
                     .map(resp -> resp.getDistr().getRegion())
@@ -48,14 +44,26 @@ public class LkaService {
                     .collect(Collectors.toList());
             allRegions.removeIf(region -> !allowedRegions.contains(region));
         }
+
         return allRegions;
     }
 
     public static List<Distr> getDistrs(User user, int regionId, LocalDate dateFrom, LocalDate dateTo) {
-        List<Distr> allDistrs = daoFactory.getDistrDAO().findAllByDates(dateFrom, dateTo);
+        List<Distr> allDistrs = new ArrayList<>();
+        try {
+            allDistrs = daoFactory.getDistrDAO().findAllByParameters(dateFrom, dateTo);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
 
         if (user.getRole() == 1) {
-            List<Responsibility> responsibilityList = daoFactory.getResponsibilityDAO().find(user);
+            List<Responsibility> responsibilityList = new ArrayList<>();
+            try {
+                responsibilityList = daoFactory.getResponsibilityDAO().findAllByParameters(user);
+            } catch (PersistException e) {
+                e.printStackTrace();
+            }
+
             List<Distr> allowedDistrs = responsibilityList.stream()
                     .filter(resp -> resp.getReportType().getId() == 5)
                     .map(resp -> resp.getDistr())
@@ -69,14 +77,28 @@ public class LkaService {
     }
 
     public static List<Lka> getLkas(int distrId, LocalDate dateFrom, LocalDate dateTo) {
-        Distr distr = daoFactory.getDistrDAO().find(distrId);
-        List<Lka> allLka = daoFactory.getLkaDAO().findAllByDatesAndDistr(distr, dateFrom, dateTo);
+        Distr distr = null;
+        List<Lka> allLka = null;
+        try {
+            distr = daoFactory.getDistrDAO().find(distrId);
+            allLka = daoFactory.getLkaDAO().findAllByParameters(distr, dateFrom, dateTo);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
+
         return allLka;
     }
 
     public static List<ClientCard> getClientCardList(int distrId, int lkaId, LocalDate dateFrom, LocalDate dateTo) {
-        Lka lka = daoFactory.getLkaDAO().find(lkaId);
-        List<ClientCard> clientCardList = daoFactory.getClientCardDAO().findAllByDatesAndLka(lka, dateFrom, dateTo);
+        Lka lka = null;
+        List<ClientCard> clientCardList = new ArrayList<>();
+
+        try {
+            lka = daoFactory.getLkaDAO().find(lkaId);
+            clientCardList = daoFactory.getClientCardDAO().findAllByParameters(lka, dateFrom, dateTo);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
 
         clientCardList.removeIf(clientCard -> clientCard.getDistr().getId() != distrId);
         clientCardList.removeIf(clientCard -> clientCard.getLka().getId() != lkaId);
@@ -85,39 +107,95 @@ public class LkaService {
     }
 
     public static LkaCriterias getLkaCriterias(int lkaId) {
-        Lka lka = daoFactory.getLkaDAO().find(lkaId);
-        LkaCriterias lkaCriterias = daoFactory.getLkaCriteriasDAO().find(lka);
+        LkaCriterias lkaCriterias = null;
+        try {
+            lkaCriterias = daoFactory.getLkaCriteriasDAO().find(lkaId);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
         return lkaCriterias;
     }
 
     public static List<LkaCriterias> getAllLkaCriterias() {
-        List<LkaCriterias> lkaCriteriasList = daoFactory.getLkaCriteriasDAO().findAll();
+        List<LkaCriterias> lkaCriteriasList = new ArrayList<>();
+        try {
+            lkaCriteriasList = daoFactory.getLkaCriteriasDAO().findAll();
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
         return lkaCriteriasList;
     }
 
     public static List<PhotoCard> getPhotoList(int clientId, LocalDate dateFrom, LocalDate dateTo) {
-        ReportType reportType = daoFactory.getReportTypeDAO().find(5);
-        List<PhotoCard> photoCardList = daoFactory.getPhotoCardDAO().findAllByDateClientRepType(reportType, clientId, dateFrom, dateTo);
+        ReportType reportType = null;
+        List<PhotoCard> photoCardList = new ArrayList<>();
+        try {
+            reportType = daoFactory.getReportTypeDAO().find(5);
+            photoCardList = daoFactory.getPhotoCardDAO().findAllByParameters(reportType, clientId, dateFrom, dateTo);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
         return photoCardList;
     }
 
-    public static boolean saveCriterias(ClientCriterias clientCriterias) {
-        ClientCriterias savedClientCriterias = daoFactory.getClientCriteriasDAO().find(clientCriterias.getClientId(),
-                clientCriterias.getDateFrom(), clientCriterias.getDateTo());
-        boolean succeed = false;
-        if (savedClientCriterias != null) {
-            succeed = daoFactory.getClientCriteriasDAO().update(clientCriterias);
-        } else {
-            succeed = daoFactory.getClientCriteriasDAO().create(clientCriterias);
+    public static Lka getLkaById(int id) {
+        Lka lka = null;
+        try {
+            lka = daoFactory.getLkaDAO().find(id);
+        } catch (PersistException e) {
+            e.printStackTrace();
         }
+        return lka;
+    }
+
+    public static boolean saveCriterias(ClientCriterias clientCriterias) {
+        List<ClientCriterias> savedClientCriterias = new ArrayList<>();
+        boolean succeed = false;
+
+        try {
+            savedClientCriterias = daoFactory.getClientCriteriasDAO().findAllByParameters(clientCriterias.getClientId(),
+                    clientCriterias.getDateFrom(), clientCriterias.getDateTo());
+
+            if (savedClientCriterias.size() > 0) {
+                succeed = daoFactory.getClientCriteriasDAO().update(clientCriterias);
+            } else {
+                succeed = daoFactory.getClientCriteriasDAO().create(clientCriterias);
+            }
+
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
+
         return succeed;
     }
 
+    public static ClientCriterias getSavedCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo) {
+        ClientCriterias clientCriterias = null;
+        try {
+            clientCriterias = daoFactory.getClientCriteriasDAO().findAllByParameters(clientId, dateFrom, dateTo).get(0);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
+        return clientCriterias;
+    }
+
     public static XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {
-        List<LkaReportItem> lkaReportItemList = daoFactory.getLkaReportItemDAO().findAllByDate(dateFrom, dateTo, 5);
+        List<LkaReportItem> lkaReportItemList = null;
+
+        try {
+            lkaReportItemList = daoFactory.getLkaReportItemDAO().findAllByParameters(dateFrom, dateTo, 5);
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
 
         if (user.getRole() == 1) {
-            List<Responsibility> responsibilityList = daoFactory.getResponsibilityDAO().find(user);
+            List<Responsibility> responsibilityList = null;
+
+            try {
+                responsibilityList = daoFactory.getResponsibilityDAO().findAllByParameters(user);
+            } catch (PersistException e) {
+                e.printStackTrace();
+            }
             List<String> allowedDistrNames = responsibilityList.stream()
                     .filter(resp -> resp.getReportType().getId() == 5)
                     .map(resp -> resp.getDistr().getName())
@@ -147,4 +225,23 @@ public class LkaService {
 
         return workbook;
     }
+
+    public static boolean writeNewLkaCriterias(List<LkaCriterias> critList) {
+        boolean succeed = false;
+        try {
+            List<LkaCriterias> savedCriteriasList = daoFactory.getLkaCriteriasDAO().findAll();
+            for (LkaCriterias lkaCriterias : critList) {
+                if (savedCriteriasList.contains(lkaCriterias)) {
+                    daoFactory.getLkaCriteriasDAO().update(lkaCriterias);
+                } else {
+                    daoFactory.getLkaCriteriasDAO().create(lkaCriterias);
+                }
+            }
+            succeed = true;
+        } catch (PersistException e) {
+            e.printStackTrace();
+        }
+        return succeed;
+    }
+
 }

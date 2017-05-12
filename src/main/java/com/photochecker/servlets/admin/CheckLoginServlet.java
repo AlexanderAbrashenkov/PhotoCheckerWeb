@@ -1,6 +1,6 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.MainService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -20,7 +20,7 @@ public class CheckLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
 
-        boolean isLoginFree = !LkaExpert.checkLogin(login);
+        boolean isLoginFree = !MainService.checkLogin(login);
 
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("answer", isLoginFree)

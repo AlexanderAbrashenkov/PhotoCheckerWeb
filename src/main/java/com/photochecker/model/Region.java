@@ -45,4 +45,12 @@ public class Region {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Region{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

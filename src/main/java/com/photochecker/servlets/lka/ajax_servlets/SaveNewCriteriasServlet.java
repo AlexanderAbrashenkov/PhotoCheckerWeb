@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.LkaService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -27,7 +28,7 @@ public class SaveNewCriteriasServlet extends HttpServlet {
         Type type = new TypeToken<List<LkaCriterias>>(){}.getType();
         List<LkaCriterias> critList = gson.fromJson(request.getParameter("critList"), type);
 
-        boolean succeed = LkaExpert.writeNewLkaCriterias(critList);
+        boolean succeed = LkaService.writeNewLkaCriterias(critList);
 
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("answer", succeed)

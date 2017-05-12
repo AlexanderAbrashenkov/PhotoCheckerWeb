@@ -2,7 +2,7 @@ package com.photochecker.servlets.admin;
 
 import com.photochecker.model.Responsibility;
 import com.photochecker.model.User;
-import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.MainService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +21,8 @@ import java.util.Map;
 urlPatterns = "/reports/responsib")
 public class ResponsibServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Responsibility> responsibilitiesList = LkaExpert.getAllResponsibilities();
-        Map<Integer, List<User>> respUsers = LkaExpert.getRespUsers();
+        List<Responsibility> responsibilitiesList = MainService.getAllResponsibilities();
+        Map<Integer, List<User>> respUsers = MainService.getRespUsers();
         request.setAttribute("respList", responsibilitiesList);
         request.setAttribute("respUsers", respUsers);
         request.setAttribute("pageTitle", "Ответственные");

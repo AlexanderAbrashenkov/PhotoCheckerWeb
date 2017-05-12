@@ -3,7 +3,7 @@ package com.photochecker.servlets.admin;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photochecker.model.Responsibility;
-import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.service.MainService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -25,9 +25,10 @@ public class SaveResponsibServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Gson gson = new Gson();
         Type type = new TypeToken<List<Responsibility>>(){}.getType();
+
         List<Responsibility> respList = gson.fromJson(request.getParameter("respList"), type);
 
-        boolean succeed = LkaExpert.writeResponsibilities(respList);
+        boolean succeed = MainService.writeResponsibilities(respList);
 
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("answer", succeed)

@@ -1,5 +1,8 @@
 package com.photochecker.servlets.admin;
 
+import com.photochecker.dao.DAOFactory;
+import com.photochecker.model.PersistException;
+import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
 import com.photochecker.model.lka.LkaExpert;
 
@@ -11,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by market6 on 26.04.2017.
@@ -31,11 +36,23 @@ public class AddNewUserServlet extends HttpServlet {
         String[] reps = reportTypes.split(",");
         Integer[] repsInt = new Integer[reps.length];
 
-        for (int i = 0; i < reps.length; i++) {
-            repsInt[i] = Integer.parseInt(reps[i]);
+        List<ReportType> allReportTypeList = new ArrayList<>();
+        try {
+            allReportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAll();
+        } catch (PersistException e) {
+            e.printStackTrace();
         }
 
-        User user = new User(0, login, userName, Integer.parseInt(role), Arrays.asList(repsInt));
+        List<ReportType> newUserReports = new ArrayList<>();
+        for (int i = 0; i < reps.length; i++) {
+            int reportId = Integer.parseInt(reps[i]);
+            newUserReports.add(allReportTypeList.stream()
+                    .filter(reportType1 -> reportType1.getId() == reportId)
+                    .findFirst()
+                    .get());
+        }
+
+        User user = new User(0, login, userName, Integer.parseInt(role), newUserReports);
 
         boolean success = LkaExpert.saveNewUser(user, pass);
 

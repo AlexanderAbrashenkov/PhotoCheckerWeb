@@ -82,4 +82,32 @@ public class LkaCriterias {
     public void setCrit2Name(String crit2Name) {
         this.crit2Name = crit2Name;
     }
+
+    @Override
+    public String toString() {
+        return "LkaCriterias{" +
+                "lka=" + lka +
+                ", crit1Name='" + crit1Name + '\'' +
+                ", crit1Mz=" + crit1Mz +
+                ", crit1K=" + crit1K +
+                ", crit1S=" + crit1S +
+                ", crit1M=" + crit1M +
+                ", crit2Name='" + crit2Name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LkaCriterias that = (LkaCriterias) o;
+
+        return lka.equals(that.lka);
+    }
+
+    @Override
+    public int hashCode() {
+        return lka.hashCode();
+    }
 }

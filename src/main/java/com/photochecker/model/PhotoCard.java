@@ -98,4 +98,17 @@ public class PhotoCard {
     public int hashCode() {
         return url != null ? url.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return "PhotoCard{" +
+                "clientId=" + clientId +
+                ", url='" + url + '\'' +
+                ", date=" + date +
+                ", dateAdd=" + dateAdd +
+                ", comment='" + comment + '\'' +
+                ", checked=" + checked +
+                ", reportType=" + reportType +
+                '}';
+    }
 }

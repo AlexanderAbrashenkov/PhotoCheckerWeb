@@ -11,12 +11,12 @@ public class User {
     private String userLogin;
     private String userName;
     private int role;
-    private List<Integer> reportTypeList;
+    private List<ReportType> reportTypeList;
 
     public User() {
     }
 
-    public User(int id, String userLogin, String userName, int role, List<Integer> reportTypeList) {
+    public User(int id, String userLogin, String userName, int role, List<ReportType> reportTypeList) {
         this.id = id;
         this.userLogin = userLogin;
         this.userName = userName;
@@ -56,11 +56,11 @@ public class User {
         this.role = role;
     }
 
-    public List<Integer> getReportTypeList() {
+    public List<ReportType> getReportTypeList() {
         return reportTypeList;
     }
 
-    public void setReportTypeList(List<Integer> reportTypeList) {
+    public void setReportTypeList(List<ReportType> reportTypeList) {
         this.reportTypeList = reportTypeList;
     }
 

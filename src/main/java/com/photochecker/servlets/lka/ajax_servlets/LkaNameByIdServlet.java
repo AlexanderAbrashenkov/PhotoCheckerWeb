@@ -1,6 +1,7 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.model.lka.LkaExpert;
+import com.photochecker.model.Lka;
+import com.photochecker.service.LkaService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -24,12 +25,13 @@ public class LkaNameByIdServlet extends HttpServlet {
         } catch (Exception e) {
             id = -1;
         }
-        String lkaName = LkaExpert.getLkaNameById(id);
+        System.out.println(id);
+        Lka lka = LkaService.getLkaById(id);
 
         JsonObject jsonObject;
-        if (lkaName != null) {
+        if (lka != null) {
             jsonObject = Json.createObjectBuilder()
-                    .add("lkaName", lkaName)
+                    .add("lkaName", lka.getName())
                     .build();
         } else {
             jsonObject = Json.createObjectBuilder()

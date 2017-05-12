@@ -1,9 +1,11 @@
 package com.photochecker.mysqlDAO;
 
 import com.photochecker.dao.*;
+import com.photochecker.dao.common.*;
 import com.photochecker.dao.lka.ClientCriteriasDAO;
 import com.photochecker.dao.lka.LkaCriteriasDAO;
 import com.photochecker.dao.lka.LkaReportItemDAO;
+import com.photochecker.mysqlDAO.common.*;
 import com.photochecker.mysqlDAO.lka.ClientCriteriasDAOMySqlImpl;
 import com.photochecker.mysqlDAO.lka.LkaCriteriasDAOMySqlImpl;
 import com.photochecker.mysqlDAO.lka.LkaReportItemDAOMySqlImpl;

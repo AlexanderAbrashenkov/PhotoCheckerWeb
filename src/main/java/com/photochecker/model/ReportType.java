@@ -45,4 +45,12 @@ public class ReportType {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "ReportType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

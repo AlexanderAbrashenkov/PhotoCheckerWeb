@@ -30,11 +30,6 @@ public class DownloadRegionsServlet extends HttpServlet {
 
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
-        //dateTo = dateTo.plusDays(1);
-
-        /*LkaExpert.setStartDate(dateFrom);
-        LkaExpert.setEndDate(dateTo);
-        Map<Integer, String> regions = LkaExpert.getRegionMap((User) request.getSession().getAttribute("user"));*/
 
         User user = (User) request.getSession().getAttribute("user");
         List<Region> regionList = LkaService.getRegions(user, dateFrom, dateTo);

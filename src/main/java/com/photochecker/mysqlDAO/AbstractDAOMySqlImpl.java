@@ -1,7 +1,6 @@
 package com.photochecker.mysqlDAO;
 
 import com.photochecker.dao.GenericDAO;
-import com.photochecker.model.PersistException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,16 +40,14 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
 
     public abstract String getFindAllByParametersQuery();
 
-    protected abstract List<T> parseResultSet(ResultSet resultSet) throws SQLException, PersistException;
+    protected abstract List<T> parseResultSet(ResultSet resultSet) throws SQLException;
 
     protected abstract void prepareStatementForCreate(PreparedStatement statement, T object) throws SQLException;
 
     protected abstract void prepareStatementForUpdate(PreparedStatement statement, T object) throws SQLException;
 
-    protected abstract void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException;
-
     @Override
-    public boolean create(T t) throws PersistException {
+    public boolean create(T t) {
         String sql = getCreateQuery();
         boolean succeed = false;
 
@@ -59,7 +56,7 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
             statement.execute();
             succeed = true;
         } catch (SQLException e) {
-            throw new PersistException(e);
+            return false;
         } finally {
             closeConnection();
         }
@@ -68,7 +65,7 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public T find(int id) throws PersistException {
+    public T find(int id) {
         String sql = getFindQuery();
         List<T> list;
 
@@ -77,7 +74,7 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
             ResultSet resultSet = statement.executeQuery();
             list = parseResultSet(resultSet);
         } catch (SQLException e) {
-            throw new PersistException(e);
+            return null;
         } finally {
             closeConnection();
         }
@@ -90,7 +87,7 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public List<T> findAll() throws PersistException {
+    public List<T> findAll() {
         String sql = getFindAllQuery();
         List<T> list;
 
@@ -98,15 +95,16 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
             ResultSet resultSet = statement.executeQuery();
             list = parseResultSet(resultSet);
         } catch (SQLException e) {
-            throw new PersistException(e);
+            return null;
         } finally {
             closeConnection();
         }
+
         return list;
     }
 
     @Override
-    public boolean update(T t) throws PersistException {
+    public boolean update(T t) {
         String sql = getUpdateQuery();
         boolean succeed = false;
 
@@ -115,28 +113,10 @@ public abstract class AbstractDAOMySqlImpl<T> implements GenericDAO<T> {
             statement.execute();
             succeed = true;
         } catch (SQLException e) {
-            throw new PersistException(e);
+            return false;
         } finally {
             closeConnection();
         }
         return succeed;
-    }
-
-    @Override
-    public List<T> findAllByParameters(Object... params) throws PersistException {
-        String sql = getFindAllByParametersQuery();
-        List<T> list;
-
-        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
-            prepareStatementForFindAllByParameters(statement, params);
-            ResultSet resultSet = statement.executeQuery();
-            list = parseResultSet(resultSet);
-        } catch (SQLException e) {
-            throw new PersistException(e);
-        } finally {
-            closeConnection();
-        }
-
-        return list;
     }
 }

@@ -1,8 +1,8 @@
 package com.photochecker.dao.common;
 
 import com.photochecker.dao.GenericDAO;
-import com.photochecker.model.PersistException;
 import com.photochecker.model.ReportType;
+import com.photochecker.model.User;
 
 import java.util.List;
 
@@ -11,24 +11,5 @@ import java.util.List;
  */
 public interface ReportTypeDAO extends GenericDAO<ReportType> {
 
-    @Override
-    boolean create(ReportType reportType) throws PersistException;
-
-    @Override
-    ReportType find(int id) throws PersistException;
-
-    @Override
-    List<ReportType> findAll() throws PersistException;
-
-    @Override
-    boolean update(ReportType reportType) throws PersistException;
-
-    /**
-     * Returns result according to params filter
-     * @param params (User user)
-     * @return List<ReportType>
-     * @throws PersistException
-     */
-    @Override
-    List<ReportType> findAllByParameters(Object... params) throws PersistException;
+    List<ReportType> findAllByUser(User user);
 }

@@ -60,7 +60,7 @@ public class LkaReportItemDAOMySqlImpl extends AbstractDAOMySqlImpl<LkaReportIte
     }
 
     @Override
-    protected List<LkaReportItem> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<LkaReportItem> parseResultSet(ResultSet resultSet) throws SQLException {
         List<LkaReportItem> lkaReportItemList = new ArrayList<>();
         while (resultSet.next()) {
             ClientCriterias clientCriterias = new ClientCriterias(
@@ -125,17 +125,31 @@ public class LkaReportItemDAOMySqlImpl extends AbstractDAOMySqlImpl<LkaReportIte
 
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        LocalDate dateFrom = (LocalDate) params[0];
-        LocalDate dateTo = (LocalDate) params[1];
-        int repType = (int) params[2];
-        dateTo = dateTo.plusDays(1);
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, LocalDate startDate, LocalDate endDate, int repType) throws SQLException {
+        endDate = endDate.plusDays(1);
 
-        statement.setDate(1, Date.valueOf(dateFrom));
-        statement.setDate(2, Date.valueOf(dateTo));
-        statement.setDate(3, Date.valueOf(dateFrom));
-        statement.setDate(4, Date.valueOf(dateTo));
+        statement.setDate(1, Date.valueOf(startDate));
+        statement.setDate(2, Date.valueOf(endDate));
+        statement.setDate(3, Date.valueOf(startDate));
+        statement.setDate(4, Date.valueOf(endDate));
         statement.setInt(5, repType);
+    }
+
+    @Override
+    public List<LkaReportItem> findAllByDatesAndRepType(LocalDate startDate, LocalDate endDate, int repType) {
+        String sql = getFindAllByParametersQuery();
+        List<LkaReportItem> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, startDate, endDate, repType);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return  null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

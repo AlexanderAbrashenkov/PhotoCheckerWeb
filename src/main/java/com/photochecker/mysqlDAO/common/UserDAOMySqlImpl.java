@@ -2,14 +2,10 @@ package com.photochecker.mysqlDAO.common;
 
 import com.photochecker.dao.DAOFactory;
 import com.photochecker.dao.common.UserDAO;
-import com.photochecker.model.PersistException;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
-import com.photochecker.model.WrongUserException;
 import com.photochecker.mysqlDAO.AbstractDAOMySqlImpl;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,10 +46,10 @@ public class UserDAOMySqlImpl extends AbstractDAOMySqlImpl<User> implements User
     }
 
     @Override
-    protected List<User> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<User> parseResultSet(ResultSet resultSet) throws SQLException {
         List<User> userList = new ArrayList<>();
 
-        while(resultSet.next()) {
+        while (resultSet.next()) {
             int id = resultSet.getInt("id");
             String login = resultSet.getString("user_login");
             String userName = resultSet.getString("user_name");
@@ -62,7 +58,7 @@ public class UserDAOMySqlImpl extends AbstractDAOMySqlImpl<User> implements User
 
             User user = new User(id, login, userName, userRole, null);
 
-            List<ReportType> reportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAllByParameters(user);
+            List<ReportType> reportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAllByUser(user);
 
             user.setReportTypeList(reportTypeList);
 
@@ -81,9 +77,25 @@ public class UserDAOMySqlImpl extends AbstractDAOMySqlImpl<User> implements User
 
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        String login = (String) params[0];
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, String login) throws SQLException {
         statement.setString(1, login);
+    }
+
+    @Override
+    public List<User> findAllByLogin(String login) {
+        String sql = getFindAllByParametersQuery();
+        List<User> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, login);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

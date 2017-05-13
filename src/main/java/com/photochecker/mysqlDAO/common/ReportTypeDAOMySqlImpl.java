@@ -1,13 +1,10 @@
 package com.photochecker.mysqlDAO.common;
 
 import com.photochecker.dao.common.ReportTypeDAO;
-import com.photochecker.model.PersistException;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
 import com.photochecker.mysqlDAO.AbstractDAOMySqlImpl;
-import com.photochecker.mysqlDAO.DAOFactoryMySqlImpl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +47,7 @@ public class ReportTypeDAOMySqlImpl extends AbstractDAOMySqlImpl<ReportType> imp
     }
 
     @Override
-    protected List<ReportType> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<ReportType> parseResultSet(ResultSet resultSet) throws SQLException {
         List<ReportType> reportTypeList = new ArrayList<>();
         while (resultSet.next()) {
             ReportType reportType = new ReportType(resultSet.getInt("id"),
@@ -70,10 +67,25 @@ public class ReportTypeDAOMySqlImpl extends AbstractDAOMySqlImpl<ReportType> imp
 
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        User user = (User) params[0];
-
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, User user) throws SQLException {
         statement.setInt(1, user.getId());
+    }
+
+    @Override
+    public List<ReportType> findAllByUser(User user) {
+        String sql = getFindAllByParametersQuery();
+        List<ReportType> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, user);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

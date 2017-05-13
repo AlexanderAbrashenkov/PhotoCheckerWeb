@@ -1,6 +1,6 @@
 package com.photochecker.mysqlDAO;
 
-import com.photochecker.dao.*;
+import com.photochecker.dao.DAOFactory;
 import com.photochecker.dao.common.*;
 import com.photochecker.dao.lka.ClientCriteriasDAO;
 import com.photochecker.dao.lka.LkaCriteriasDAO;

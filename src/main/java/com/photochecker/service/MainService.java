@@ -1,12 +1,14 @@
 package com.photochecker.service;
 
 import com.photochecker.dao.DAOFactory;
-import com.photochecker.model.*;
+import com.photochecker.model.ReportType;
+import com.photochecker.model.Responsibility;
+import com.photochecker.model.User;
 
-import java.sql.*;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -26,63 +28,40 @@ public class MainService {
     }
 
     public static List<Responsibility> getAllResponsibilities() {
-        List<Responsibility> responsibilities = new ArrayList<>();
-        try {
-            responsibilities = daoFactory.getResponsibilityDAO().findAll();
-        } catch (PersistException e) {
-            e.printStackTrace();
-        }
+        List<Responsibility> responsibilities = daoFactory.getResponsibilityDAO().findAll();
+
         return responsibilities;
     }
 
     public static Map<Integer, List<User>> getRespUsers() {
         Map<Integer, List<User>> result = new HashMap<>();
-        try {
-            List<ReportType> reportTypeList = daoFactory.getReportTypeDAO().findAll();
-            List<User> userList = daoFactory.getUserDAO().findAll();
+        List<ReportType> reportTypeList = daoFactory.getReportTypeDAO().findAll();
+        List<User> userList = daoFactory.getUserDAO().findAll();
 
-            for (ReportType reportType : reportTypeList) {
-                List<User> repUserList = userList.stream()
-                        .filter(user -> user.getRole() == 1 && user.getReportTypeList().contains(reportType))
-                        .collect(Collectors.toList());
-                result.put(reportType.getId(), repUserList);
-            }
-        } catch (PersistException e) {
-            e.printStackTrace();
+        for (ReportType reportType : reportTypeList) {
+            List<User> repUserList = userList.stream()
+                    .filter(user -> user.getRole() == 1 && user.getReportTypeList().contains(reportType))
+                    .collect(Collectors.toList());
+            result.put(reportType.getId(), repUserList);
         }
+
         return result;
     }
 
     public static boolean writeResponsibilities(List<Responsibility> respList) {
-        boolean succeed = false;
-        try {
-            for (Responsibility responsibility : respList) {
-                daoFactory.getResponsibilityDAO().update(responsibility);
-            }
-            succeed = true;
-        } catch (PersistException e) {
-            e.printStackTrace();
+        for (Responsibility responsibility : respList) {
+            daoFactory.getResponsibilityDAO().update(responsibility);
         }
-        return succeed;
+        return true;
     }
 
     public static List<ReportType> getReportTypes() {
-        List<ReportType> reportTypeList = new ArrayList<>();
-        try {
-            reportTypeList = daoFactory.getReportTypeDAO().findAll();
-        } catch (PersistException e) {
-            e.printStackTrace();
-        }
+        List<ReportType> reportTypeList = daoFactory.getReportTypeDAO().findAll();
         return reportTypeList;
     }
 
     public static boolean checkLogin(String login) {
-        List<User> userList = null;
-        try {
-            userList = daoFactory.getUserDAO().findAllByParameters(login);
-        } catch (PersistException e) {
-            e.printStackTrace();
-        }
+        List<User> userList = daoFactory.getUserDAO().findAllByLogin(login);
 
         if (null != userList && userList.size() > 0) {
             return true;

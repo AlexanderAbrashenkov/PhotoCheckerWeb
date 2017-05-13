@@ -18,19 +18,6 @@ public abstract class DAOFactory {
     public static final int MYSQL = 1;
     private static DAOFactory daoFactory = createDAOFactory();
 
-    public abstract RegionDAO getRegionDAO();
-    public abstract DistrDAO getDistrDAO();
-    public abstract LkaDAO getLkaDAO();
-    public abstract ClientCardDAO getClientCardDAO();
-    public abstract PhotoCardDAO getPhotoCardDAO();
-    public abstract ReportTypeDAO getReportTypeDAO();
-    public abstract ResponsibilityDAO getResponsibilityDAO();
-    public abstract UserDAO getUserDAO();
-
-    public abstract ClientCriteriasDAO getClientCriteriasDAO();
-    public abstract LkaCriteriasDAO getLkaCriteriasDAO();
-    public abstract LkaReportItemDAO getLkaReportItemDAO();
-
     public static DAOFactory getDAOFactory() {
         return daoFactory;
     }
@@ -49,4 +36,26 @@ public abstract class DAOFactory {
         }
         return daoFactory;
     }
+
+    public abstract RegionDAO getRegionDAO();
+
+    public abstract DistrDAO getDistrDAO();
+
+    public abstract LkaDAO getLkaDAO();
+
+    public abstract ClientCardDAO getClientCardDAO();
+
+    public abstract PhotoCardDAO getPhotoCardDAO();
+
+    public abstract ReportTypeDAO getReportTypeDAO();
+
+    public abstract ResponsibilityDAO getResponsibilityDAO();
+
+    public abstract UserDAO getUserDAO();
+
+    public abstract ClientCriteriasDAO getClientCriteriasDAO();
+
+    public abstract LkaCriteriasDAO getLkaCriteriasDAO();
+
+    public abstract LkaReportItemDAO getLkaReportItemDAO();
 }

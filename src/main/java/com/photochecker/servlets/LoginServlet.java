@@ -81,12 +81,7 @@ public class LoginServlet extends HttpServlet {
 
                 User user = new User(id, login, userName, userRole, null);
 
-                List<ReportType> reportTypeList = null;
-                try {
-                    reportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAllByParameters(user);
-                } catch (PersistException e) {
-                    e.printStackTrace();
-                }
+                List<ReportType> reportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAllByUser(user);
 
                 user.setReportTypeList(reportTypeList);
 

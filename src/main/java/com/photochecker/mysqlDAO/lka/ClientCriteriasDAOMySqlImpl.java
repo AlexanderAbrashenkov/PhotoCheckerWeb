@@ -67,7 +67,7 @@ public class ClientCriteriasDAOMySqlImpl extends AbstractDAOMySqlImpl<ClientCrit
     }
 
     @Override
-    protected List<ClientCriterias> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<ClientCriterias> parseResultSet(ResultSet resultSet) throws SQLException {
         List<ClientCriterias> clientCriteriasList = new ArrayList<>();
         while (resultSet.next()) {
             ClientCriterias clientCriterias = new ClientCriterias(
@@ -119,15 +119,10 @@ public class ClientCriteriasDAOMySqlImpl extends AbstractDAOMySqlImpl<ClientCrit
         fillStatement(statement, object);
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        int clientId = (int) params[0];
-        LocalDate dateFrom = (LocalDate) params[1];
-        LocalDate dateTo = (LocalDate) params[2];
-
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, int clientId, LocalDate startDate, LocalDate endDate) throws SQLException {
         statement.setInt(1, clientId);
-        statement.setDate(2, Date.valueOf(dateFrom));
-        statement.setDate(3, Date.valueOf(dateTo));
+        statement.setDate(2, Date.valueOf(startDate));
+        statement.setDate(3, Date.valueOf(endDate));
     }
 
 
@@ -166,5 +161,23 @@ public class ClientCriteriasDAOMySqlImpl extends AbstractDAOMySqlImpl<ClientCrit
         statement.setInt(25, clientCriterias.getClientId());
         statement.setDate(26, Date.valueOf(clientCriterias.getDateFrom()));
         statement.setDate(27, Date.valueOf(clientCriterias.getDateTo()));
+    }
+
+    @Override
+    public List<ClientCriterias> findAllByClientAndDates(int clientId, LocalDate startDate, LocalDate endDate) {
+        String sql = getFindAllByParametersQuery();
+        List<ClientCriterias> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, clientId, startDate, endDate);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return  null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

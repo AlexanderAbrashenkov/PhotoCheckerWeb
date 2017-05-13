@@ -1,14 +1,16 @@
 package com.photochecker.mysqlDAO.common;
 
-import com.photochecker.dao.common.ClientCardDAO;
 import com.photochecker.dao.DAOFactory;
+import com.photochecker.dao.common.ClientCardDAO;
 import com.photochecker.model.ClientCard;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Lka;
-import com.photochecker.model.PersistException;
 import com.photochecker.mysqlDAO.AbstractDAOMySqlImpl;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class ClientCardDAOMySqlImpl extends AbstractDAOMySqlImpl<ClientCard> imp
     }
 
     @Override
-    protected List<ClientCard> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<ClientCard> parseResultSet(ResultSet resultSet) throws SQLException {
         List<Distr> distrList = DAOFactory.getDAOFactory().getDistrDAO().findAll();
         List<Lka> lkaList = DAOFactory.getDAOFactory().getLkaDAO().findAll();
         List<ClientCard> clientCardList = new ArrayList<>();
@@ -96,16 +98,30 @@ public class ClientCardDAOMySqlImpl extends AbstractDAOMySqlImpl<ClientCard> imp
 
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object... params) throws SQLException {
-        Lka lka = (Lka) params[0];
-        LocalDate startDate = (LocalDate) params[1];
-        LocalDate endDate = (LocalDate) params[2];
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Lka lka, LocalDate startDate, LocalDate endDate) throws SQLException {
         endDate = endDate.plusDays(1);
         statement.setDate(1, Date.valueOf(startDate));
         statement.setDate(2, Date.valueOf(endDate.minusDays(1)));
         statement.setDate(3, Date.valueOf(startDate));
         statement.setDate(4, Date.valueOf(endDate));
         statement.setInt(5, lka.getId());
+    }
+
+    @Override
+    public List<ClientCard> findAllByLkaAndDates(Lka lka, LocalDate startDate, LocalDate endDate) {
+        String sql = getFindAllByParametersQuery();
+        List<ClientCard> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, lka, startDate, endDate);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

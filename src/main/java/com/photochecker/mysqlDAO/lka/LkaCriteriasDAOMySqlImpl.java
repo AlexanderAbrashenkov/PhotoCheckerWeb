@@ -51,7 +51,7 @@ public class LkaCriteriasDAOMySqlImpl extends AbstractDAOMySqlImpl<LkaCriterias>
     }
 
     @Override
-    protected List<LkaCriterias> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<LkaCriterias> parseResultSet(ResultSet resultSet) throws SQLException {
         List<Lka> lkaList = DAOFactory.getDAOFactory().getLkaDAO().findAll();
 
         List<LkaCriterias> lkaCriteriasList = new ArrayList<>();
@@ -95,10 +95,5 @@ public class LkaCriteriasDAOMySqlImpl extends AbstractDAOMySqlImpl<LkaCriterias>
         statement.setInt(5, object.getCrit1M());
         statement.setString(6, object.getCrit2Name());
         statement.setInt(7, object.getLka().getId());
-    }
-
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-
     }
 }

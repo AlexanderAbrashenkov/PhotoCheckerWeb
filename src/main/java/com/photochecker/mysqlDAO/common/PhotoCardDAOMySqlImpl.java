@@ -2,13 +2,14 @@ package com.photochecker.mysqlDAO.common;
 
 import com.photochecker.dao.DAOFactory;
 import com.photochecker.dao.common.PhotoCardDAO;
-import com.photochecker.model.PersistException;
 import com.photochecker.model.PhotoCard;
 import com.photochecker.model.ReportType;
 import com.photochecker.mysqlDAO.AbstractDAOMySqlImpl;
-import com.photochecker.mysqlDAO.DAOFactoryMySqlImpl;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class PhotoCardDAOMySqlImpl extends AbstractDAOMySqlImpl<PhotoCard> imple
     }
 
     @Override
-    protected List<PhotoCard> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<PhotoCard> parseResultSet(ResultSet resultSet) throws SQLException {
         List<ReportType> reportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAll();
         List<PhotoCard> photoCardList = new ArrayList<>();
         while (resultSet.next()) {
@@ -87,17 +88,30 @@ public class PhotoCardDAOMySqlImpl extends AbstractDAOMySqlImpl<PhotoCard> imple
 
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        ReportType reportType = (ReportType) params[0];
-        int clientId = (int) params[1];
-        LocalDate startDate = (LocalDate) params[2];
-        LocalDate endDate = (LocalDate) params[3];
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, ReportType reportType, int clientId, LocalDate startDate, LocalDate endDate) throws SQLException {
         endDate = endDate.plusDays(1);
 
         statement.setDate(1, Date.valueOf(startDate));
         statement.setDate(2, Date.valueOf(endDate));
         statement.setInt(3, clientId);
         statement.setInt(4, reportType.getId());
+    }
+
+    @Override
+    public List<PhotoCard> findAllByRepClientDates(ReportType reportType, int clientId, LocalDate startDate, LocalDate endDate) {
+        String sql = getFindAllByParametersQuery();
+        List<PhotoCard> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, reportType, clientId, startDate, endDate);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

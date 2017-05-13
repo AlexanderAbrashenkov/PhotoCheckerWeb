@@ -2,11 +2,15 @@ package com.photochecker.mysqlDAO.common;
 
 import com.photochecker.dao.DAOFactory;
 import com.photochecker.dao.common.ResponsibilityDAO;
-import com.photochecker.model.*;
+import com.photochecker.model.Distr;
+import com.photochecker.model.ReportType;
+import com.photochecker.model.Responsibility;
+import com.photochecker.model.User;
 import com.photochecker.mysqlDAO.AbstractDAOMySqlImpl;
-import com.photochecker.mysqlDAO.DAOFactoryMySqlImpl;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +51,7 @@ public class ResponsibilityDAOMySqlImpl extends AbstractDAOMySqlImpl<Responsibil
     }
 
     @Override
-    protected List<Responsibility> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<Responsibility> parseResultSet(ResultSet resultSet) throws SQLException {
         List<Responsibility> responsibilityList = new ArrayList<>();
 
         List<ReportType> reportTypes = DAOFactory.getDAOFactory().getReportTypeDAO().findAll();
@@ -79,10 +83,25 @@ public class ResponsibilityDAOMySqlImpl extends AbstractDAOMySqlImpl<Responsibil
         statement.setInt(3, object.getDistr().getId());
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        User user = (User) params[0];
-
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, User user) throws SQLException {
         statement.setInt(1, user.getId());
+    }
+
+    @Override
+    public List<Responsibility> findAllByUser(User user) {
+        String sql = getFindAllByParametersQuery();
+        List<Responsibility> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, user);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

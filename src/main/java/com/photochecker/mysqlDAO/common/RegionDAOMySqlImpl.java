@@ -1,11 +1,13 @@
 package com.photochecker.mysqlDAO.common;
 
 import com.photochecker.dao.common.RegionDAO;
-import com.photochecker.model.PersistException;
 import com.photochecker.model.Region;
 import com.photochecker.mysqlDAO.AbstractDAOMySqlImpl;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class RegionDAOMySqlImpl extends AbstractDAOMySqlImpl<Region> implements 
     }
 
     @Override
-    protected List<Region> parseResultSet(ResultSet resultSet) throws SQLException, PersistException {
+    protected List<Region> parseResultSet(ResultSet resultSet) throws SQLException {
         List<Region> regionList = new ArrayList<>();
         while (resultSet.next()) {
             Region region = new Region(resultSet.getInt("region_id"),
@@ -67,13 +69,28 @@ public class RegionDAOMySqlImpl extends AbstractDAOMySqlImpl<Region> implements 
 
     }
 
-    @Override
-    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, Object[] params) throws SQLException {
-        LocalDate startDate = (LocalDate) params[0];
-        LocalDate endDate = (LocalDate) params[1];
+    protected void prepareStatementForFindAllByParameters(PreparedStatement statement, LocalDate startDate, LocalDate endDate) throws SQLException {
         endDate = endDate.plusDays(1);
 
         statement.setDate(1, Date.valueOf(startDate));
         statement.setDate(2, Date.valueOf(endDate));
+    }
+
+    @Override
+    public List<Region> findAllByDates(LocalDate startDate, LocalDate endDate) {
+        String sql = getFindAllByParametersQuery();
+        List<Region> list;
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            prepareStatementForFindAllByParameters(statement, startDate, endDate);
+            ResultSet resultSet = statement.executeQuery();
+            list = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            closeConnection();
+        }
+
+        return list;
     }
 }

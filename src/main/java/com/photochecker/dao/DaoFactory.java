@@ -1,6 +1,7 @@
 package com.photochecker.dao;
 
 import com.photochecker.dao.common.*;
+import com.photochecker.dao.jdbc.spring.DaoFactorySpringImpl;
 import com.photochecker.dao.lka.ClientCriteriasDao;
 import com.photochecker.dao.lka.LkaCriteriasDao;
 import com.photochecker.dao.lka.LkaReportItemDao;
@@ -16,6 +17,8 @@ import java.util.Properties;
 public abstract class DaoFactory {
 
     public static final int MYSQL = 1;
+    public static final int SPRING = 2;
+
     private static DaoFactory daoFactory = createDAOFactory();
 
     public static DaoFactory getDAOFactory() {
@@ -32,6 +35,9 @@ public abstract class DaoFactory {
             switch (properties.getProperty("data.storage")) {
                 case "MySql":
                     daoFactory = new DaoFactoryMySqlImpl();
+                    break;
+                case "Spring":
+                    daoFactory = new DaoFactorySpringImpl();
                     break;
                 default:
                     daoFactory = new DaoFactoryMySqlImpl();

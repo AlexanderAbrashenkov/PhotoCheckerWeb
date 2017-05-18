@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <jee:jndi-lookup jndi-name="jdbc/library" id="dbDataSource" expected-type="javax.sql.DataSource" />
+
+    <bean id="regionDaoSpring" class="com.photochecker.dao.jdbc.spring.common.RegionDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="clientCardDaoSpring" class="com.photochecker.dao.jdbc.spring.common.ClientCardDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="distrDaoSpring" class="com.photochecker.dao.jdbc.spring.common.DistrDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="lkaDaoSpring" class="com.photochecker.dao.jdbc.spring.common.LkaDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="photoCardDaoSpring" class="com.photochecker.dao.jdbc.spring.common.PhotoCardDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="reportTypeDaoSpring" class="com.photochecker.dao.jdbc.spring.common.ReportTypeDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="responsibilityDaoSpring" class="com.photochecker.dao.jdbc.spring.common.ResponsibilityDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+
+    <bean id="userDaoSpring" class="com.photochecker.dao.jdbc.spring.common.UserDaoSpringImpl">
+        <constructor-arg ref="dbDataSource" />
+    </bean>
+</beans>

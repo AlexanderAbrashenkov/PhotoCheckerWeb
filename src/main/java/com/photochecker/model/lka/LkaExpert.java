@@ -38,7 +38,7 @@ public class LkaExpert {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
             byte[] bytes1 = passwordSalt.getBytes();
-            byte digest[] = messageDigest.digest(bytes1); //create code
+            byte digest[] = messageDigest.digest(bytes1); //save code
             for (int i = 0; i < digest.length; ++i) {
                 code.append(Integer.toHexString(0x0100 + (digest[i] & 0x00FF)).substring(1));
             }

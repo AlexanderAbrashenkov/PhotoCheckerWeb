@@ -1,7 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.Lka;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.LkaService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -18,6 +19,14 @@ import java.io.IOException;
 @WebServlet(name = "LkaNameByIdServlet",
 urlPatterns = "/reports/lka/getLkaNameById")
 public class LkaNameByIdServlet extends HttpServlet {
+    private LkaService lkaService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        lkaService = ServiceFactory.getServiceFactory().getLkaService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
         try {
@@ -25,8 +34,8 @@ public class LkaNameByIdServlet extends HttpServlet {
         } catch (Exception e) {
             id = -1;
         }
-        System.out.println(id);
-        Lka lka = LkaService.getLkaById(id);
+
+        Lka lka = lkaService.getLkaById(id);
 
         JsonObject jsonObject;
         if (lka != null) {

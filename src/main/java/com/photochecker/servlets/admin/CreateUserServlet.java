@@ -1,7 +1,8 @@
 package com.photochecker.servlets.admin;
 
 import com.photochecker.model.ReportType;
-import com.photochecker.service.MainService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.common.ReportTypeService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,8 +19,17 @@ import java.util.List;
 @WebServlet(name = "CreateUserServlet",
         urlPatterns = "/reports/create_user")
 public class CreateUserServlet extends HttpServlet {
+
+    private ReportTypeService reportTypeService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        reportTypeService = ServiceFactory.getServiceFactory().getReportTypeService();
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ReportType> reportTypes = MainService.getReportTypes();
+        List<ReportType> reportTypes = reportTypeService.getReportTypes();
         System.out.println(reportTypes);
         request.setAttribute("reportTypes", reportTypes);
         request.setAttribute("pageTitle", "Новый сотрудник");

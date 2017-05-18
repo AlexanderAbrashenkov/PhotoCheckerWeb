@@ -1,8 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.lka.ClientCriterias;
-import com.photochecker.model.lka.LkaExpert;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.ClientCriteriasService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +21,15 @@ import java.time.LocalDateTime;
         urlPatterns = "/reports/lka/saveCriterias"
 )
 public class SaveCriteriasServlet extends HttpServlet {
+
+    private ClientCriteriasService clientCriteriasService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        clientCriteriasService = ServiceFactory.getServiceFactory().getClientCriteriasService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClientCriterias clientCriterias = new ClientCriterias(
                 Integer.parseInt(request.getParameter("clientId")),
@@ -57,8 +66,7 @@ public class SaveCriteriasServlet extends HttpServlet {
                 request.getParameter("comm")
         );
 
-        //boolean isSaveSucceed = LkaExpert.saveCriterias(clientCriterias);
-        boolean isSaveSucceed = LkaService.saveCriterias(clientCriterias);
+        boolean isSaveSucceed = clientCriteriasService.saveCriterias(clientCriterias);
         response.getWriter().write(String.valueOf(isSaveSucceed));
     }
 }

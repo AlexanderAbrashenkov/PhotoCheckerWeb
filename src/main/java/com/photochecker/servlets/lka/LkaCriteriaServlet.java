@@ -1,8 +1,8 @@
 package com.photochecker.servlets.lka;
 
 import com.photochecker.model.lka.LkaCriterias;
-import com.photochecker.model.lka.LkaExpert;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.LkaCriteriasService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,8 +19,17 @@ import java.util.List;
 @WebServlet(name = "LkaCriteriaServlet",
 urlPatterns = "/reports/lka_criteria")
 public class LkaCriteriaServlet extends HttpServlet {
+
+    private LkaCriteriasService lkaCriteriasService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        lkaCriteriasService = ServiceFactory.getServiceFactory().getLkaCriteriasService();
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<LkaCriterias> criteriasList = LkaService.getAllLkaCriterias();
+        List<LkaCriterias> criteriasList = lkaCriteriasService.getAllLkaCriterias();
         request.setAttribute("critList", criteriasList);
         request.setAttribute("pageTitle", "Критерии LKA");
         request.setAttribute("pageCategory", "administrate");

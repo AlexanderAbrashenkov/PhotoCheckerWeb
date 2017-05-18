@@ -2,16 +2,12 @@ package com.photochecker.apache_poi;
 
 import com.photochecker.model.TMAActivity;
 import com.photochecker.model.lka.LkaCriterias;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
 import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.*;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -127,7 +123,7 @@ public abstract class AbstractApachePoi implements ApachePoi {
     }*/
 
     public List<LkaCriterias> getLkaCriteriaList() throws IOException {
-        List<LkaCriterias> result = LkaService.getAllLkaCriterias();
+        List<LkaCriterias> result = ServiceFactory.getServiceFactory().getLkaCriteriasService().getAllLkaCriterias();
 /*
         File file = new File("save/критерии выкладка.xlsx");
         if (!file.exists() || !file.isFile())

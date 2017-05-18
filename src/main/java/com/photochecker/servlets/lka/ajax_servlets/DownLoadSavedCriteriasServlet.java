@@ -2,8 +2,8 @@ package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.google.gson.Gson;
 import com.photochecker.model.lka.ClientCriterias;
-import com.photochecker.model.lka.LkaExpert;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.ClientCriteriasService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +20,15 @@ import java.time.LocalDate;
         name = "downLoadSavedCriterias",
         urlPatterns = "/reports/lka/getSavedCriterias")
 public class DownLoadSavedCriteriasServlet extends HttpServlet {
+
+    private ClientCriteriasService clientCriteriasService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        clientCriteriasService = ServiceFactory.getServiceFactory().getClientCriteriasService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sDateFrom = request.getParameter("dateFrom");
         String sDateTo = request.getParameter("dateTo");
@@ -28,7 +37,7 @@ public class DownLoadSavedCriteriasServlet extends HttpServlet {
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
-        ClientCriterias clientCriterias = LkaService.getSavedCriterias(clientId, dateFrom, dateTo);
+        ClientCriterias clientCriterias = clientCriteriasService.getSavedCriterias(clientId, dateFrom, dateTo);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(clientCriterias);

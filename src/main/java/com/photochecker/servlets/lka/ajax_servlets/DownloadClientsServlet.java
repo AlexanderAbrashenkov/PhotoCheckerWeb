@@ -1,8 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.ClientCard;
-import com.photochecker.model.lka.LkaExpert;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.ClientCardService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +22,14 @@ import java.util.List;
         urlPatterns = "/reports/lka/getClients"
 )
 public class DownloadClientsServlet extends HttpServlet {
+    private ClientCardService clientCardService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        clientCardService = ServiceFactory.getServiceFactory().getClientCardService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sDateFrom = request.getParameter("dateFrom");
         String sDateTo = request.getParameter("dateTo");
@@ -31,7 +39,7 @@ public class DownloadClientsServlet extends HttpServlet {
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
-        List<ClientCard> clientCardList = LkaService.getClientCardList(distrId, lkaId, dateFrom, dateTo);
+        List<ClientCard> clientCardList = clientCardService.getClientCardList(distrId, lkaId, dateFrom, dateTo);
         request.setAttribute("clientsList", clientCardList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/addressTable.jsp");
         dispatcher.forward(request, response);

@@ -3,7 +3,8 @@ package com.photochecker.servlets.admin;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photochecker.model.Responsibility;
-import com.photochecker.service.MainService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.common.ResponsibilitiesService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -22,13 +23,22 @@ import java.util.List;
 @WebServlet(name = "SaveResponsibServlet",
 urlPatterns = "/reports/responsib/save")
 public class SaveResponsibServlet extends HttpServlet {
+
+    private ResponsibilitiesService responsibilitiesService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        responsibilitiesService = ServiceFactory.getServiceFactory().getResponsibilitiesService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Gson gson = new Gson();
         Type type = new TypeToken<List<Responsibility>>(){}.getType();
 
         List<Responsibility> respList = gson.fromJson(request.getParameter("respList"), type);
 
-        boolean succeed = MainService.writeResponsibilities(respList);
+        boolean succeed = responsibilitiesService.writeResponsibilities(respList);
 
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("answer", succeed)

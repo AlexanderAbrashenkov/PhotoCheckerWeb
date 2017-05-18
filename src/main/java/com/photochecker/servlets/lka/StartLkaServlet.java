@@ -2,8 +2,9 @@ package com.photochecker.servlets.lka;
 
 import com.photochecker.model.Region;
 import com.photochecker.model.User;
-import com.photochecker.service.LkaService;
-import com.photochecker.service.MainService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.common.CommonService;
+import com.photochecker.service.lka.RegionService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,15 +24,25 @@ import java.util.List;
         urlPatterns = "/reports/lka"
 )
 public class StartLkaServlet extends HttpServlet {
+
+    private CommonService commonService;
+    private RegionService regionService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        commonService = ServiceFactory.getServiceFactory().getCommonService();
+        regionService = ServiceFactory.getServiceFactory().getRegionService();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LocalDate startDate = MainService.getInitialStartDate();
-        LocalDate endDate = MainService.getInitialEndDate();
+        LocalDate startDate = commonService.getInitialStartDate();
+        LocalDate endDate = commonService.getInitialEndDate();
         request.setAttribute("startDate", startDate);
         request.setAttribute("endDate", endDate);
-        //endDate = endDate.plusDays(1);
-        //LkaExpert.setEndDate(endDate);
-        List<Region> regionList = LkaService.getRegions((User) request.getSession().getAttribute("user"),
+
+        List<Region> regionList = regionService.getRegions((User) request.getSession().getAttribute("user"),
                 startDate, endDate);
         request.setAttribute("regionList", regionList);
         request.setAttribute("pageTitle", "Фотоотчет LKA");

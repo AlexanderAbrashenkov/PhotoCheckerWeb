@@ -1,7 +1,8 @@
 package com.photochecker.servlets.lka;
 
 import com.photochecker.model.User;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.ExcelReportService;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.ServletException;
@@ -21,11 +22,20 @@ import java.time.format.DateTimeFormatter;
 @WebServlet(name = "ExcelReportServlet",
     urlPatterns = "/reports/lka/getExcelReport")
 public class ExcelReportServlet extends HttpServlet {
+
+    private ExcelReportService excelReportService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        excelReportService = ServiceFactory.getServiceFactory().getExcelReportService();
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LocalDate dateFrom = LocalDate.parse(request.getParameter("dateFrom"));
         LocalDate dateTo = LocalDate.parse(request.getParameter("dateTo"));
 
-        XSSFWorkbook wb = LkaService.getExcelReport(dateFrom, dateTo, (User) request.getSession().getAttribute("user"));
+        XSSFWorkbook wb = excelReportService.getExcelReport(dateFrom, dateTo, (User) request.getSession().getAttribute("user"));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 

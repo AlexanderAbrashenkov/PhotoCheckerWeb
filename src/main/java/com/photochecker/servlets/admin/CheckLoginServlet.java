@@ -1,6 +1,7 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.service.MainService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.common.UserService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -17,10 +18,19 @@ import java.io.IOException;
 @WebServlet(name = "CheckLoginServlet",
         urlPatterns = "/reports/create_user/check_login")
 public class CheckLoginServlet extends HttpServlet {
+
+    private UserService userService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        userService = ServiceFactory.getServiceFactory().getUserService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
 
-        boolean isLoginFree = !MainService.checkLogin(login);
+        boolean isLoginFree = !userService.checkLogin(login);
 
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("answer", isLoginFree)

@@ -1,8 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.PhotoCard;
-import com.photochecker.model.lka.LkaExpert;
-import com.photochecker.service.LkaService;
+import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.PhotoCardService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +22,15 @@ import java.util.List;
         urlPatterns = "/reports/lka/getPhotos"
 )
 public class DownloadPhotosServlet extends HttpServlet {
+
+    private PhotoCardService photoCardService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        photoCardService = ServiceFactory.getServiceFactory().getPhotoCardService();
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sDateFrom = request.getParameter("dateFrom");
         String sDateTo = request.getParameter("dateTo");
@@ -29,13 +38,8 @@ public class DownloadPhotosServlet extends HttpServlet {
 
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
-        /*dateTo = dateTo.plusDays(1);
 
-        LkaExpert.setStartDate(dateFrom);
-        LkaExpert.setEndDate(dateTo);*/
-
-        //List<PhotoCard> photoCardList = LkaExpert.getPhotoList(clientId);
-        List<PhotoCard>  photoCardList = LkaService.getPhotoList(clientId, dateFrom, dateTo);
+        List<PhotoCard>  photoCardList = photoCardService.getPhotoList(clientId, dateFrom, dateTo);
 
         request.setAttribute("photoList", photoCardList);
 

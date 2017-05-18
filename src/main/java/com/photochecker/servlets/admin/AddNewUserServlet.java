@@ -1,7 +1,6 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.dao.DAOFactory;
-import com.photochecker.model.PersistException;
+import com.photochecker.dao.DaoFactory;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
 import com.photochecker.model.lka.LkaExpert;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,12 +34,7 @@ public class AddNewUserServlet extends HttpServlet {
         String[] reps = reportTypes.split(",");
         Integer[] repsInt = new Integer[reps.length];
 
-        List<ReportType> allReportTypeList = new ArrayList<>();
-        try {
-            allReportTypeList = DAOFactory.getDAOFactory().getReportTypeDAO().findAll();
-        } catch (PersistException e) {
-            e.printStackTrace();
-        }
+        List<ReportType> allReportTypeList = DaoFactory.getDAOFactory().getReportTypeDAO().findAll();
 
         List<ReportType> newUserReports = new ArrayList<>();
         for (int i = 0; i < reps.length; i++) {

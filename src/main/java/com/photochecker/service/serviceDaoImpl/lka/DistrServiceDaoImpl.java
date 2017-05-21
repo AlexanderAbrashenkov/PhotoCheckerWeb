@@ -22,8 +22,8 @@ public class DistrServiceDaoImpl implements DistrService {
 
     public DistrServiceDaoImpl() {
         super();
-        distrDao = DaoFactory.getDAOFactory().getDistrDAO();
-        responsibilityDao = DaoFactory.getDAOFactory().getResponsibilityDAO();
+        distrDao = DaoFactory.getDistrDAO();
+        responsibilityDao = DaoFactory.getResponsibilityDAO();
     }
 
     @Override

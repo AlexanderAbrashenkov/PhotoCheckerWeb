@@ -68,8 +68,8 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     }
 
     private void setClientCardFields() {
-        distrList = DaoFactory.getDAOFactory().getDistrDAO().findAll();
-        lkaList = DaoFactory.getDAOFactory().getLkaDAO().findAll();
+        distrList = DaoFactory.getDistrDAO().findAll();
+        lkaList = DaoFactory.getLkaDAO().findAll();
     }
 
     @Override

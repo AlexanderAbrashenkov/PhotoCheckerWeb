@@ -15,7 +15,7 @@ public class ResponsibilitiesServiceDaoImpl implements ResponsibilitiesService {
     private ResponsibilityDao responsibilityDao;
 
     public ResponsibilitiesServiceDaoImpl() {
-        responsibilityDao = DaoFactory.getDAOFactory().getResponsibilityDAO();
+        responsibilityDao = DaoFactory.getResponsibilityDAO();
     }
 
     @Override

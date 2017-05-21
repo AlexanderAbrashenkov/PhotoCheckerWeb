@@ -15,7 +15,7 @@ public class ClientCriteriasServiceDaoImpl implements ClientCriteriasService {
     private ClientCriteriasDao clientCriteriasDao;
 
     public ClientCriteriasServiceDaoImpl() {
-        clientCriteriasDao = DaoFactory.getDAOFactory().getClientCriteriasDAO();
+        clientCriteriasDao = DaoFactory.getClientCriteriasDAO();
     }
 
     @Override

@@ -33,7 +33,7 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
     }
 
     private void setPhotoCardFields() {
-        reportTypeList = DaoFactory.getDAOFactory().getReportTypeDAO().findAll();
+        reportTypeList = DaoFactory.getReportTypeDAO().findAll();
     }
 
     private RowMapper<PhotoCard> photoCardRowMapper = (resultSet, i) -> {

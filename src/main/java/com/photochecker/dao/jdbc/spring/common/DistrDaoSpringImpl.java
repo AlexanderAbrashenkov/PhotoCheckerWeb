@@ -45,7 +45,7 @@ public class DistrDaoSpringImpl implements DistrDao {
     }
 
     private void setDistrFields() {
-        regionList = DaoFactory.getDAOFactory().getRegionDAO().findAll();
+        regionList = DaoFactory.getRegionDAO().findAll();
     }
 
     @Override

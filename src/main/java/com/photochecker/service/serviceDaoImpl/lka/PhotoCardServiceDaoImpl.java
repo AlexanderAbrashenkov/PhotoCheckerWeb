@@ -19,8 +19,8 @@ public class PhotoCardServiceDaoImpl implements PhotoCardService {
 
     public PhotoCardServiceDaoImpl() {
         super();
-        reportTypeDao = DaoFactory.getDAOFactory().getReportTypeDAO();
-        photoCardDao = DaoFactory.getDAOFactory().getPhotoCardDAO();
+        reportTypeDao = DaoFactory.getReportTypeDAO();
+        photoCardDao = DaoFactory.getPhotoCardDAO();
     }
 
     @Override

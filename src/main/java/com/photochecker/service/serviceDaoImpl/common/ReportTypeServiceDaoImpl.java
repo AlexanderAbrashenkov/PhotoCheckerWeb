@@ -15,7 +15,7 @@ public class ReportTypeServiceDaoImpl implements ReportTypeService {
     private ReportTypeDao reportTypeDao;
 
     public ReportTypeServiceDaoImpl() {
-        reportTypeDao = DaoFactory.getDAOFactory().getReportTypeDAO();
+        reportTypeDao = DaoFactory.getReportTypeDAO();
     }
 
     @Override

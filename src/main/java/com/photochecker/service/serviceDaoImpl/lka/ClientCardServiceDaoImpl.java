@@ -19,8 +19,8 @@ public class ClientCardServiceDaoImpl implements ClientCardService {
 
     public ClientCardServiceDaoImpl() {
         super();
-        lkaDao = DaoFactory.getDAOFactory().getLkaDAO();
-        clientCardDao = DaoFactory.getDAOFactory().getClientCardDAO();
+        lkaDao = DaoFactory.getLkaDAO();
+        clientCardDao = DaoFactory.getClientCardDAO();
     }
 
     @Override

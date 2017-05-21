@@ -15,7 +15,7 @@ public class LkaCriteriasServiceDaoImpl implements LkaCriteriasService {
     private LkaCriteriasDao lkaCriteriasDao;
 
     public LkaCriteriasServiceDaoImpl() {
-        lkaCriteriasDao = DaoFactory.getDAOFactory().getLkaCriteriasDAO();
+        lkaCriteriasDao = DaoFactory.getLkaCriteriasDAO();
     }
 
     @Override

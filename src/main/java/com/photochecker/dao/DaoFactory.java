@@ -1,74 +1,65 @@
 package com.photochecker.dao;
 
 import com.photochecker.dao.common.*;
-import com.photochecker.dao.jdbc.spring.DaoFactorySpringImpl;
+import com.photochecker.dao.jdbc.spring.common.*;
+import com.photochecker.dao.jdbc.spring.lka.ClientCriteriasDaoSpringImpl;
+import com.photochecker.dao.jdbc.spring.lka.LkaCriteriasDaoSpringImpl;
+import com.photochecker.dao.jdbc.spring.lka.LkaReportItemDaoSpringImpl;
 import com.photochecker.dao.lka.ClientCriteriasDao;
 import com.photochecker.dao.lka.LkaCriteriasDao;
 import com.photochecker.dao.lka.LkaReportItemDao;
-import com.photochecker.dao.jdbc.mysql.DaoFactoryMySqlImpl;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by market6 on 27.04.2017.
  */
-public abstract class DaoFactory {
+public class DaoFactory {
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
 
-    public static final int MYSQL = 1;
-    public static final int SPRING = 2;
+    public static RegionDao getRegionDAO() {
+        return context.getBean(RegionDaoSpringImpl.class);
+    };
 
-    private static DaoFactory daoFactory = createDAOFactory();
+    public static DistrDao getDistrDAO() {
+        return context.getBean(DistrDaoSpringImpl.class);
+    };
 
-    public static DaoFactory getDAOFactory() {
-        return daoFactory;
-    }
+    public static LkaDao getLkaDAO() {
+        return context.getBean(LkaDaoSpringImpl.class);
+    };
 
-    private static DaoFactory createDAOFactory() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Properties properties = new Properties();
-        DaoFactory daoFactory = null;
+    public static ClientCardDao getClientCardDAO() {
+        return context.getBean(ClientCardDaoSpringImpl.class);
+    };
 
-        try (InputStream in = classLoader.getResourceAsStream("config.properties")) {
-            properties.load(in);
-            switch (properties.getProperty("data.storage")) {
-                case "MySql":
-                    daoFactory = new DaoFactoryMySqlImpl();
-                    break;
-                case "Spring":
-                    daoFactory = new DaoFactorySpringImpl();
-                    break;
-                default:
-                    daoFactory = new DaoFactoryMySqlImpl();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return daoFactory;
-    }
+    public static PhotoCardDao getPhotoCardDAO() {
+        return context.getBean(PhotoCardDaoSpringImpl.class);
+    };
 
-    public abstract RegionDao getRegionDAO();
+    public static ReportTypeDao getReportTypeDAO() {
+        return context.getBean(ReportTypeDaoSpringImpl.class);
+    };
 
-    public abstract DistrDao getDistrDAO();
+    public static ResponsibilityDao getResponsibilityDAO() {
+        return context.getBean(ResponsibilityDaoSpringImpl.class);
+    };
 
-    public abstract LkaDao getLkaDAO();
-
-    public abstract ClientCardDao getClientCardDAO();
-
-    public abstract PhotoCardDao getPhotoCardDAO();
-
-    public abstract ReportTypeDao getReportTypeDAO();
-
-    public abstract ResponsibilityDao getResponsibilityDAO();
-
-    public abstract UserDao getUserDAO();
+    public static UserDao getUserDAO() {
+        return context.getBean(UserDaoSpringImpl.class);
+    };
 
 
 
-    public abstract ClientCriteriasDao getClientCriteriasDAO();
+    public static ClientCriteriasDao getClientCriteriasDAO() {
+        return context.getBean(ClientCriteriasDaoSpringImpl.class);
+    };
 
-    public abstract LkaCriteriasDao getLkaCriteriasDAO();
+    public static LkaCriteriasDao getLkaCriteriasDAO() {
+        return context.getBean(LkaCriteriasDaoSpringImpl.class);
+    };
 
-    public abstract LkaReportItemDao getLkaReportItemDAO();
+    public static LkaReportItemDao getLkaReportItemDAO() {
+        return context.getBean(LkaReportItemDaoSpringImpl.class);
+    };
 }

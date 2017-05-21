@@ -22,8 +22,8 @@ public class UserServiceDaoImpl implements UserService {
 
     public UserServiceDaoImpl() {
         super();
-        reportTypeDao = DaoFactory.getDAOFactory().getReportTypeDAO();
-        userDao = DaoFactory.getDAOFactory().getUserDAO();
+        reportTypeDao = DaoFactory.getReportTypeDAO();
+        userDao = DaoFactory.getUserDAO();
     }
 
     @Override

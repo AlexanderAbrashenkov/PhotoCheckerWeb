@@ -42,8 +42,8 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
     }
 
     private void setResponsibilityFields() {
-        reportTypeList = DaoFactory.getDAOFactory().getReportTypeDAO().findAll();
-        distrList = DaoFactory.getDAOFactory().getDistrDAO().findAll();
+        reportTypeList = DaoFactory.getReportTypeDAO().findAll();
+        distrList = DaoFactory.getDistrDAO().findAll();
     }
 
     private RowMapper<Responsibility> responsibilityRowMapper = (resultSet, i) -> {
@@ -61,7 +61,7 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
                 .findFirst()
                 .get();
 
-        User user = DaoFactory.getDAOFactory().getUserDAO().find(userId);
+        User user = DaoFactory.getUserDAO().find(userId);
 
         return new Responsibility(
                 reportType,

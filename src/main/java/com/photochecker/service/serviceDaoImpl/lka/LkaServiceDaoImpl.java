@@ -20,8 +20,8 @@ public class LkaServiceDaoImpl implements LkaService {
 
     public LkaServiceDaoImpl() {
         super();
-        distrDao = DaoFactory.getDAOFactory().getDistrDAO();
-        lkaDao = DaoFactory.getDAOFactory().getLkaDAO();
+        distrDao = DaoFactory.getDistrDAO();
+        lkaDao = DaoFactory.getLkaDAO();
     }
 
     @Override

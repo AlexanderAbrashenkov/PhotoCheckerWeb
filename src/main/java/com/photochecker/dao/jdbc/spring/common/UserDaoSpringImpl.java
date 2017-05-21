@@ -37,7 +37,7 @@ public class UserDaoSpringImpl implements UserDao {
 
         User user = new User(id, login, userName, userRole, null);
 
-        List<ReportType> reportTypeList = DaoFactory.getDAOFactory().getReportTypeDAO().findAllByUser(user);
+        List<ReportType> reportTypeList = DaoFactory.getReportTypeDAO().findAllByUser(user);
 
         user.setReportTypeList(reportTypeList);
 

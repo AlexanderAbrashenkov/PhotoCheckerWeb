@@ -45,7 +45,7 @@ public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
 
     private void serLkaCriteriasFields() {
         if (lkaList == null) {
-            lkaList = DaoFactory.getDAOFactory().getLkaDAO().findAll();
+            lkaList = DaoFactory.getLkaDAO().findAll();
         }
     }
 

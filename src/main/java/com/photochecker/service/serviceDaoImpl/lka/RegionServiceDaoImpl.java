@@ -22,8 +22,8 @@ public class RegionServiceDaoImpl implements RegionService {
 
     public RegionServiceDaoImpl() {
         super();
-        regionDao = DaoFactory.getDAOFactory().getRegionDAO();
-        responsibilityDao = DaoFactory.getDAOFactory().getResponsibilityDAO();
+        regionDao = DaoFactory.getRegionDAO();
+        responsibilityDao = DaoFactory.getResponsibilityDAO();
     }
 
     @Override

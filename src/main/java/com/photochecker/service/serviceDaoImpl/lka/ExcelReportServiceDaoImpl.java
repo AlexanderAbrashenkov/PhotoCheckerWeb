@@ -27,8 +27,8 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
     private ResponsibilityDao responsibilityDao;
 
     public ExcelReportServiceDaoImpl() {
-        lkaReportItemDao = DaoFactory.getDAOFactory().getLkaReportItemDAO();
-        responsibilityDao = DaoFactory.getDAOFactory().getResponsibilityDAO();
+        lkaReportItemDao = DaoFactory.getLkaReportItemDAO();
+        responsibilityDao = DaoFactory.getResponsibilityDAO();
     }
 
     @Override

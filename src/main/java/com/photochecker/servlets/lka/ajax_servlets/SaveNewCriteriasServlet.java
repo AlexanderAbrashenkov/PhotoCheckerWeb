@@ -3,8 +3,9 @@ package com.photochecker.servlets.lka.ajax_servlets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photochecker.model.lka.LkaCriterias;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.lka.LkaCriteriasService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -29,7 +30,8 @@ public class SaveNewCriteriasServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        lkaCriteriasService = ServiceFactory.getServiceFactory().getLkaCriteriasService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        lkaCriteriasService = (LkaCriteriasService) context.getBean("lkaCriteriasService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

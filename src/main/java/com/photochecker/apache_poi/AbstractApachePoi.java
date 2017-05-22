@@ -2,10 +2,12 @@ package com.photochecker.apache_poi;
 
 import com.photochecker.model.TMAActivity;
 import com.photochecker.model.lka.LkaCriterias;
-import com.photochecker.service.ServiceFactory;
+import com.photochecker.service.lka.LkaCriteriasService;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.*;
 import java.util.*;
@@ -123,7 +125,8 @@ public abstract class AbstractApachePoi implements ApachePoi {
     }*/
 
     public List<LkaCriterias> getLkaCriteriaList() throws IOException {
-        List<LkaCriterias> result = ServiceFactory.getServiceFactory().getLkaCriteriasService().getAllLkaCriterias();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        List<LkaCriterias> result = ((LkaCriteriasService) context.getBean("lkaCriteriasService")).getAllLkaCriterias();
 /*
         File file = new File("save/критерии выкладка.xlsx");
         if (!file.exists() || !file.isFile())

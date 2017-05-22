@@ -2,7 +2,6 @@ package com.photochecker.service.serviceDaoImpl.lka;
 
 import com.photochecker.apache_poi.ApachePoi;
 import com.photochecker.apache_poi.ApachePoiManager;
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.dao.lka.LkaReportItemDao;
 import com.photochecker.model.Responsibility;
@@ -10,6 +9,9 @@ import com.photochecker.model.User;
 import com.photochecker.model.lka.LkaReportItem;
 import com.photochecker.service.lka.ExcelReportService;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,13 +25,16 @@ import java.util.stream.Collectors;
  */
 public class ExcelReportServiceDaoImpl implements ExcelReportService {
 
+    @Autowired
     private LkaReportItemDao lkaReportItemDao;
+    @Autowired
     private ResponsibilityDao responsibilityDao;
 
-    public ExcelReportServiceDaoImpl() {
-        lkaReportItemDao = DaoFactory.getLkaReportItemDAO();
-        responsibilityDao = DaoFactory.getResponsibilityDAO();
-    }
+    /*public ExcelReportServiceDaoImpl() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        lkaReportItemDao = (LkaReportItemDao) context.getBean("lkaReportItemDao");
+        responsibilityDao = (ResponsibilityDao) context.getBean("responsibilityDao");
+    }*/
 
     @Override
     public XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {

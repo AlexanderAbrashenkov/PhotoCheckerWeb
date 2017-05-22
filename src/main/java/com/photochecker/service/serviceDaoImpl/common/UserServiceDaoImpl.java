@@ -1,11 +1,13 @@
 package com.photochecker.service.serviceDaoImpl.common;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.dao.common.UserDao;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
 import com.photochecker.service.common.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,14 +19,16 @@ import java.util.stream.Collectors;
  */
 public class UserServiceDaoImpl implements UserService {
 
+    @Autowired
     private ReportTypeDao reportTypeDao;
+    @Autowired
     private UserDao userDao;
 
-    public UserServiceDaoImpl() {
-        super();
-        reportTypeDao = DaoFactory.getReportTypeDAO();
-        userDao = DaoFactory.getUserDAO();
-    }
+    /*public UserServiceDaoImpl() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        reportTypeDao = (ReportTypeDao) context.getBean("reportTypeDao");
+        userDao = (UserDao) context.getBean("userDao");
+    }*/
 
     @Override
     public Map<Integer, List<User>> getRespUsers() {

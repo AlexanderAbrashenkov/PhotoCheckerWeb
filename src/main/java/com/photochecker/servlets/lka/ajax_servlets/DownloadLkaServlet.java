@@ -1,8 +1,9 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.Lka;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.lka.LkaService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,7 +28,8 @@ public class DownloadLkaServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        lkaService = ServiceFactory.getServiceFactory().getLkaService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        lkaService = (LkaService) context.getBean("lkaService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

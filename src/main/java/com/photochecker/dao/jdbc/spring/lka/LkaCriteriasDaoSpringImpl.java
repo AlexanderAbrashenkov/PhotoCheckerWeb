@@ -1,9 +1,12 @@
 package com.photochecker.dao.jdbc.spring.lka;
 
-import com.photochecker.dao.DaoFactory;
+import com.photochecker.dao.common.LkaDao;
 import com.photochecker.dao.lka.LkaCriteriasDao;
 import com.photochecker.model.Lka;
 import com.photochecker.model.lka.LkaCriterias;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -20,6 +23,9 @@ import java.util.List;
 public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
 
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private LkaDao lkaDao;
 
     private List<Lka> lkaList;
 
@@ -39,13 +45,16 @@ public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
     private final String SQL_REMOVE = "DELETE FROM `lka_criterias_db`\n" +
             "WHERE `lka_id` = ?";
 
+    @Autowired
     public LkaCriteriasDaoSpringImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private void serLkaCriteriasFields() {
         if (lkaList == null) {
-            lkaList = DaoFactory.getLkaDAO().findAll();
+            /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+            lkaList = ((LkaDao) context.getBean("lkaDao")).findAll();*/
+            lkaList = lkaDao.findAll();
         }
     }
 

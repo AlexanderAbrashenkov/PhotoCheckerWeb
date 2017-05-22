@@ -3,8 +3,9 @@ package com.photochecker.servlets.admin;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photochecker.model.Responsibility;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.common.ResponsibilitiesService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -29,7 +30,8 @@ public class SaveResponsibServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        responsibilitiesService = ServiceFactory.getServiceFactory().getResponsibilitiesService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        responsibilitiesService = (ResponsibilitiesService) context.getBean("responsibilitiesService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

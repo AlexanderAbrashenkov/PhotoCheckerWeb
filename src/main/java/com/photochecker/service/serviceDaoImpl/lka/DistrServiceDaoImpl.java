@@ -1,12 +1,14 @@
 package com.photochecker.service.serviceDaoImpl.lka;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.DistrDao;
 import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Responsibility;
 import com.photochecker.model.User;
 import com.photochecker.service.lka.DistrService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,14 +19,16 @@ import java.util.stream.Collectors;
  */
 public class DistrServiceDaoImpl implements DistrService {
 
+    @Autowired
     private DistrDao distrDao;
+    @Autowired
     private ResponsibilityDao responsibilityDao;
 
-    public DistrServiceDaoImpl() {
-        super();
-        distrDao = DaoFactory.getDistrDAO();
-        responsibilityDao = DaoFactory.getResponsibilityDAO();
-    }
+    /*public DistrServiceDaoImpl() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        distrDao = (DistrDao) context.getBean("distrDao");
+        responsibilityDao = (ResponsibilityDao) context.getBean("responsibilityDao");
+    }*/
 
     @Override
     public List<Distr> getDistrs(User user, int regionId, LocalDate dateFrom, LocalDate dateTo) {

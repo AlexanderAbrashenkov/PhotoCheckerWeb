@@ -1,9 +1,10 @@
 package com.photochecker.servlets.lka;
 
 import com.photochecker.model.User;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.lka.ExcelReportService;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +29,8 @@ public class ExcelReportServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        excelReportService = ServiceFactory.getServiceFactory().getExcelReportService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        excelReportService = (ExcelReportService) context.getBean("excelReportService");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

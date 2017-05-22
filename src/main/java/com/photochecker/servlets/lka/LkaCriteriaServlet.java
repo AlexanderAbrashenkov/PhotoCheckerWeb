@@ -1,8 +1,9 @@
 package com.photochecker.servlets.lka;
 
 import com.photochecker.model.lka.LkaCriterias;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.lka.LkaCriteriasService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +26,8 @@ public class LkaCriteriaServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        lkaCriteriasService = ServiceFactory.getServiceFactory().getLkaCriteriasService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        lkaCriteriasService = (LkaCriteriasService) context.getBean("lkaCriteriasService");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

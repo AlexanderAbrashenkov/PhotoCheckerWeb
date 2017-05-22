@@ -2,6 +2,7 @@ package com.photochecker.dao.jdbc.spring.common;
 
 import com.photochecker.dao.common.RegionDao;
 import com.photochecker.model.Region;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -35,6 +36,7 @@ public class RegionDaoSpringImpl implements RegionDao {
             "where pc.`date` >= :startDate and pc.`date` < :endDate\n" +
             "order by 1;";
 
+    @Autowired
     public RegionDaoSpringImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }

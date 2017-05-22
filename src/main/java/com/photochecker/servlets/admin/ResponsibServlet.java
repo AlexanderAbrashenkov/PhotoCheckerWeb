@@ -2,9 +2,10 @@ package com.photochecker.servlets.admin;
 
 import com.photochecker.model.Responsibility;
 import com.photochecker.model.User;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.common.ResponsibilitiesService;
 import com.photochecker.service.common.UserService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,8 +30,9 @@ public class ResponsibServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        responsibilitiesService = ServiceFactory.getServiceFactory().getResponsibilitiesService();
-        userService = ServiceFactory.getServiceFactory().getUserService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        responsibilitiesService = (ResponsibilitiesService) context.getBean("responsibilitiesService");
+        userService = (UserService) context.getBean("userService");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

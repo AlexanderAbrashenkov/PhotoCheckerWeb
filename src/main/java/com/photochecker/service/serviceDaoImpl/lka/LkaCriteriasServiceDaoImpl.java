@@ -1,9 +1,11 @@
 package com.photochecker.service.serviceDaoImpl.lka;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.lka.LkaCriteriasDao;
 import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.service.lka.LkaCriteriasService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -12,11 +14,13 @@ import java.util.List;
  */
 public class LkaCriteriasServiceDaoImpl implements LkaCriteriasService {
 
+    @Autowired
     private LkaCriteriasDao lkaCriteriasDao;
 
-    public LkaCriteriasServiceDaoImpl() {
-        lkaCriteriasDao = DaoFactory.getLkaCriteriasDAO();
-    }
+    /*public LkaCriteriasServiceDaoImpl() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        lkaCriteriasDao = (LkaCriteriasDao) context.getBean("lkaCriteriasDao");
+    }*/
 
     @Override
     public LkaCriterias getLkaCriterias(int lkaId) {

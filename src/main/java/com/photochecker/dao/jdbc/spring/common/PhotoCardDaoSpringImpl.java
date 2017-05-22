@@ -1,9 +1,12 @@
 package com.photochecker.dao.jdbc.spring.common;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.PhotoCardDao;
+import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.model.PhotoCard;
 import com.photochecker.model.ReportType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -20,6 +23,9 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
     private JdbcTemplate jdbcTemplate;
     private List<ReportType> reportTypeList;
 
+    @Autowired
+    private ReportTypeDao reportTypeDao;
+
     private final String SQL_FIND_BY_PARAMS = "select pc.`url`, pc.`date`, pc.`date_add`, pc.`comment`, pc.`checked`, pc.`client_id`, pc.`report_type`\n" +
             "from `photo_card` pc\n" +
             "inner join `client_card` cc on cc.`client_id` = pc.`client_id`\n" +
@@ -28,12 +34,15 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
             "and pc.`report_type` = ?\n" +
             "order by 2;";
 
+    @Autowired
     public PhotoCardDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private void setPhotoCardFields() {
-        reportTypeList = DaoFactory.getReportTypeDAO().findAll();
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        reportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAll();*/
+        reportTypeList = reportTypeDao.findAll();
     }
 
     private RowMapper<PhotoCard> photoCardRowMapper = (resultSet, i) -> {

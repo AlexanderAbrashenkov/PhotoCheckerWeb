@@ -1,9 +1,11 @@
 package com.photochecker.service.serviceDaoImpl.common;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.model.Responsibility;
 import com.photochecker.service.common.ResponsibilitiesService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -12,11 +14,13 @@ import java.util.List;
  */
 public class ResponsibilitiesServiceDaoImpl implements ResponsibilitiesService {
 
+    @Autowired
     private ResponsibilityDao responsibilityDao;
 
-    public ResponsibilitiesServiceDaoImpl() {
-        responsibilityDao = DaoFactory.getResponsibilityDAO();
-    }
+    /*public ResponsibilitiesServiceDaoImpl() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        responsibilityDao = (ResponsibilityDao) context.getBean("responsibilityDao");
+    }*/
 
     @Override
     public List<Responsibility> getAllResponsibilities() {

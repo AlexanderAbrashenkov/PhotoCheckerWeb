@@ -2,8 +2,9 @@ package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.Distr;
 import com.photochecker.model.User;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.lka.DistrService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,7 +29,8 @@ public class DownloadDistrsServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        distrService = ServiceFactory.getServiceFactory().getDistrService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        distrService = (DistrService) context.getBean("distrService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

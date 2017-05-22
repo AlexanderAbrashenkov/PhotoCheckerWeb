@@ -1,9 +1,11 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.dao.DaoFactory;
+import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
 import com.photochecker.model.lka.LkaExpert;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -34,7 +36,8 @@ public class AddNewUserServlet extends HttpServlet {
         String[] reps = reportTypes.split(",");
         Integer[] repsInt = new Integer[reps.length];
 
-        List<ReportType> allReportTypeList = DaoFactory.getDAOFactory().getReportTypeDAO().findAll();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        List<ReportType> allReportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAll();
 
         List<ReportType> newUserReports = new ArrayList<>();
         for (int i = 0; i < reps.length; i++) {

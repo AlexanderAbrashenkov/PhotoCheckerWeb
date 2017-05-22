@@ -1,12 +1,14 @@
 package com.photochecker.service.serviceDaoImpl.lka;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.RegionDao;
 import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.model.Region;
 import com.photochecker.model.Responsibility;
 import com.photochecker.model.User;
 import com.photochecker.service.lka.RegionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,14 +19,16 @@ import java.util.stream.Collectors;
  */
 public class RegionServiceDaoImpl implements RegionService {
 
+    @Autowired
     private RegionDao regionDao;
+    @Autowired
     private ResponsibilityDao responsibilityDao;
 
-    public RegionServiceDaoImpl() {
-        super();
-        regionDao = DaoFactory.getRegionDAO();
-        responsibilityDao = DaoFactory.getResponsibilityDAO();
-    }
+    /*public RegionServiceDaoImpl() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        regionDao = (RegionDao) context.getBean("regionDao");
+        responsibilityDao = (ResponsibilityDao) context.getBean("responsibilityDao");
+    }*/
 
     @Override
     public List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate) {

@@ -3,6 +3,7 @@ package com.photochecker.dao.jdbc.spring.lka;
 import com.photochecker.dao.lka.LkaReportItemDao;
 import com.photochecker.model.lka.ClientCriterias;
 import com.photochecker.model.lka.LkaReportItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -34,6 +35,7 @@ public class LkaReportItemDaoSpringImpl implements LkaReportItemDao {
             "and p.report_type = ?\n" +
             "order by r.region_name, d.distr_name, c.lka_id, c.client_id, photo_date";
 
+    @Autowired
     public LkaReportItemDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }

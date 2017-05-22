@@ -1,11 +1,16 @@
 package com.photochecker.dao.jdbc.spring.common;
 
-import com.photochecker.dao.DaoFactory;
+import com.photochecker.dao.common.DistrDao;
+import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.dao.common.ResponsibilityDao;
+import com.photochecker.dao.common.UserDao;
 import com.photochecker.model.Distr;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.Responsibility;
 import com.photochecker.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -25,6 +30,11 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
     private List<ReportType> reportTypeList;
     private List<Distr> distrList;
 
+    @Autowired
+    private ReportTypeDao reportTypeDao;
+    @Autowired
+    private DistrDao distrDao;
+
     private final String SQL_FIND_ALL = "SELECT * FROM `responsibility_db`";
 
     private final String SQL_UPDATE = "UPDATE `responsibility_db`\n" +
@@ -37,13 +47,17 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
             "WHERE\n" +
             "res.`resp_user` = ?";
 
+    @Autowired
     public ResponsibilityDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private void setResponsibilityFields() {
-        reportTypeList = DaoFactory.getReportTypeDAO().findAll();
-        distrList = DaoFactory.getDistrDAO().findAll();
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        reportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAll();
+        distrList = ((DistrDao) context.getBean("distrDao")).findAll();*/
+        reportTypeList = reportTypeDao.findAll();
+        distrList = distrDao.findAll();
     }
 
     private RowMapper<Responsibility> responsibilityRowMapper = (resultSet, i) -> {
@@ -61,7 +75,8 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
                 .findFirst()
                 .get();
 
-        User user = DaoFactory.getUserDAO().find(userId);
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        User user = ((UserDao) context.getBean("userDao")).find(userId);
 
         return new Responsibility(
                 reportType,
@@ -82,6 +97,7 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
 
     @Override
     public List<Responsibility> findAll() {
+        setResponsibilityFields();
         return jdbcTemplate.query(SQL_FIND_ALL, responsibilityRowMapper);
     }
 
@@ -105,6 +121,7 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
 
     @Override
     public List<Responsibility> findAllByUser(User user) {
+        setResponsibilityFields();
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, responsibilityRowMapper,
                 user.getId());
     }

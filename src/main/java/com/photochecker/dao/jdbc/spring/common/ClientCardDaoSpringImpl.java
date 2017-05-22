@@ -1,20 +1,21 @@
 package com.photochecker.dao.jdbc.spring.common;
 
-import com.photochecker.dao.DaoFactory;
 import com.photochecker.dao.common.ClientCardDao;
+import com.photochecker.dao.common.DistrDao;
+import com.photochecker.dao.common.LkaDao;
 import com.photochecker.model.ClientCard;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Lka;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by market6 on 18.05.2017.
@@ -35,6 +36,11 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     private JdbcTemplate jdbcTemplate;
     private List<Distr> distrList;
     private List<Lka> lkaList;
+
+    @Autowired
+    private DistrDao distrDao;
+    @Autowired
+    private LkaDao lkaDao;
 
     private RowMapper<ClientCard> clientCardRowMapper = (resultSet, i) -> {
 
@@ -63,13 +69,17 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
         );
     };
 
+    @Autowired
     public ClientCardDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private void setClientCardFields() {
-        distrList = DaoFactory.getDistrDAO().findAll();
-        lkaList = DaoFactory.getLkaDAO().findAll();
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        distrList = ((DistrDao) context.getBean("distrDao")).findAll();
+        lkaList = ((LkaDao) context.getBean("lkaDao")).findAll();*/
+        distrList = distrDao.findAll();
+        lkaList = lkaDao.findAll();
     }
 
     @Override

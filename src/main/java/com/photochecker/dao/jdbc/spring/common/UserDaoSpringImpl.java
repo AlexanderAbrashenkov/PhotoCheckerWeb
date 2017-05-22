@@ -1,9 +1,12 @@
 package com.photochecker.dao.jdbc.spring.common;
 
-import com.photochecker.dao.DaoFactory;
+import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.dao.common.UserDao;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -28,6 +31,9 @@ public class UserDaoSpringImpl implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ReportTypeDao reportTypeDao;
+
     private RowMapper<User> userRowMapper = (resultSet, i) -> {
         int id = resultSet.getInt("id");
         String login = resultSet.getString("user_login");
@@ -37,13 +43,16 @@ public class UserDaoSpringImpl implements UserDao {
 
         User user = new User(id, login, userName, userRole, null);
 
-        List<ReportType> reportTypeList = DaoFactory.getReportTypeDAO().findAllByUser(user);
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        List<ReportType> reportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAllByUser(user);*/
+        List<ReportType> reportTypeList = reportTypeDao.findAllByUser(user);
 
         user.setReportTypeList(reportTypeList);
 
         return user;
     };
 
+    @Autowired
     public UserDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }

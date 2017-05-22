@@ -3,6 +3,7 @@ package com.photochecker.dao.jdbc.spring.common;
 import com.photochecker.dao.common.LkaDao;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Lka;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -31,6 +32,7 @@ public class LkaDaoSpringImpl implements LkaDao {
             "and cc.`distributor_id` = ?\n" +
             "order by 1;";
 
+    @Autowired
     public LkaDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }

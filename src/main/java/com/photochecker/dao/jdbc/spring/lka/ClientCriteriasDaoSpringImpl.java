@@ -2,6 +2,7 @@ package com.photochecker.dao.jdbc.spring.lka;
 
 import com.photochecker.dao.lka.ClientCriteriasDao;
 import com.photochecker.model.lka.ClientCriterias;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -55,6 +56,7 @@ public class ClientCriteriasDaoSpringImpl implements ClientCriteriasDao {
             "AND `date_from` = ?\n" +
             "AND `date_to` = ?";
 
+    @Autowired
     public ClientCriteriasDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }

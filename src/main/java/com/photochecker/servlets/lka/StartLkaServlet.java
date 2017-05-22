@@ -2,9 +2,10 @@ package com.photochecker.servlets.lka;
 
 import com.photochecker.model.Region;
 import com.photochecker.model.User;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.common.CommonService;
 import com.photochecker.service.lka.RegionService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,8 +32,9 @@ public class StartLkaServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        commonService = ServiceFactory.getServiceFactory().getCommonService();
-        regionService = ServiceFactory.getServiceFactory().getRegionService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        commonService = (CommonService) context.getBean("commonService");
+        regionService = (RegionService) context.getBean("regionService");
     }
 
     @Override

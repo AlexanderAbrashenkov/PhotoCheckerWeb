@@ -3,6 +3,7 @@ package com.photochecker.dao.jdbc.spring.common;
 import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.model.ReportType;
 import com.photochecker.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -26,6 +27,7 @@ public class ReportTypeDaoSpringImpl implements ReportTypeDao {
             "INNER JOIN `report_type_user` ru ON ru.`report_type` = r.`id`\n" +
             "where ru.`user_id` = ?";
 
+    @Autowired
     public ReportTypeDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }

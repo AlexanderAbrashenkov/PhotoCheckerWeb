@@ -1,8 +1,9 @@
 package com.photochecker.servlets;
 
 import com.photochecker.model.*;
-import com.photochecker.service.ServiceFactory;
 import com.photochecker.service.common.UserService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +26,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        userService = ServiceFactory.getServiceFactory().getUserService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        userService = (UserService) context.getBean("userService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

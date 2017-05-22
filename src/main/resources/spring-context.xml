@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <jee:jndi-lookup jndi-name="jdbc/library" id="dbDataSource" expected-type="javax.sql.DataSource" />
+    <context:annotation-config />
 
-    <bean id="regionDaoSpring" class="com.photochecker.dao.jdbc.spring.common.RegionDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
+    <jee:jndi-lookup jndi-name="jdbc/library" id="dataSource" expected-type="javax.sql.DataSource" />
 
-    <bean id="clientCardDaoSpring" class="com.photochecker.dao.jdbc.spring.common.ClientCardDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
+    <bean id="regionDao" class="com.photochecker.dao.jdbc.spring.common.RegionDaoSpringImpl" />
+    <bean id="clientCardDao" class="com.photochecker.dao.jdbc.spring.common.ClientCardDaoSpringImpl" />
+    <bean id="distrDao" class="com.photochecker.dao.jdbc.spring.common.DistrDaoSpringImpl" />
+    <bean id="lkaDao" class="com.photochecker.dao.jdbc.spring.common.LkaDaoSpringImpl" />
+    <bean id="photoCardDao" class="com.photochecker.dao.jdbc.spring.common.PhotoCardDaoSpringImpl" />
+    <bean id="reportTypeDao" class="com.photochecker.dao.jdbc.spring.common.ReportTypeDaoSpringImpl" />
+    <bean id="responsibilityDao" class="com.photochecker.dao.jdbc.spring.common.ResponsibilityDaoSpringImpl" />
+    <bean id="userDao" class="com.photochecker.dao.jdbc.spring.common.UserDaoSpringImpl" />
+    <bean id="clientCriteriasDao" class="com.photochecker.dao.jdbc.spring.lka.ClientCriteriasDaoSpringImpl" />
+    <bean id="lkaCriteriasDao" class="com.photochecker.dao.jdbc.spring.lka.LkaCriteriasDaoSpringImpl" />
+    <bean id="lkaReportItemDao" class="com.photochecker.dao.jdbc.spring.lka.LkaReportItemDaoSpringImpl" />
 
-    <bean id="distrDaoSpring" class="com.photochecker.dao.jdbc.spring.common.DistrDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
+    <bean id="commonService" class="com.photochecker.service.serviceDaoImpl.common.CommonServiceDaoImpl" />
+    <bean id="reportTypeService" class="com.photochecker.service.serviceDaoImpl.common.ReportTypeServiceDaoImpl" />
+    <bean id="responsibilitiesService" class="com.photochecker.service.serviceDaoImpl.common.ResponsibilitiesServiceDaoImpl" />
+    <bean id="userService" class="com.photochecker.service.serviceDaoImpl.common.UserServiceDaoImpl" />
+    <bean id="clientCardService" class="com.photochecker.service.serviceDaoImpl.lka.ClientCardServiceDaoImpl" />
+    <bean id="clientCriteriasService" class="com.photochecker.service.serviceDaoImpl.lka.ClientCriteriasServiceDaoImpl" />
+    <bean id="distrService" class="com.photochecker.service.serviceDaoImpl.lka.DistrServiceDaoImpl" />
+    <bean id="excelReportService" class="com.photochecker.service.serviceDaoImpl.lka.ExcelReportServiceDaoImpl" />
+    <bean id="lkaCriteriasService" class="com.photochecker.service.serviceDaoImpl.lka.LkaCriteriasServiceDaoImpl" />
+    <bean id="lkaService" class="com.photochecker.service.serviceDaoImpl.lka.LkaServiceDaoImpl" />
+    <bean id="photoCardService" class="com.photochecker.service.serviceDaoImpl.lka.PhotoCardServiceDaoImpl" />
+    <bean id="regionService" class="com.photochecker.service.serviceDaoImpl.lka.RegionServiceDaoImpl" />
 
-    <bean id="lkaDaoSpring" class="com.photochecker.dao.jdbc.spring.common.LkaDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
 
-    <bean id="photoCardDaoSpring" class="com.photochecker.dao.jdbc.spring.common.PhotoCardDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
-
-    <bean id="reportTypeDaoSpring" class="com.photochecker.dao.jdbc.spring.common.ReportTypeDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
-
-    <bean id="responsibilityDaoSpring" class="com.photochecker.dao.jdbc.spring.common.ResponsibilityDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
-
-    <bean id="userDaoSpring" class="com.photochecker.dao.jdbc.spring.common.UserDaoSpringImpl">
-        <constructor-arg ref="dbDataSource" />
-    </bean>
 </beans>

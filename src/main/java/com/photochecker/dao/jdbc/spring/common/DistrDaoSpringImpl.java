@@ -32,6 +32,8 @@ public class DistrDaoSpringImpl implements DistrDao {
             "where pc.`date` >= ? and pc.`date` < ?\n" +
             "order by 1;";
 
+    private final String SQL_SAVE = "INSERT INTO `distr_db` (`distr_id`, `distr_name`, `region_id`) VALUES (?, ?, ?);";
+
     private JdbcTemplate jdbcTemplate;
     private List<Region> regionList;
 
@@ -56,20 +58,22 @@ public class DistrDaoSpringImpl implements DistrDao {
     }
 
     private void setDistrFields() {
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        regionList = ((RegionDao) context.getBean("regionDao")).findAll();*/
         regionList = regionDao.findAll();
     }
 
     @Override
     public int save(Distr distr) {
-        return 0;
+        return jdbcTemplate.update(SQL_SAVE,
+                distr.getId(),
+                distr.getName(),
+                distr.getRegion().getId());
     }
 
     @Override
     public Distr find(int id) {
         setDistrFields();
-        return jdbcTemplate.query(SQL_FIND_BY_ID, distrRowMapper, id).get(0);
+        List<Distr> result = jdbcTemplate.query(SQL_FIND_BY_ID, distrRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
@@ -80,12 +84,12 @@ public class DistrDaoSpringImpl implements DistrDao {
 
     @Override
     public boolean update(Distr distr) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(Distr distr) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override

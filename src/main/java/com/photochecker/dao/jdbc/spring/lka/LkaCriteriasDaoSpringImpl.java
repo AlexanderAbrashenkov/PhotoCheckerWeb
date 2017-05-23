@@ -52,8 +52,6 @@ public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
 
     private void serLkaCriteriasFields() {
         if (lkaList == null) {
-            /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-            lkaList = ((LkaDao) context.getBean("lkaDao")).findAll();*/
             lkaList = lkaDao.findAll();
         }
     }
@@ -94,7 +92,8 @@ public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
     @Override
     public LkaCriterias find(int id) {
         serLkaCriteriasFields();
-        return jdbcTemplate.query(SQL_FIND_BY_ID, lkaCriteriasRowMapper, id).get(0);
+        List<LkaCriterias> result = jdbcTemplate.query(SQL_FIND_BY_ID, lkaCriteriasRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override

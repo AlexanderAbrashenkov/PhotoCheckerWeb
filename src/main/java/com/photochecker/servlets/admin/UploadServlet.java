@@ -1,6 +1,9 @@
 package com.photochecker.servlets.admin;
 
 import com.photochecker.model.Upload;
+import com.photochecker.service.common.UploadService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +23,15 @@ import java.nio.file.Paths;
 urlPatterns = "/reports/upload")
 @MultipartConfig
 public class UploadServlet extends HttpServlet {
+    private UploadService uploadService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        uploadService = (UploadService) context.getBean("uploadService");
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("pageTitle", "Загрузка данных");
         request.setAttribute("pageCategory", "administrate");
@@ -36,7 +48,9 @@ public class UploadServlet extends HttpServlet {
 
         String date = fileName.substring(fileName.indexOf("_") + 1, fileName.length() - 4);
 
-        int counter = Upload.uploadDataProcess(reader, date);
+        int counter = uploadService.uploadDatas(reader, date);
+
+        reader.close();
 
         request.setAttribute("resultOfUpload", "Файл с данными за " + date + " получен. Всего " + counter + " записей в файле обработано.");
 

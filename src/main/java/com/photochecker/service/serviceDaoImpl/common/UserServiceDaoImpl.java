@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +26,6 @@ public class UserServiceDaoImpl implements UserService {
     private ReportTypeDao reportTypeDao;
     @Autowired
     private UserDao userDao;
-
-    /*public UserServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        reportTypeDao = (ReportTypeDao) context.getBean("reportTypeDao");
-        userDao = (UserDao) context.getBean("userDao");
-    }*/
 
     @Override
     public Map<Integer, List<User>> getRespUsers() {
@@ -64,5 +61,44 @@ public class UserServiceDaoImpl implements UserService {
             user = userDao.checkLoginAndPassword(login, password);
         }
         return user;
+    }
+
+    @Override
+    public void saveNewUser(User user, String pass) {
+        boolean success = true;
+
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[20];
+        random.nextBytes(bytes);
+
+        StringBuffer saltBuffer = new StringBuffer();
+
+        for (byte b : bytes) {
+            saltBuffer.append(Integer.toHexString(0x0100 + (b & 0x00FF)).substring(1));
+        }
+
+        String salt = saltBuffer.toString();
+
+        String passwordSalt = pass + salt;
+
+        StringBuffer code = new StringBuffer();
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+            byte[] bytes1 = passwordSalt.getBytes();
+            byte digest[] = messageDigest.digest(bytes1); //save code
+            for (int i = 0; i < digest.length; ++i) {
+                code.append(Integer.toHexString(0x0100 + (digest[i] & 0x00FF)).substring(1));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        String password = code.toString();
+
+        int id = userDao.saveNewUser(user, password, salt);
+
+        user.setId(id);
+
+        userDao.saveUserReports(user);
     }
 }

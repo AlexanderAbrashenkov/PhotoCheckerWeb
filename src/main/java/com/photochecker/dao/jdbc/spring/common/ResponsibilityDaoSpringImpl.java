@@ -29,11 +29,14 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
     private JdbcTemplate jdbcTemplate;
     private List<ReportType> reportTypeList;
     private List<Distr> distrList;
+    private List<User> userList;
 
     @Autowired
     private ReportTypeDao reportTypeDao;
     @Autowired
     private DistrDao distrDao;
+    @Autowired
+    private UserDao userDao;
 
     private final String SQL_FIND_ALL = "SELECT * FROM `responsibility_db`";
 
@@ -47,17 +50,18 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
             "WHERE\n" +
             "res.`resp_user` = ?";
 
+    private final String SQL_SAVE = "INSERT INTO `responsibility_db` " +
+            "(`report_type`, `distr_id`) VALUES (?, ?);";
+
     @Autowired
     public ResponsibilityDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private void setResponsibilityFields() {
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        reportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAll();
-        distrList = ((DistrDao) context.getBean("distrDao")).findAll();*/
         reportTypeList = reportTypeDao.findAll();
         distrList = distrDao.findAll();
+        userList = userDao.findAll();
     }
 
     private RowMapper<Responsibility> responsibilityRowMapper = (resultSet, i) -> {
@@ -75,8 +79,13 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
                 .findFirst()
                 .get();
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        User user = ((UserDao) context.getBean("userDao")).find(userId);
+        User user = null;
+        if (userId > 0) {
+            user = userList.stream()
+                    .filter(user1 -> user1.getId() == userId)
+                    .findFirst()
+                    .get();
+        }
 
         return new Responsibility(
                 reportType,
@@ -87,12 +96,14 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
 
     @Override
     public int save(Responsibility responsibility) {
-        return 0;
+        return jdbcTemplate.update(SQL_SAVE,
+                responsibility.getReportType().getId(),
+                responsibility.getDistr().getId());
     }
 
     @Override
     public Responsibility find(int id) {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
@@ -116,7 +127,7 @@ public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
 
     @Override
     public void remove(Responsibility responsibility) {
-
+        throw new RuntimeException("This methos not used");
     }
 
     @Override

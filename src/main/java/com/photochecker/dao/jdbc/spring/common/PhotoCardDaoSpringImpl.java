@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,14 +35,18 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
             "and pc.`report_type` = ?\n" +
             "order by 2;";
 
+    private final String SQL_SAVE = "INSERT INTO `photo_card`\n" +
+            "(`client_id`, `url`, `date`, `date_add`, `comment`, `report_type`)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?);";
+
+    private final String SQL_FIND_BY_URL = "select * from `photo_card` where `url` = ?";
+
     @Autowired
     public PhotoCardDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private void setPhotoCardFields() {
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        reportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAll();*/
         reportTypeList = reportTypeDao.findAll();
     }
 
@@ -58,8 +63,8 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
         return new PhotoCard(
                 resultSet.getInt("client_id"),
                 resultSet.getString("url"),
-                resultSet.getTimestamp("date").toLocalDateTime().toLocalDate(),
-                resultSet.getTimestamp("date_add").toLocalDateTime().toLocalDate(),
+                resultSet.getTimestamp("date").toLocalDateTime(),
+                resultSet.getTimestamp("date_add").toLocalDateTime(),
                 comment,
                 resultSet.getBoolean("checked"),
                 reportType);
@@ -67,27 +72,33 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
 
     @Override
     public int save(PhotoCard photoCard) {
-        return 0;
+        return jdbcTemplate.update(SQL_SAVE,
+                photoCard.getClientId(),
+                photoCard.getUrl(),
+                Timestamp.valueOf(photoCard.getDate()),
+                Timestamp.valueOf(photoCard.getDateAdd()),
+                photoCard.getComment(),
+                photoCard.getReportType());
     }
 
     @Override
     public PhotoCard find(int id) {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public List<PhotoCard> findAll() {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public boolean update(PhotoCard photoCard) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(PhotoCard photoCard) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override
@@ -100,5 +111,11 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
                 Date.valueOf(endDate),
                 clientId,
                 reportType.getId());
+    }
+
+    @Override
+    public PhotoCard findByUrl(String url) {
+        List<PhotoCard> result = jdbcTemplate.query(SQL_FIND_BY_URL, photoCardRowMapper, url);
+        return result.size() > 0 ? result.get(0) : null;
     }
 }

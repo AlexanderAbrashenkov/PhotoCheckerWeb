@@ -91,27 +91,27 @@ public class LkaReportItemDaoSpringImpl implements LkaReportItemDao {
 
     @Override
     public int save(LkaReportItem lkaReportItem) {
-        return 0;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public LkaReportItem find(int id) {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public List<LkaReportItem> findAll() {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public boolean update(LkaReportItem lkaReportItem) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(LkaReportItem lkaReportItem) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override

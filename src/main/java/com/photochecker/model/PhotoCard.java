@@ -1,6 +1,7 @@
 package com.photochecker.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by market6 on 28.03.2017.
@@ -8,8 +9,8 @@ import java.time.LocalDate;
 public class PhotoCard {
     private int clientId;
     private String url;
-    private LocalDate date;
-    private LocalDate dateAdd;
+    private LocalDateTime date;
+    private LocalDateTime dateAdd;
     private String comment;
     private boolean checked;
     private ReportType reportType;
@@ -17,7 +18,7 @@ public class PhotoCard {
     public PhotoCard() {
     }
 
-    public PhotoCard(int clientId, String url, LocalDate date, LocalDate dateAdd,
+    public PhotoCard(int clientId, String url, LocalDateTime date, LocalDateTime dateAdd,
                      String comment, boolean checked, ReportType reportType) {
         this.clientId = clientId;
         this.url = url;
@@ -44,19 +45,19 @@ public class PhotoCard {
         this.url = url;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public LocalDate getDateAdd() {
+    public LocalDateTime getDateAdd() {
         return dateAdd;
     }
 
-    public void setDateAdd(LocalDate dateAdd) {
+    public void setDateAdd(LocalDateTime dateAdd) {
         this.dateAdd = dateAdd;
     }
 

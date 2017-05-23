@@ -14,4 +14,6 @@ public interface UserService {
     public boolean checkLogin(String login);
 
     public User loginUser(String login, String password);
+
+    public void saveNewUser(User user, String pass);
 }

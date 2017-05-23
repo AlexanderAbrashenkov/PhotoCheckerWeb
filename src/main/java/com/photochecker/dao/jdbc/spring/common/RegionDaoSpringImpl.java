@@ -3,6 +3,7 @@ package com.photochecker.dao.jdbc.spring.common;
 import com.photochecker.dao.common.RegionDao;
 import com.photochecker.model.Region;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -19,12 +20,11 @@ import java.util.Map;
  */
 public class RegionDaoSpringImpl implements RegionDao {
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
+    private JdbcTemplate jdbcTemplate;
 
     //language=SQL
     private final String SQL_FIND_BY_ID = "SELECT * FROM `region_db`\n" +
-            "WHERE `region_id` = :region_id";
+            "WHERE `region_id` = ?";
 
     //language=SQL
     private final String SQL_FIND_ALL = "SELECT * FROM `region_db`";
@@ -33,12 +33,14 @@ public class RegionDaoSpringImpl implements RegionDao {
     private final String SQL_FIND_BY_PARAMS = "select distinct r.`region_name`, r.`region_id` from `region_db` r\n" +
             "inner join `client_card` cc on cc.`region_id` = r.`region_id`\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
-            "where pc.`date` >= :startDate and pc.`date` < :endDate\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
             "order by 1;";
+
+    private final String SQL_SAVE = "INSERT INTO `region_db` (`region_id`, `region_name`) VALUES (?, ?);";
 
     @Autowired
     public RegionDaoSpringImpl(DataSource dataSource) {
-        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private RowMapper<Region> regionRowMapper = (resultSet, i) -> {
@@ -48,37 +50,38 @@ public class RegionDaoSpringImpl implements RegionDao {
 
     @Override
     public int save(Region region) {
-        return -1;
+        return jdbcTemplate.update(SQL_SAVE,
+                region.getId(),
+                region.getName());
     }
 
     @Override
     public Region find(int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("region_id", id);
-        return namedParameterJdbcTemplate.query(SQL_FIND_BY_ID, map, regionRowMapper).get(0);
+        List<Region> result = jdbcTemplate.query(SQL_FIND_BY_ID, regionRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
     public List<Region> findAll() {
-        return namedParameterJdbcTemplate.query(SQL_FIND_ALL, regionRowMapper);
+        return jdbcTemplate.query(SQL_FIND_ALL, regionRowMapper);
     }
 
     @Override
     public boolean update(Region region) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(Region region) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public List<Region> findAllByDates(LocalDate startDate, LocalDate endDate) {
         endDate = endDate.plusDays(1);
-        Map<String, Object> map = new HashMap<>();
-        map.put("startDate", startDate);
-        map.put("endDate", endDate);
-        return namedParameterJdbcTemplate.query(SQL_FIND_BY_PARAMS, map, regionRowMapper);
+
+        return jdbcTemplate.query(SQL_FIND_BY_PARAMS, regionRowMapper,
+                startDate,
+                endDate);
     }
 }

@@ -20,6 +20,7 @@
     <bean id="lkaCriteriasDao" class="com.photochecker.dao.jdbc.spring.lka.LkaCriteriasDaoSpringImpl" />
     <bean id="lkaReportItemDao" class="com.photochecker.dao.jdbc.spring.lka.LkaReportItemDaoSpringImpl" />
 
+    <bean id="uploadService" class="com.photochecker.service.serviceDaoImpl.common.UploadServiceDaoImpl" />
     <bean id="commonService" class="com.photochecker.service.serviceDaoImpl.common.CommonServiceDaoImpl" />
     <bean id="reportTypeService" class="com.photochecker.service.serviceDaoImpl.common.ReportTypeServiceDaoImpl" />
     <bean id="responsibilitiesService" class="com.photochecker.service.serviceDaoImpl.common.ResponsibilitiesServiceDaoImpl" />
@@ -32,6 +33,5 @@
     <bean id="lkaService" class="com.photochecker.service.serviceDaoImpl.lka.LkaServiceDaoImpl" />
     <bean id="photoCardService" class="com.photochecker.service.serviceDaoImpl.lka.PhotoCardServiceDaoImpl" />
     <bean id="regionService" class="com.photochecker.service.serviceDaoImpl.lka.RegionServiceDaoImpl" />
-
 
 </beans>

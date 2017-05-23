@@ -27,6 +27,10 @@ public class ReportTypeDaoSpringImpl implements ReportTypeDao {
             "INNER JOIN `report_type_user` ru ON ru.`report_type` = r.`id`\n" +
             "where ru.`user_id` = ?";
 
+    private final String SQL_SAVE = "INSERT INTO `report_type` (`type`) VALUES (?)";
+
+
+
     @Autowired
     public ReportTypeDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -39,12 +43,13 @@ public class ReportTypeDaoSpringImpl implements ReportTypeDao {
 
     @Override
     public int save(ReportType reportType) {
-        return 0;
+        return jdbcTemplate.update(SQL_SAVE, reportType.getName());
     }
 
     @Override
     public ReportType find(int id) {
-        return jdbcTemplate.query(SQL_FIND_BY_ID, reportTypeRowMapper, id).get(0);
+        List<ReportType> result = jdbcTemplate.query(SQL_FIND_BY_ID, reportTypeRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
@@ -54,12 +59,12 @@ public class ReportTypeDaoSpringImpl implements ReportTypeDao {
 
     @Override
     public boolean update(ReportType reportType) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(ReportType reportType) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override

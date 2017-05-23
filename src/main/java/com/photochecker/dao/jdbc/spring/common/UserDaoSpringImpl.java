@@ -9,10 +9,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,11 @@ public class UserDaoSpringImpl implements UserDao {
     private final String SQL_FIND_BY_PARAMS = "SELECT * FROM `users` " +
             "WHERE `user_login` = ? ";
 
+    private final String SQL_SAVE_USER_REPORTS = "INSERT INTO `report_type_user` (`user_id`, `report_type`)\n" +
+            "VALUES (?, ?)";
+
     private JdbcTemplate jdbcTemplate;
+    private SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
     private ReportTypeDao reportTypeDao;
@@ -43,8 +49,6 @@ public class UserDaoSpringImpl implements UserDao {
 
         User user = new User(id, login, userName, userRole, null);
 
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        List<ReportType> reportTypeList = ((ReportTypeDao) context.getBean("reportTypeDao")).findAllByUser(user);*/
         List<ReportType> reportTypeList = reportTypeDao.findAllByUser(user);
 
         user.setReportTypeList(reportTypeList);
@@ -55,16 +59,18 @@ public class UserDaoSpringImpl implements UserDao {
     @Autowired
     public UserDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+        simpleJdbcInsert = new SimpleJdbcInsert(dataSource);
     }
 
     @Override
     public int save(User user) {
-        return 0;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public User find(int id) {
-        return null;
+        List<User> result = jdbcTemplate.query(SQL_FIND_BY_ID, userRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
@@ -74,12 +80,12 @@ public class UserDaoSpringImpl implements UserDao {
 
     @Override
     public boolean update(User user) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(User user) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override
@@ -116,5 +122,26 @@ public class UserDaoSpringImpl implements UserDao {
         }
 
         return user;
+    }
+
+    @Override
+    public int saveNewUser(User user, String password, String salt) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_login", user.getUserLogin());
+        params.put("user_pass", password);
+        params.put("user_name", user.getUserName());
+        params.put("user_role", user.getRole());
+        params.put("salt", salt);
+        Number key = simpleJdbcInsert.executeAndReturnKey(params);
+        return key.intValue();
+    }
+
+    @Override
+    public void saveUserReports(User user) {
+        for (ReportType reportType : user.getReportTypeList()) {
+            jdbcTemplate.update(SQL_SAVE_USER_REPORTS,
+                    user.getId(),
+                    reportType.getId());
+        }
     }
 }

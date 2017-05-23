@@ -49,15 +49,13 @@ public class Responsibility {
         Responsibility that = (Responsibility) o;
 
         if (!reportType.equals(that.reportType)) return false;
-        if (!distr.equals(that.distr)) return false;
-        return user != null ? user.equals(that.user) : that.user == null;
+        return distr.equals(that.distr);
     }
 
     @Override
     public int hashCode() {
         int result = reportType.hashCode();
         result = 31 * result + distr.hashCode();
-        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 

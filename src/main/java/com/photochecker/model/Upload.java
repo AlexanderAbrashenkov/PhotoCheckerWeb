@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class Upload {
 
-    private static Connection connection;
+    /*private static Connection connection;
 
     public static int uploadDataProcess(BufferedReader reader, String date) {
         LocalDate dateAdd = LocalDate.parse(date);
@@ -143,9 +143,9 @@ public class Upload {
             e.printStackTrace();
         }
         return recordCounter;
-    }
+    }*/
 
-    private static Set<Integer> getRegionsSet() {
+    /*private static Set<Integer> getRegionsSet() {
         Set<Integer> regionSet = new HashSet<Integer>();
 
         try {
@@ -257,5 +257,5 @@ public class Upload {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

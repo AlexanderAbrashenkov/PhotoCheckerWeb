@@ -32,6 +32,8 @@ public class LkaDaoSpringImpl implements LkaDao {
             "and cc.`distributor_id` = ?\n" +
             "order by 1;";
 
+    private final String SQL_SAVE = "INSERT INTO `lka_db` (`lka_id`, `lka_name`) VALUES (?, ?);";
+
     @Autowired
     public LkaDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -44,12 +46,15 @@ public class LkaDaoSpringImpl implements LkaDao {
 
     @Override
     public int save(Lka lka) {
-        return 0;
+        return jdbcTemplate.update(SQL_SAVE,
+                lka.getId(),
+                lka.getName());
     }
 
     @Override
     public Lka find(int id) {
-        return jdbcTemplate.query(SQL_FIND_BY_ID, lkaRowMapper, id).get(0);
+        List<Lka> result = jdbcTemplate.query(SQL_FIND_BY_ID, lkaRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
@@ -59,12 +64,12 @@ public class LkaDaoSpringImpl implements LkaDao {
 
     @Override
     public boolean update(Lka lka) {
-        return false;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public void remove(Lka lka) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override

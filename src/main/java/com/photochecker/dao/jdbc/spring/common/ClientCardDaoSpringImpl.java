@@ -33,6 +33,24 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
             "and cc.`lka_id` = ?\n" +
             "order by 1;";
 
+    private final String SQL_FIND_BY_ID = "select *, 0 as checked " +
+            "from `client_card` cc " +
+            "where `client_id`=? " +
+            "order by 1";
+
+    private final String SQL_FIND_ALL = "select *, 0 as checked " +
+            "from `client_card` cc " +
+            "order by 1";
+
+    private final String SQL_SAVE = "INSERT INTO `client_card`\n" +
+            "(`client_id`, `client_name`, `client_address`, `region_id`, `obl`, `distributor_id`, `channel_id`, `lka_id`, `type_name`)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    private final String SQL_UPDATE = "UPDATE `client_card`\n" +
+            "SET `client_name` = ?, `client_address` = ?, `channel_id` = ?, `lka_id` = ?, `type_name` = ?\n" +
+            "WHERE `client_id` = ?";
+
+
     private JdbcTemplate jdbcTemplate;
     private List<Distr> distrList;
     private List<Lka> lkaList;
@@ -75,36 +93,50 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     }
 
     private void setClientCardFields() {
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        distrList = ((DistrDao) context.getBean("distrDao")).findAll();
-        lkaList = ((LkaDao) context.getBean("lkaDao")).findAll();*/
         distrList = distrDao.findAll();
         lkaList = lkaDao.findAll();
     }
 
     @Override
     public int save(ClientCard clientCard) {
-        return 0;
+        return jdbcTemplate.update(SQL_SAVE,
+                clientCard.getClientId(),
+                clientCard.getClientName(),
+                clientCard.getClientAddress(),
+                clientCard.getDistr().getRegion().getId(),
+                clientCard.getObl(),
+                clientCard.getDistr().getId(),
+                clientCard.getChannelId(),
+                clientCard.getLka().getId(),
+                clientCard.getClientType());
     }
 
     @Override
     public ClientCard find(int id) {
-        return null;
+        List<ClientCard> result = jdbcTemplate.query(SQL_FIND_BY_ID, clientCardRowMapper, id);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
     public List<ClientCard> findAll() {
-        return null;
+        return jdbcTemplate.query(SQL_FIND_ALL, clientCardRowMapper);
     }
 
     @Override
     public boolean update(ClientCard clientCard) {
-        return false;
+        jdbcTemplate.update(SQL_UPDATE,
+                clientCard.getClientName(),
+                clientCard.getClientAddress(),
+                clientCard.getChannelId(),
+                clientCard.getLka().getId(),
+                clientCard.getClientType(),
+                clientCard.getClientId());
+        return true;
     }
 
     @Override
     public void remove(ClientCard clientCard) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override

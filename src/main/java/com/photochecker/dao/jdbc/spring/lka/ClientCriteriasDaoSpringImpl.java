@@ -112,12 +112,12 @@ public class ClientCriteriasDaoSpringImpl implements ClientCriteriasDao {
 
     @Override
     public ClientCriterias find(int id) {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
     public List<ClientCriterias> findAll() {
-        return null;
+        throw new RuntimeException("This method not used");
     }
 
     @Override
@@ -133,7 +133,7 @@ public class ClientCriteriasDaoSpringImpl implements ClientCriteriasDao {
 
     @Override
     public void remove(ClientCriterias clientCriterias) {
-
+        throw new RuntimeException("This method not used");
     }
 
     @Override

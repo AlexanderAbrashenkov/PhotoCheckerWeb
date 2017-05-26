@@ -1,5 +1,8 @@
 package com.photochecker.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by market6 on 27.03.2017.
  */

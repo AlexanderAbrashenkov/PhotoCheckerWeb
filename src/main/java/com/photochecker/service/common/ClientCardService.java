@@ -1,4 +1,4 @@
-package com.photochecker.service.lka;
+package com.photochecker.service.common;
 
 import com.photochecker.model.ClientCard;
 import com.photochecker.model.Lka;
@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface ClientCardService {
 
-    public List<ClientCard> getClientCardList(int distrId, int lkaId, LocalDate dateFrom, LocalDate dateTo);
+    public List<ClientCard> getClientCardList(int distrId, int lkaId, int channelId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
 }

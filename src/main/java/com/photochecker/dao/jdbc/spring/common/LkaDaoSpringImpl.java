@@ -30,6 +30,8 @@ public class LkaDaoSpringImpl implements LkaDao {
             "where pc.`date` >= ? and pc.`date` < ?\n" +
             "and cc.`region_id` = ?\n" +
             "and cc.`distributor_id` = ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "and cc.`channel_id` = 1\n" +
             "order by 1;";
 
     private final String SQL_SAVE = "INSERT INTO `lka_db` (`lka_id`, `lka_name`) VALUES (?, ?);";
@@ -73,12 +75,13 @@ public class LkaDaoSpringImpl implements LkaDao {
     }
 
     @Override
-    public List<Lka> findAllByDistrAndDates(Distr distr, LocalDate startDate, LocalDate endDate) {
+    public List<Lka> findAllByDistrAndDates(Distr distr, LocalDate startDate, LocalDate endDate, int repTypeInd) {
         endDate = endDate.plusDays(1);
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, lkaRowMapper,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate),
                 distr.getRegion().getId(),
-                distr.getId());
+                distr.getId(),
+                repTypeInd);
     }
 }

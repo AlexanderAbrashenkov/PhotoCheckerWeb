@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface LkaDao extends GenericDao<Lka> {
 
-    List<Lka> findAllByDistrAndDates(Distr distr, LocalDate startDate, LocalDate endDate);
+    List<Lka> findAllByDistrAndDates(Distr distr, LocalDate startDate, LocalDate endDate, int repTypeInd);
 }

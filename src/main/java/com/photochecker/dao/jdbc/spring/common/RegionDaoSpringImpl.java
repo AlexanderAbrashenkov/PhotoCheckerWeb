@@ -34,6 +34,7 @@ public class RegionDaoSpringImpl implements RegionDao {
             "inner join `client_card` cc on cc.`region_id` = r.`region_id`\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
             "order by 1;";
 
     private final String SQL_SAVE = "INSERT INTO `region_db` (`region_id`, `region_name`) VALUES (?, ?);";
@@ -77,11 +78,12 @@ public class RegionDaoSpringImpl implements RegionDao {
     }
 
     @Override
-    public List<Region> findAllByDates(LocalDate startDate, LocalDate endDate) {
+    public List<Region> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd) {
         endDate = endDate.plusDays(1);
 
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, regionRowMapper,
                 startDate,
-                endDate);
+                endDate,
+                repTypeInd);
     }
 }

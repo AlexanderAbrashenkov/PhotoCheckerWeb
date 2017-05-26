@@ -48,11 +48,11 @@ public class UploadServlet extends HttpServlet {
 
         String date = fileName.substring(fileName.indexOf("_") + 1, fileName.length() - 4);
 
-        int counter = uploadService.uploadDatas(reader, date);
+        String result = uploadService.uploadDatas(reader, date);
 
         reader.close();
 
-        request.setAttribute("resultOfUpload", "Файл с данными за " + date + " получен. Всего " + counter + " записей в файле обработано.");
+        request.setAttribute("resultOfUpload", "Файл с данными за " + date + " получен. Обработано: " + result);
 
         request.setAttribute("pageTitle", "Загрузка данных");
         request.setAttribute("pageCategory", "administrate");

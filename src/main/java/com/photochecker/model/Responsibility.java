@@ -3,7 +3,7 @@ package com.photochecker.model;
 /**
  * Created by market6 on 21.04.2017.
  */
-public class Responsibility {
+public class Responsibility implements Comparable<Responsibility> {
     private ReportType reportType;
     private Distr distr;
     private User user;
@@ -66,5 +66,19 @@ public class Responsibility {
                 ", distr=" + distr +
                 ", user=" + user +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Responsibility o) {
+        if (this.getReportType().getId() > o.getReportType().getId())
+            return 1;
+        else if (this.getReportType().getId() < o.getReportType().getId())
+            return -1;
+
+        int r = (this.getDistr().getRegion().getName().compareTo(o.getDistr().getRegion().getName()));
+        if (r != 0)
+            return r;
+
+        return this.getDistr().getName().compareTo(o.getDistr().getName());
     }
 }

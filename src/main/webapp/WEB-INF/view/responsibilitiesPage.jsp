@@ -18,7 +18,7 @@
             <div class="responsib">
                 <div class="resp type_name" name="${respItem.reportType.id}">${respItem.reportType.name}</div>
                 <div class="resp region_name" name="${respItem.distr.region.id}">${respItem.distr.region.name}</div>
-                <div class="resp distr_name" name="${respItem.distr.id}">${respItem.distr.name}"</div>
+                <div class="resp distr_name" name="${respItem.distr.id}">${respItem.distr.name}</div>
                 <select class="resp resp_name">
                     <option name="0"></option>
                     <c:forEach items="${respUsers[respItem.reportType.id]}" var="userItem">

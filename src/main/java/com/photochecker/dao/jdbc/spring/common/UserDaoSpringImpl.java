@@ -59,7 +59,9 @@ public class UserDaoSpringImpl implements UserDao {
     @Autowired
     public UserDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        simpleJdbcInsert = new SimpleJdbcInsert(dataSource);
+        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+            .withTableName("users")
+            .usingGeneratedKeyColumns("id");
     }
 
     @Override

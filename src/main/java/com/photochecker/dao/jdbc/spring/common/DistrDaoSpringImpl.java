@@ -30,6 +30,7 @@ public class DistrDaoSpringImpl implements DistrDao {
             "inner join `client_card` cc on cc.`distributor_id` = d.`distr_id`\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
             "order by 1;";
 
     private final String SQL_SAVE = "INSERT INTO `distr_db` (`distr_id`, `distr_name`, `region_id`) VALUES (?, ?, ?);";
@@ -93,12 +94,13 @@ public class DistrDaoSpringImpl implements DistrDao {
     }
 
     @Override
-    public List<Distr> findAllByDates(LocalDate startDate, LocalDate endDate) {
+    public List<Distr> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd) {
         setDistrFields();
         endDate = endDate.plusDays(1);
 
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, distrRowMapper,
                 Date.valueOf(startDate),
-                Date.valueOf(endDate));
+                Date.valueOf(endDate),
+                repTypeInd);
     }
 }

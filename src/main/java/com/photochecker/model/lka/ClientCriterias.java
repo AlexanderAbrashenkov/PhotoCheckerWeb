@@ -332,4 +332,24 @@ public class ClientCriterias {
                 ", comment='" + comment + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ClientCriterias that = (ClientCriterias) o;
+
+        if (clientId != that.clientId) return false;
+        if (!dateFrom.equals(that.dateFrom)) return false;
+        return dateTo.equals(that.dateTo);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = clientId;
+        result = 31 * result + dateFrom.hashCode();
+        result = 31 * result + dateTo.hashCode();
+        return result;
+    }
 }

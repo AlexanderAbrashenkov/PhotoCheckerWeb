@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface RegionDao extends GenericDao<Region> {
 
-    List<Region> findAllByDates(LocalDate startDate, LocalDate endDate);
+    List<Region> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd);
 }

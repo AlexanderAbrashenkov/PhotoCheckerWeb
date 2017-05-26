@@ -2,7 +2,7 @@ package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.Region;
 import com.photochecker.model.User;
-import com.photochecker.service.lka.RegionService;
+import com.photochecker.service.common.RegionService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -41,7 +41,7 @@ public class DownloadRegionsServlet extends HttpServlet {
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
         User user = (User) request.getSession().getAttribute("user");
-        List<Region> regionList = regionService.getRegions(user, dateFrom, dateTo);
+        List<Region> regionList = regionService.getRegions(user, dateFrom, dateTo, 5);
         request.setAttribute("regionList", regionList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/regionOptions.jsp");
         dispatcher.forward(request, response);

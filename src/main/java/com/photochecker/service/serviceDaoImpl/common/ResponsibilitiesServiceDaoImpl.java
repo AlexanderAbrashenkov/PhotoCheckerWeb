@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,14 +19,10 @@ public class ResponsibilitiesServiceDaoImpl implements ResponsibilitiesService {
     @Autowired
     private ResponsibilityDao responsibilityDao;
 
-    /*public ResponsibilitiesServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        responsibilityDao = (ResponsibilityDao) context.getBean("responsibilityDao");
-    }*/
-
     @Override
     public List<Responsibility> getAllResponsibilities() {
         List<Responsibility> responsibilities = responsibilityDao.findAll();
+        Collections.sort(responsibilities);
         return responsibilities;
     }
 

@@ -3,7 +3,7 @@ package com.photochecker.servlets.lka;
 import com.photochecker.model.Region;
 import com.photochecker.model.User;
 import com.photochecker.service.common.CommonService;
-import com.photochecker.service.lka.RegionService;
+import com.photochecker.service.common.RegionService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -45,7 +45,7 @@ public class StartLkaServlet extends HttpServlet {
         request.setAttribute("endDate", endDate);
 
         List<Region> regionList = regionService.getRegions((User) request.getSession().getAttribute("user"),
-                startDate, endDate);
+                startDate, endDate, 5);
         request.setAttribute("regionList", regionList);
         request.setAttribute("pageTitle", "Фотоотчет LKA");
         request.setAttribute("pageCategory", "lka");

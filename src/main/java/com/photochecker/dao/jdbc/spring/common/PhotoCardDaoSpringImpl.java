@@ -78,7 +78,7 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
                 Timestamp.valueOf(photoCard.getDate()),
                 Timestamp.valueOf(photoCard.getDateAdd()),
                 photoCard.getComment(),
-                photoCard.getReportType());
+                photoCard.getReportType().getId());
     }
 
     @Override
@@ -115,6 +115,7 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
 
     @Override
     public PhotoCard findByUrl(String url) {
+        setPhotoCardFields();
         List<PhotoCard> result = jdbcTemplate.query(SQL_FIND_BY_URL, photoCardRowMapper, url);
         return result.size() > 0 ? result.get(0) : null;
     }

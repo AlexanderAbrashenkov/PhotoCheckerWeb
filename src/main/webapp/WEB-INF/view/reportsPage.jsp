@@ -11,7 +11,7 @@
             <c:if test="${fn:contains(sessionScope.user.reportTypeList, 1)}">
                 <div class="report_group">
                     <div class="group_title">1. Локальные сети: ДМП</div>
-                    <div class="report_link" style="display: none"><a href="/">Просмотр фото</a> </div>
+                    <div class="report_link"><a href="/reports/lkaDmp">Просмотр фото</a> </div>
                 </div>
             </c:if>
 

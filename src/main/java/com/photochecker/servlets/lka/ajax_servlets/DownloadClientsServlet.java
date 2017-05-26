@@ -1,7 +1,7 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.ClientCard;
-import com.photochecker.service.lka.ClientCardService;
+import com.photochecker.service.common.ClientCardService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -41,7 +41,7 @@ public class DownloadClientsServlet extends HttpServlet {
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
-        List<ClientCard> clientCardList = clientCardService.getClientCardList(distrId, lkaId, dateFrom, dateTo);
+        List<ClientCard> clientCardList = clientCardService.getClientCardList(distrId, lkaId, 1, dateFrom, dateTo, 5);
         request.setAttribute("clientsList", clientCardList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/addressTable.jsp");
         dispatcher.forward(request, response);

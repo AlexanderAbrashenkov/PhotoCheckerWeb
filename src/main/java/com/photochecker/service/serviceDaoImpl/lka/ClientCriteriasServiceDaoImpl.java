@@ -17,11 +17,6 @@ public class ClientCriteriasServiceDaoImpl implements ClientCriteriasService {
     @Autowired
     private ClientCriteriasDao clientCriteriasDao;
 
-    /*public ClientCriteriasServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        clientCriteriasDao = (ClientCriteriasDao) context.getBean("clientCriteriasDao");
-    }*/
-
     @Override
     public boolean saveCriterias(ClientCriterias clientCriterias) {
         boolean succeed;

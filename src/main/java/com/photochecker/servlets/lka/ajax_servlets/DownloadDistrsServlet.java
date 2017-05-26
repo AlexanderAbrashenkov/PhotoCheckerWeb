@@ -2,7 +2,7 @@ package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.Distr;
 import com.photochecker.model.User;
-import com.photochecker.service.lka.DistrService;
+import com.photochecker.service.common.DistrService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -42,7 +42,7 @@ public class DownloadDistrsServlet extends HttpServlet {
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
         User user = (User) request.getSession().getAttribute("user");
-        List<Distr> distrList = distrService.getDistrs(user, regionId, dateFrom, dateTo);
+        List<Distr> distrList = distrService.getDistrs(user, regionId, dateFrom, dateTo, 5);
         request.setAttribute("distrList", distrList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/distrOptions.jsp");
         dispatcher.forward(request, response);

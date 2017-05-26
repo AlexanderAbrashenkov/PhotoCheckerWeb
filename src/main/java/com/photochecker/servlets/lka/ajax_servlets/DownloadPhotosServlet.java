@@ -1,7 +1,7 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.PhotoCard;
-import com.photochecker.service.lka.PhotoCardService;
+import com.photochecker.service.common.PhotoCardService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -41,7 +41,7 @@ public class DownloadPhotosServlet extends HttpServlet {
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
-        List<PhotoCard>  photoCardList = photoCardService.getPhotoList(clientId, dateFrom, dateTo);
+        List<PhotoCard>  photoCardList = photoCardService.getPhotoList(clientId, dateFrom, dateTo, 5);
 
         request.setAttribute("photoList", photoCardList);
 

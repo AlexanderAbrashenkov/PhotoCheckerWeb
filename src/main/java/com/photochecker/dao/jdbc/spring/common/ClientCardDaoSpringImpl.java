@@ -3,18 +3,18 @@ package com.photochecker.dao.jdbc.spring.common;
 import com.photochecker.dao.common.ClientCardDao;
 import com.photochecker.dao.common.DistrDao;
 import com.photochecker.dao.common.LkaDao;
+import com.photochecker.model.Channel;
 import com.photochecker.model.ClientCard;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Lka;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,14 +23,27 @@ import java.util.List;
 public class ClientCardDaoSpringImpl implements ClientCardDao {
 
     //language=SQL
-    private final String SQL_FIND_BY_PARAMS = "select distinct cc.`client_id`, cc.`client_name`, cc.`client_address`, cc.`type_name`, \n" +
+    private String SQL_FIND_BY_LKA = "select distinct cc.`client_id`, cc.`client_name`, cc.`client_address`, cc.`type_name`, \n" +
             "case when sav.`save_date` is not null then 1 else 0 end checked,\n" +
             "cc.`obl`, cc.`distributor_id`, cc.`channel_id`, cc.`lka_id`" +
             "from `client_card` cc\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
-            "left join (select * from save_lka_db slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
+            "left join (select slka.`client_id`, slka.`save_date` from %s slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
             "and cc.`lka_id` = ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "order by 1;";
+
+    //language=SQL
+    private String SQL_FIND_BY_CHANNEL = "select distinct cc.`client_id`, cc.`client_name`, cc.`client_address`, cc.`type_name`, \n" +
+            "case when sav.`save_date` is not null then 1 else 0 end checked,\n" +
+            "cc.`obl`, cc.`distributor_id`, cc.`channel_id`, cc.`lka_id`" +
+            "from `client_card` cc\n" +
+            "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
+            "left join (select slka.`client_id`, slka.`save_date` from %s slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and cc.`channel_id` = ?\n" +
+            "and pc.`report_type` = ?\n" +
             "order by 1;";
 
     private final String SQL_FIND_BY_ID = "select *, 0 as checked " +
@@ -69,10 +82,13 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 .get();
 
         int lkaId = resultSet.getInt("lka_id");
-        Lka lka = lkaList.stream()
-                .filter(lka1 -> lka1.getId() == lkaId)
-                .findFirst()
-                .get();
+        Lka lka = null;
+        if (lkaId != 0) {
+            lka = lkaList.stream()
+                    .filter(lka1 -> lka1.getId() == lkaId)
+                    .findFirst()
+                    .get();
+        }
 
         return new ClientCard(
                 resultSet.getInt("client_id"),
@@ -97,6 +113,17 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
         lkaList = lkaDao.findAll();
     }
 
+    private String getDbName(int repTypeInd) {
+        String dbName = "";
+        switch (repTypeInd) {
+            case 1: dbName = "save_lka_dmp_db";
+                break;
+            case 5: dbName = "save_lka_db";
+                break;
+        }
+        return dbName;
+    }
+
     @Override
     public int save(ClientCard clientCard) {
         return jdbcTemplate.update(SQL_SAVE,
@@ -107,18 +134,20 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getObl(),
                 clientCard.getDistr().getId(),
                 clientCard.getChannelId(),
-                clientCard.getLka().getId(),
+                clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
                 clientCard.getClientType());
     }
 
     @Override
     public ClientCard find(int id) {
+        setClientCardFields();
         List<ClientCard> result = jdbcTemplate.query(SQL_FIND_BY_ID, clientCardRowMapper, id);
         return result.size() > 0 ? result.get(0) : null;
     }
 
     @Override
     public List<ClientCard> findAll() {
+        setClientCardFields();
         return jdbcTemplate.query(SQL_FIND_ALL, clientCardRowMapper);
     }
 
@@ -128,7 +157,7 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getClientName(),
                 clientCard.getClientAddress(),
                 clientCard.getChannelId(),
-                clientCard.getLka().getId(),
+                clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
                 clientCard.getClientType(),
                 clientCard.getClientId());
         return true;
@@ -140,15 +169,37 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     }
 
     @Override
-    public List<ClientCard> findAllByLkaAndDates(Lka lka, LocalDate startDate, LocalDate endDate) {
+    public List<ClientCard> findAllByLkaAndDates(Lka lka, LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        return findAllByParams(startDate, endDate, repTypeInd, lka, null);
+    }
+
+    @Override
+    public List<ClientCard> findAllByChannelAndDates(Channel channel, LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        return findAllByParams(startDate, endDate, repTypeInd, null, channel);
+    }
+
+    private List<ClientCard> findAllByParams(LocalDate startDate, LocalDate endDate, int repTypeInd, Lka lka, Channel channel) {
         setClientCardFields();
         endDate = endDate.plusDays(1);
 
-        return jdbcTemplate.query(SQL_FIND_BY_PARAMS, clientCardRowMapper,
+        String dbName = getDbName(repTypeInd);
+
+        int id = 0;
+        String sql = null;
+        if (lka != null) {
+            id = lka.getId();
+            sql = String.format(SQL_FIND_BY_LKA, dbName);
+        } else if (channel != null) {
+            id = channel.getId();
+            sql = String.format(SQL_FIND_BY_CHANNEL, dbName);
+        }
+
+        return jdbcTemplate.query(sql, clientCardRowMapper,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate.minusDays(1)),
                 Date.valueOf(startDate),
                 Date.valueOf(endDate),
-                lka.getId());
+                id,
+                repTypeInd);
     }
 }

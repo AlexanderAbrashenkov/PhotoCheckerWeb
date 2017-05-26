@@ -10,6 +10,9 @@
     <c:if test="${pageCategory.equals('lka')}">
         <link type="text/css" href="../css/lkaStyle.css" rel="stylesheet">
     </c:if>
+    <c:if test="${pageCategory.equals('lkaDmp')}">
+        <link type="text/css" href="../css/lkaDmpStyle.css" rel="stylesheet">
+    </c:if>
     <c:if test="${pageCategory.equals('administrate')}">
         <link type="text/css" href="../css/administrateStyle.css" rel="stylesheet">
     </c:if>
@@ -18,6 +21,9 @@
     <script src="../js/main.js" type="text/javascript"></script>
     <c:if test="${pageCategory.equals('lka')}">
         <script src="../js/lka.js" type="text/javascript"></script>
+    </c:if>
+    <c:if test="${pageCategory.equals('lkaDmp')}">
+        <script src="../js/lkaDmp.js" type="text/javascript"></script>
     </c:if>
     <c:if test="${pageCategory.equals('reports')}">
         <script src="../js/reports.js" type="text/javascript"></script>

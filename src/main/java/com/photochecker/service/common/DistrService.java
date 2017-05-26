@@ -1,4 +1,4 @@
-package com.photochecker.service.lka;
+package com.photochecker.service.common;
 
 import com.photochecker.model.Distr;
 import com.photochecker.model.Responsibility;
@@ -14,5 +14,5 @@ import java.util.stream.Collectors;
 public interface DistrService {
 
 
-    public List<Distr> getDistrs(User user, int regionId, LocalDate dateFrom, LocalDate dateTo);
+    public List<Distr> getDistrs(User user, int regionId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
 }

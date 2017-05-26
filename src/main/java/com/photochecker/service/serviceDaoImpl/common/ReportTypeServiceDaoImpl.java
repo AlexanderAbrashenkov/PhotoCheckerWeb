@@ -17,11 +17,6 @@ public class ReportTypeServiceDaoImpl implements ReportTypeService {
     @Autowired
     private ReportTypeDao reportTypeDao;
 
-    /*public ReportTypeServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        reportTypeDao = (ReportTypeDao) context.getBean("reportTypeDao");
-    }*/
-
     @Override
     public List<ReportType> getReportTypes() {
         List<ReportType> reportTypeList = reportTypeDao.findAll();

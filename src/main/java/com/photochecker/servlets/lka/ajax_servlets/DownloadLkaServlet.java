@@ -1,7 +1,7 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
 import com.photochecker.model.Lka;
-import com.photochecker.service.lka.LkaService;
+import com.photochecker.service.common.LkaService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -40,7 +40,7 @@ public class DownloadLkaServlet extends HttpServlet {
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
-       List<Lka> lkaList = lkaService.getLkas(distrId, dateFrom, dateTo);
+       List<Lka> lkaList = lkaService.getLkas(distrId, dateFrom, dateTo, 5);
         request.setAttribute("lkaList", lkaList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/lka/ajax_parts/lkaOptions.jsp");
         dispatcher.forward(request, response);

@@ -1,13 +1,11 @@
-package com.photochecker.service.serviceDaoImpl.lka;
+package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.DistrDao;
 import com.photochecker.dao.common.LkaDao;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Lka;
-import com.photochecker.service.lka.LkaService;
+import com.photochecker.service.common.LkaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,16 +20,10 @@ public class LkaServiceDaoImpl implements LkaService {
     @Autowired
     private LkaDao lkaDao;
 
-    /*public LkaServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        distrDao = (DistrDao) context.getBean("distrDao");
-        lkaDao = (LkaDao) context.getBean("lkaDao");
-    }*/
-
     @Override
-    public List<Lka> getLkas(int distrId, LocalDate dateFrom, LocalDate dateTo) {
+    public List<Lka> getLkas(int distrId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd) {
         Distr distr = distrDao.find(distrId);
-        List<Lka> allLka = lkaDao.findAllByDistrAndDates(distr, dateFrom, dateTo);
+        List<Lka> allLka = lkaDao.findAllByDistrAndDates(distr, dateFrom, dateTo, repTypeInd);
 
         return allLka;
     }

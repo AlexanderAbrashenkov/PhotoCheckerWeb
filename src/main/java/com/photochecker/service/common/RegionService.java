@@ -1,4 +1,4 @@
-package com.photochecker.service.lka;
+package com.photochecker.service.common;
 
 import com.photochecker.model.Region;
 import com.photochecker.model.User;
@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface RegionService {
 
-    public List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate);
+    public List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate, int repTypeInd);
 }

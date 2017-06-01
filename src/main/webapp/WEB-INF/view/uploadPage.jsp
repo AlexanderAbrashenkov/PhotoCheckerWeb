@@ -12,6 +12,7 @@
     <div id="upload_info_block">
         ${resultOfUpload}
     </div>
+    <input type="button" id="clear_upload_info_block" onclick="clearUploadInfoBlock()" value="Очистить результаты">
 </div>
 
 <%@include file="footer.jsp"%>

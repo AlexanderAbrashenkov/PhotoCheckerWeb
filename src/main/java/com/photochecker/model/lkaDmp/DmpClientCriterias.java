@@ -19,10 +19,15 @@ public class DmpClientCriterias {
     private boolean keyword;
 
     private boolean mz;
+    private boolean mzRicco;
+    private boolean mzRSpec;
+    private boolean mzMilad;
+    private boolean mzMSpec;
     private boolean k;
-    private boolean addProd;
     private boolean s;
+    private boolean sSpec;
     private boolean m;
+    private boolean mSpec;
 
     private boolean minSize;
     private boolean tmaProd;
@@ -37,7 +42,8 @@ public class DmpClientCriterias {
 
     public DmpClientCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo, LocalDateTime saveDate,
                               int dmpNum, int dmpCount, boolean isPhotoCorr, boolean keyword,
-                              boolean mz, boolean k, boolean addProd, boolean s, boolean m,
+                              boolean mz, boolean mzRicco, boolean mzRSpec, boolean mzMilad, boolean mzMSpec,
+                              boolean k, boolean s, boolean sSpec, boolean m, boolean mSpec,
                               boolean minSize, boolean tmaProd, boolean price, boolean fill80, boolean place, String comment) {
         this.clientId = clientId;
         this.dateFrom = dateFrom;
@@ -48,10 +54,15 @@ public class DmpClientCriterias {
         this.isPhotoCorr = isPhotoCorr;
         this.keyword = keyword;
         this.mz = mz;
+        this.mzRicco = mzRicco;
+        this.mzRSpec = mzRSpec;
+        this.mzMilad = mzMilad;
+        this.mzMSpec = mzMSpec;
         this.k = k;
-        this.addProd = addProd;
         this.s = s;
+        this.sSpec = sSpec;
         this.m = m;
+        this.mSpec = mSpec;
         this.minSize = minSize;
         this.tmaProd = tmaProd;
         this.price = price;
@@ -132,20 +143,44 @@ public class DmpClientCriterias {
         this.mz = mz;
     }
 
+    public boolean isMzRicco() {
+        return mzRicco;
+    }
+
+    public void setMzRicco(boolean mzRicco) {
+        this.mzRicco = mzRicco;
+    }
+
+    public boolean isMzRSpec() {
+        return mzRSpec;
+    }
+
+    public void setMzRSpec(boolean mzRSpec) {
+        this.mzRSpec = mzRSpec;
+    }
+
+    public boolean isMzMilad() {
+        return mzMilad;
+    }
+
+    public void setMzMilad(boolean mzMilad) {
+        this.mzMilad = mzMilad;
+    }
+
+    public boolean isMzMSpec() {
+        return mzMSpec;
+    }
+
+    public void setMzMSpec(boolean mzMSpec) {
+        this.mzMSpec = mzMSpec;
+    }
+
     public boolean isK() {
         return k;
     }
 
     public void setK(boolean k) {
         this.k = k;
-    }
-
-    public boolean isAddProd() {
-        return addProd;
-    }
-
-    public void setAddProd(boolean addProd) {
-        this.addProd = addProd;
     }
 
     public boolean isS() {
@@ -156,12 +191,28 @@ public class DmpClientCriterias {
         this.s = s;
     }
 
+    public boolean issSpec() {
+        return sSpec;
+    }
+
+    public void setsSpec(boolean sSpec) {
+        this.sSpec = sSpec;
+    }
+
     public boolean isM() {
         return m;
     }
 
     public void setM(boolean m) {
         this.m = m;
+    }
+
+    public boolean ismSpec() {
+        return mSpec;
+    }
+
+    public void setmSpec(boolean mSpec) {
+        this.mSpec = mSpec;
     }
 
     public boolean isMinSize() {
@@ -248,10 +299,15 @@ public class DmpClientCriterias {
                 ", isPhotoCorr=" + isPhotoCorr +
                 ", keyword=" + keyword +
                 ", mz=" + mz +
+                ", mzRicco=" + mzRicco +
+                ", mzRSpec=" + mzRSpec +
+                ", mzMilad=" + mzMilad +
+                ", mzMSpec=" + mzMSpec +
                 ", k=" + k +
-                ", addProd=" + addProd +
                 ", s=" + s +
+                ", sSpec=" + sSpec +
                 ", m=" + m +
+                ", mSpec=" + mSpec +
                 ", minSize=" + minSize +
                 ", tmaProd=" + tmaProd +
                 ", price=" + price +

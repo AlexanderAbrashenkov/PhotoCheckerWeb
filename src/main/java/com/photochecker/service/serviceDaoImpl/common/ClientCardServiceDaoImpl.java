@@ -39,4 +39,9 @@ public class ClientCardServiceDaoImpl implements ClientCardService {
 
         return clientCardList;
     }
+
+    @Override
+    public List<ClientCard> getClientCardList(int distrId, int mlkaId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd, int nkaId) {
+        return clientCardDao.findAllByNkaAndDates(mlkaId, dateFrom, dateTo, repTypeInd, nkaId, distrId);
+    }
 }

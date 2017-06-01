@@ -16,4 +16,6 @@ public interface ClientCardDao extends GenericDao<ClientCard> {
     List<ClientCard> findAllByLkaAndDates(Lka lka, LocalDate startDate, LocalDate endDate, int repTypeInd);
 
     List<ClientCard> findAllByChannelAndDates(Channel channel, LocalDate startDate, LocalDate endDate, int repTypeInd);
+
+    List<ClientCard> findAllByNkaAndDates(int mlkaId, LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId, int distrId);
 }

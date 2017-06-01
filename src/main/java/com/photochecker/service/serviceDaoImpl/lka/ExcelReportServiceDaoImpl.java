@@ -30,12 +30,6 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
     @Autowired
     private ResponsibilityDao responsibilityDao;
 
-    /*public ExcelReportServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        lkaReportItemDao = (LkaReportItemDao) context.getBean("lkaReportItemDao");
-        responsibilityDao = (ResponsibilityDao) context.getBean("responsibilityDao");
-    }*/
-
     @Override
     public XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {
         List<LkaReportItem> lkaReportItemList = lkaReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 5);

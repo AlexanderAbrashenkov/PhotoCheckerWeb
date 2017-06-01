@@ -23,6 +23,12 @@
     <bean id="lkaReportItemDao" class="com.photochecker.dao.jdbc.spring.lka.LkaReportItemDaoSpringImpl" />
 
     <bean id="dmpClientCriteriasDao" class="com.photochecker.dao.jdbc.spring.lkaDmp.DmpClientCriteriasDaoSpringImpl" />
+    <bean id="dmpReportItemDao" class="com.photochecker.dao.jdbc.spring.lkaDmp.DmpReportItemDaoSpringImpl" />
+
+    <bean id="nkaTypeDao" class="com.photochecker.dao.jdbc.spring.mlka.NkaTypeDaoSpringImpl" />
+    <bean id="employeeDao" class="com.photochecker.dao.jdbc.spring.mlka.EmployeeDaoSpringImpl" />
+    <bean id="nkaRespDao" class="com.photochecker.dao.jdbc.spring.mlka.NkaRespDaoSpringImpl" />
+    <bean id="mlkaClientCriteriasDao" class="com.photochecker.dao.jdbc.spring.mlka.MlkaClientCriteriasDaoSpringImpl" />
 
 
 
@@ -32,15 +38,22 @@
     <bean id="responsibilitiesService" class="com.photochecker.service.serviceDaoImpl.common.ResponsibilitiesServiceDaoImpl" />
     <bean id="userService" class="com.photochecker.service.serviceDaoImpl.common.UserServiceDaoImpl" />
     <bean id="clientCardService" class="com.photochecker.service.serviceDaoImpl.common.ClientCardServiceDaoImpl" />
-    <bean id="clientCriteriasService" class="com.photochecker.service.serviceDaoImpl.lka.ClientCriteriasServiceDaoImpl" />
     <bean id="distrService" class="com.photochecker.service.serviceDaoImpl.common.DistrServiceDaoImpl" />
     <bean id="channelService" class="com.photochecker.service.serviceDaoImpl.common.ChannelServiceDaoImpl" />
-    <bean id="excelReportService" class="com.photochecker.service.serviceDaoImpl.lka.ExcelReportServiceDaoImpl" />
-    <bean id="lkaCriteriasService" class="com.photochecker.service.serviceDaoImpl.lka.LkaCriteriasServiceDaoImpl" />
     <bean id="lkaService" class="com.photochecker.service.serviceDaoImpl.common.LkaServiceDaoImpl" />
     <bean id="photoCardService" class="com.photochecker.service.serviceDaoImpl.common.PhotoCardServiceDaoImpl" />
     <bean id="regionService" class="com.photochecker.service.serviceDaoImpl.common.RegionServiceDaoImpl" />
 
+    <bean id="clientCriteriasService" class="com.photochecker.service.serviceDaoImpl.lka.ClientCriteriasServiceDaoImpl" />
+    <bean id="excelReportService" class="com.photochecker.service.serviceDaoImpl.lka.ExcelReportServiceDaoImpl" />
+    <bean id="lkaCriteriasService" class="com.photochecker.service.serviceDaoImpl.lka.LkaCriteriasServiceDaoImpl" />
+
     <bean id="dmpClientCriteriasService" class="com.photochecker.service.serviceDaoImpl.lkaDmp.DmpClientCriteriasServiceDaoImpl" />
+    <bean id="dmpExcelReportService" class="com.photochecker.service.serviceDaoImpl.lkaDmp.DmpExcelReportServiceDaoImpl" />
+
+    <bean id="nkaTypeService" class="com.photochecker.service.serviceDaoImpl.mlka.NkaTypeServiceDaoImpl" />
+    <bean id="employeeService" class="com.photochecker.service.serviceDaoImpl.mlka.EmployeeServiceDaoImpl" />
+    <bean id="nkaRespService" class="com.photochecker.service.serviceDaoImpl.mlka.NkaRespServiceDaoImpl" />
+    <bean id="mlkaClientCriteriasService" class="com.photochecker.service.serviceDaoImpl.mlka.MlkaClientCriteriasServiceDaoImpl" />
 
 </beans>

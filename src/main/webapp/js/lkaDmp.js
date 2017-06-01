@@ -75,7 +75,6 @@ $(function () {
         $('tr.addr').removeClass('addressSelected');
         $('#center_pane .photoBlock').remove();
 
-        $('#dmpCountSelector').val('1');
         clearAllCriteriaPanes();
         resizeTabs(1);
 
@@ -183,12 +182,11 @@ $(function () {
 
     $('#clearButton').on('click', function () {
         clearAllCriteriaPanes();
-
     });
 
     $('#to_xlsx').on('click', function (e) {
         e.preventDefault();
-        window.location.href = 'lka/getExcelReport?dateFrom=' + $('#dateFrom').val() +
+        window.location.href = 'lkaDmp/getExcelReport?dateFrom=' + $('#dateFrom').val() +
                 '&dateTo=' + $('#dateTo').val();
     });
 });
@@ -199,12 +197,6 @@ function dateDiff(dateFrom, dateTo) {
     var timeDiff = date2.getTime() - date1.getTime();
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return diffDays;
-}
-
-function dayOfWeek(sDate) {
-    var date = new Date(sDate);
-    var dayOfWeek = date.getDay();
-    return dayOfWeek;
 }
 
 function clearAllFromDates() {
@@ -236,6 +228,7 @@ function clearAllFromLka() {
     for (var i = 0; i < dmpPanes.length; i++) {
         clearCriteriasPane(dmpPanes.eq(i));
     }
+    resizeTabs(1);
 }
 
 function clearAllCriteriaPanes() {
@@ -250,10 +243,15 @@ function clearCriteriasPane(criteriasPane) {
     criteriasPane.find('.keyWord').prop('checked', false);
 
     criteriasPane.find('.mz').prop('checked', false);
+    criteriasPane.find('.mzRicco').prop('checked', false);
+    criteriasPane.find('.mzRSpec').prop('checked', false);
+    criteriasPane.find('.mzMilad').prop('checked', false);
+    criteriasPane.find('.mzMSpec').prop('checked', false);
     criteriasPane.find('.k').prop('checked', false);
-    criteriasPane.find('.addProd').prop('checked', false);
     criteriasPane.find('.s').prop('checked', false);
+    criteriasPane.find('.sSpec').prop('checked', false);
     criteriasPane.find('.m').prop('checked', false);
+    criteriasPane.find('.mSpec').prop('checked', false);
 
     criteriasPane.find('.minSize').prop('checked', false);
     criteriasPane.find('.tmaProd').prop('checked', false);
@@ -398,33 +396,43 @@ function loadSavedCriterias(clientId, dateFrom, dateTo) {
         })
         .done(function (data) {
             checkForRedirect(data);
-            $('#mzPhoto').prop('checked', data.hasPhotoMz);
-            $('#mzCorrect').prop('checked', data.isCorrectMz);
-            $('#mzSP').prop('checked', data.hasAddProdMz);
-            $('#mzCrit1').prop('checked', data.crit1Mz);
-            $('#mzCrit2').prop('checked', data.crit2Mz);
 
-            $('#kPhoto').prop('checked', data.hasPhotoK);
-            $('#kCorrect').prop('checked', data.isCorrectK);
-            $('#kCrit1').prop('checked', data.crit1K);
-            $('#kCrit2').prop('checked', data.crit2K);
+            var dmpCount = data.length;
+            resizeTabs(dmpCount);
 
-            $('#sPhoto').prop('checked', data.hasPhotoS);
-            $('#sCorrect').prop('checked', data.isCorrectS);
-            $('#sCrit1').prop('checked', data.crit1S);
-            $('#sCrit2').prop('checked', data.crit2S);
-
-            $('#mPhoto').prop('checked', data.hasPhotoM);
-            $('#mCorrect').prop('checked', data.isCorrectM);
-            $('#mCrit1').prop('checked', data.crit1M);
-            $('#mCrit2').prop('checked', data.crit2M);
-
-            $('#oos').prop('checked', data.oos);
-            $('#comment').val(data.comment);
+            for (var i = 0; i < dmpCount; i++) {
+                setDmpCriterias(i, data[i]);
+            }
         })
         .fail(function () {
             showErrorPane();
         })
+}
+
+function setDmpCriterias(dmpNum, dmpCriterias) {
+    var dmp = $('.dmp').eq(dmpNum);
+
+    dmp.find('.isPhotoCorr').prop('checked', dmpCriterias.isPhotoCorr);
+    dmp.find('.keyword').prop('checked', dmpCriterias.keyword);
+
+    dmp.find('.mz').prop('checked', dmpCriterias.mz);
+    dmp.find('.mzRicco').prop('checked', dmpCriterias.mzRicco);
+    dmp.find('.mzRSpec').prop('checked', dmpCriterias.mzRSpec);
+    dmp.find('.mzMilad').prop('checked', dmpCriterias.mzMilad);
+    dmp.find('.mzMSpec').prop('checked', dmpCriterias.mzMSpec);
+    dmp.find('.k').prop('checked', dmpCriterias.k);
+    dmp.find('.s').prop('checked', dmpCriterias.s);
+    dmp.find('.sSpec').prop('checked', dmpCriterias.sSpec);
+    dmp.find('.m').prop('checked', dmpCriterias.m);
+    dmp.find('.mSpec').prop('checked', dmpCriterias.mSpec);
+
+    dmp.find('.minSize').prop('checked', dmpCriterias.minSize);
+    dmp.find('.tmaProd').prop('checked', dmpCriterias.tmaProd);
+    dmp.find('.price').prop('checked', dmpCriterias.price);
+    dmp.find('.fill80').prop('checked', dmpCriterias.fill80);
+    dmp.find('.place').prop('checked', dmpCriterias.place);
+
+    dmp.find('.commentArea').val(dmpCriterias.comment);
 }
 
 function fillDatasOnPhotoShow(newPhotoBlockNum) {
@@ -463,10 +471,15 @@ function saveCriteriasByClient(clientId) {
             keyword: tabContents.eq(i).find('.keyword').is(':checked'),
 
             mz: tabContents.eq(i).find('.mz').is(':checked'),
+            mzRicco: tabContents.eq(i).find('.mzRicco').is(':checked'),
+            mzRSpec: tabContents.eq(i).find('.mzRSpec').is(':checked'),
+            mzMilad: tabContents.eq(i).find('.mzMilad').is(':checked'),
+            mzMSpec: tabContents.eq(i).find('.mzMSpec').is(':checked'),
             k: tabContents.eq(i).find('.k').is(':checked'),
-            addProd: tabContents.eq(i).find('.addProd').is(':checked'),
             s: tabContents.eq(i).find('.s').is(':checked'),
+            sSpec: tabContents.eq(i).find('.sSpec').is(':checked'),
             m: tabContents.eq(i).find('.m').is(':checked'),
+            mSpec: tabContents.eq(i).find('.mSpec').is(':checked'),
 
             minSize: tabContents.eq(i).find('.minSize').is(':checked'),
             tmaProd: tabContents.eq(i).find('.tmaProd').is(':checked'),
@@ -498,6 +511,7 @@ function saveCriteriasByClient(clientId) {
 };
 
 function resizeTabs(tabsCount) {
+    $('#dmpCountSelector').val(tabsCount);
     var tablinks = $('.tablinks');
     for (var i = 0; i < tablinks.length; i++) {
         tablinks.eq(i).removeClass('hidden');
@@ -524,7 +538,7 @@ function resizeTabs(tabsCount) {
     }
 };
 
-function openCity(evt, dmpNum) {
+function openDmp(evt, dmpNum) {
     var i, tabcontent, tablinks;
 
     tabcontent = $(".dmp");

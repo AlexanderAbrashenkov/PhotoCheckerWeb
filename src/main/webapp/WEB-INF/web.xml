@@ -9,7 +9,11 @@
     <param-name>pageTitle</param-name>
     <param-value>Стартовый заголовок</param-value>
   </context-param>
-
+  
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:/**/spring-context.xml</param-value>
+  </context-param>
 
 
   <error-page>
@@ -22,20 +26,9 @@
     <location>/error.jsp</location>
   </error-page>
 
-
-
-  <filter-mapping>
-    <filter-name>SessionFilter</filter-name>
-    <url-pattern>/reports</url-pattern>
-    <url-pattern>/reports/*</url-pattern>
-  </filter-mapping>
-
-  <filter-mapping>
-    <filter-name>LkaRoleFilter</filter-name>
-    <url-pattern>/reports/upload</url-pattern>
-    <url-pattern>/reports/lka_criteria</url-pattern>
-  </filter-mapping>
-
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
   <resource-ref>
     <res-ref-name>jdbc/library</res-ref-name>
@@ -43,13 +36,5 @@
     <res-auth>Container</res-auth>
     <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
-
-/*1 - MySql database*/
-  <env-entry>
-    <description>Type of DAO</description>
-    <env-entry-name>DAOType</env-entry-name>
-    <env-entry-type>java.lang.Integer</env-entry-type>
-    <env-entry-value>1</env-entry-value>
-  </env-entry>
 
 </web-app>

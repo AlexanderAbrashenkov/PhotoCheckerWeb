@@ -14,5 +14,7 @@ import java.util.stream.Collectors;
 public interface DistrService {
 
 
-    public List<Distr> getDistrs(User user, int regionId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
+    List<Distr> getDistrs(User user, int regionId, LocalDate startDate, LocalDate endDate, int repTypeInd);
+
+    List<Distr> getDistrs(User user, int regionId, LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId);
 }

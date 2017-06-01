@@ -18,7 +18,10 @@
             <c:if test="${fn:contains(sessionScope.user.reportTypeList, 2)}">
                 <div class="report_group">
                     <div class="group_title">2. Федеральные сети: фотоотчеты MLKA</div>
-                    <div class="report_link" style="display: none"><a href="/">Просмотр фото</a> </div>
+                    <div class="report_link"><a href="/reports/mlka">Просмотр фото</a> </div>
+                    <c:if test="${sessionScope.user.role >= 2}">
+                        <div class="report_link"><a href="/reports/mlkaResp">Распределение ответственных по MLKA</a> </div>
+                    </c:if>
                 </div>
             </c:if>
 

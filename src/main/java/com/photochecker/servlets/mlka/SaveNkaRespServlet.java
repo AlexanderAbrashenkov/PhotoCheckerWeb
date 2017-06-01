@@ -1,11 +1,11 @@
-package com.photochecker.servlets.lkaDmp.ajax_servlets;
+package com.photochecker.servlets.mlka;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.photochecker.model.lka.LkaCriterias;
-import com.photochecker.service.lka.LkaCriteriasService;
+import com.photochecker.model.mlka.NkaResp;
+import com.photochecker.service.mlka.NkaRespService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -19,27 +19,29 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Created by market6 on 07.04.2017.
+ * Created by market6 on 01.06.2017.
  */
-@WebServlet(name = "SaveNewLkaDmpCriteriasServlet",
-urlPatterns = "/reports/lkaDmp/saveNewCriterias")
-public class SaveNewCriteriasServlet extends HttpServlet {
+@WebServlet(name = "SaveNkaRespServlet",
+        urlPatterns = "/reports/mlkaResp/save")
 
-    private LkaCriteriasService lkaCriteriasService;
+public class SaveNkaRespServlet extends HttpServlet {
+
+    private NkaRespService nkaRespService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        lkaCriteriasService = (LkaCriteriasService) context.getBean("lkaCriteriasService");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        nkaRespService = (NkaRespService) context.getBean("nkaRespService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Gson gson = new Gson();
-        Type type = new TypeToken<List<LkaCriterias>>(){}.getType();
-        List<LkaCriterias> critList = gson.fromJson(request.getParameter("critList"), type);
+        Type type = new TypeToken<List<NkaResp>>(){}.getType();
 
-        boolean succeed = lkaCriteriasService.writeNewLkaCriterias(critList);
+        List<NkaResp> nkaRespList = gson.fromJson(request.getParameter("nkaRespList"), type);
+
+        boolean succeed = nkaRespService.writeNkaResp(nkaRespList);
 
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("answer", succeed)

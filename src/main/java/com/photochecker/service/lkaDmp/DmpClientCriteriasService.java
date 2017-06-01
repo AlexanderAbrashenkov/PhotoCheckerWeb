@@ -11,5 +11,5 @@ import java.util.List;
 public interface DmpClientCriteriasService {
     public boolean saveCriterias(List<DmpClientCriterias> clientCriteriasList);
 
-    public DmpClientCriterias getSavedCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo);
+    public List<DmpClientCriterias> getSavedCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo);
 }

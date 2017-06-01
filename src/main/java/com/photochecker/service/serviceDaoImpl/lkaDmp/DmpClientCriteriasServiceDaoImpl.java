@@ -33,8 +33,8 @@ public class DmpClientCriteriasServiceDaoImpl implements DmpClientCriteriasServi
     }
 
     @Override
-    public DmpClientCriterias getSavedCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo) {
+    public List<DmpClientCriterias> getSavedCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo) {
         List<DmpClientCriterias> result = dmpClientCriteriasDao.findAllByClientAndDates(clientId, dateFrom, dateTo);
-        return result.size() > 0 ? result.get(0) : null;
+        return result;
     }
 }

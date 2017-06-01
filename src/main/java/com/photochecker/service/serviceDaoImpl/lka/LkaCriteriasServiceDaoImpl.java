@@ -17,11 +17,6 @@ public class LkaCriteriasServiceDaoImpl implements LkaCriteriasService {
     @Autowired
     private LkaCriteriasDao lkaCriteriasDao;
 
-    /*public LkaCriteriasServiceDaoImpl() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        lkaCriteriasDao = (LkaCriteriasDao) context.getBean("lkaCriteriasDao");
-    }*/
-
     @Override
     public LkaCriterias getLkaCriterias(int lkaId) {
         LkaCriterias lkaCriterias = lkaCriteriasDao.find(lkaId);

@@ -16,12 +16,13 @@ public class ClientCard {
     private String obl;
     private int channelId;
     private Lka lka;
+    private int nkaType;
 
     public ClientCard() {
     }
 
     public ClientCard(int clientId, String clientName, String clientAddress, String clientType,
-                      boolean checked, Distr distr, String obl, int channelId, Lka lka) {
+                      boolean checked, Distr distr, String obl, int channelId, Lka lka, int nkaType) {
         this.clientId = clientId;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
@@ -31,6 +32,7 @@ public class ClientCard {
         this.obl = obl;
         this.channelId = channelId;
         this.lka = lka;
+        this.nkaType = nkaType;
     }
 
     public int getClientId() {
@@ -105,6 +107,14 @@ public class ClientCard {
         this.lka = lka;
     }
 
+    public int getNkaType() {
+        return nkaType;
+    }
+
+    public void setNkaType(int nkaType) {
+        this.nkaType = nkaType;
+    }
+
     @Override
     public String toString() {
         return "ClientCard{" +
@@ -117,6 +127,7 @@ public class ClientCard {
                 ", obl='" + obl + '\'' +
                 ", channelId=" + channelId +
                 ", lka=" + lka +
+                ", nkaType=" + nkaType +
                 '}';
     }
 

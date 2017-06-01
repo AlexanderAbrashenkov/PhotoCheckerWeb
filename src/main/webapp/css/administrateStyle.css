@@ -246,6 +246,16 @@ select.resp_name {
     margin-top: 60px;
 }
 
+#upload_info_block {
+    margin-left: 30px;
+    font-size: 1.1em;
+}
+
+#clear_upload_info_block {
+    margin-left: 50px;
+    margin-top: 10px;
+}
+
 /* save user */
 
 #crus_container {

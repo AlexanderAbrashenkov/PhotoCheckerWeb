@@ -11,5 +11,7 @@ import java.util.List;
  */
 public interface RegionService {
 
-    public List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate, int repTypeInd);
+    List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate, int repTypeInd);
+
+    List<Region> getRegions(User user, LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId);
 }

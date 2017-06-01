@@ -4,6 +4,7 @@ import com.photochecker.model.lka.ClientCriterias;
 import com.photochecker.service.lka.ClientCriteriasService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +29,7 @@ public class SaveCriteriasServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         clientCriteriasService = (ClientCriteriasService) context.getBean("clientCriteriasService");
     }
 

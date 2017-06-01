@@ -1,7 +1,13 @@
 package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.*;
+import com.photochecker.dao.mlka.EmployeeDao;
+import com.photochecker.dao.mlka.NkaRespDao;
+import com.photochecker.dao.mlka.NkaTypeDao;
 import com.photochecker.model.*;
+import com.photochecker.model.mlka.Employee;
+import com.photochecker.model.mlka.NkaResp;
+import com.photochecker.model.mlka.NkaType;
 import com.photochecker.service.common.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,12 +38,22 @@ public class UploadServiceDaoImpl implements UploadService {
     private ClientCardDao clientCardDao;
     @Autowired
     private PhotoCardDao photoCardDao;
+    @Autowired
+    private NkaTypeDao nkaTypeDao;
+    @Autowired
+    private NkaRespDao nkaRespDao;
+    @Autowired
+    private EmployeeDao employeeDao;
 
     private List<Region> regionList;
     private List<Distr> distrList;
     private List<Channel> channelList;
     private List<Lka> lkaList;
     private List<Responsibility> responsibilityList;
+    private List<NkaType> nkaTypeList;
+    private List<NkaResp> nkaRespList;
+    private List<Employee> employeeList;
+    private List<PhotoCard> photoCardList;
 
     @Override
     public String uploadDatas(BufferedReader reader, String date) {
@@ -47,10 +63,16 @@ public class UploadServiceDaoImpl implements UploadService {
         channelList = channelDao.findAll();
         lkaList = lkaDao.findAll();
         responsibilityList = responsibilityDao.findAll();
+        nkaTypeList = nkaTypeDao.findAll();
+        nkaRespList = nkaRespDao.findAll();
+        employeeList = employeeDao.findAll();
 
         LocalDate dateAdd = LocalDate.parse(date);
+        photoCardList = photoCardDao.findAllByDates(dateAdd, dateAdd);
+
         int lkaCounter = 0;
         int lkaDmpCounter = 0;
+        int mlkaCounter = 0;
 
         try {
             String record = reader.readLine();
@@ -60,16 +82,21 @@ public class UploadServiceDaoImpl implements UploadService {
 
             record = reader.readLine();
 
-            if (record.equals("--lkaDmp begin--")) {
+            if (record.equals("--lkaDmp begin--"))
                 lkaDmpCounter = readLkaDmpDatas(reader);
 
-            }
+            record = reader.readLine();
+
+            if (record.equals("--mlka begin--"))
+                mlkaCounter = readMlkaDatas(reader);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return "Локальные сети: " + lkaCounter + " строк. <br>" +
-                "Дистрибьюторы, ДМП: " + lkaDmpCounter + " строк.";
+                "Дистрибьюторы, ДМП: " + lkaDmpCounter + " строк. <br>" +
+                "MLKA в федеральных сетях: " + mlkaCounter + " строк.";
     }
 
     private int readLkaDatas(BufferedReader reader) {
@@ -129,7 +156,8 @@ public class UploadServiceDaoImpl implements UploadService {
                         distr,
                         recordParts[2],
                         Integer.parseInt(recordParts[10]),
-                        lka);
+                        lka,
+                        0);
 
                 if (clientCardDao.find(clientCard.getClientId()) == null) {
                     clientCardDao.save(clientCard);
@@ -154,9 +182,11 @@ public class UploadServiceDaoImpl implements UploadService {
                         addDateLocal,
                         recordParts[15],
                         false,
-                        reportType);
-                if (photoCardDao.findByUrl(photoCard.getUrl()) == null) {
+                        reportType,
+                        0);
+                if (!photoCardList.contains(photoCard)) {
                     photoCardDao.save(photoCard);
+                    photoCardList.add(photoCard);
                 }
 
                 recordCounter++;
@@ -233,7 +263,8 @@ public class UploadServiceDaoImpl implements UploadService {
                         distr,
                         recordParts[2],
                         Integer.parseInt(recordParts[10]),
-                        lka);
+                        lka,
+                        0);
 
                 if (clientCardDao.find(clientCard.getClientId()) == null) {
                     clientCardDao.save(clientCard);
@@ -258,9 +289,140 @@ public class UploadServiceDaoImpl implements UploadService {
                         addDateLocal,
                         recordParts[16],
                         false,
-                        reportType);
-                if (photoCardDao.findByUrl(photoCard.getUrl()) == null) {
+                        reportType,
+                        0);
+                if (!photoCardList.contains(photoCard)) {
                     photoCardDao.save(photoCard);
+                    photoCardList.add(photoCard);
+                }
+
+                recordCounter++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return recordCounter;
+    }
+
+    private int readMlkaDatas(BufferedReader reader) {
+        int recordCounter = 0;
+
+        String record;
+
+        try {
+            while (!(record = reader.readLine()).equals("--mlka end--")) {
+
+                String[] recordParts = record.split("; ");
+
+                if (recordParts.length < 20) continue;
+
+
+                Region region = new Region(Integer.parseInt(recordParts[1]),
+                        recordParts[2]);
+                if (!regionList.contains(region)) {
+                    regionDao.save(region);
+                    regionList.add(region);
+                }
+
+
+                Distr distr = new Distr(Integer.parseInt(recordParts[5]),
+                        recordParts[4],
+                        region);
+                if (!distrList.contains(distr)) {
+                    distrDao.save(distr);
+                    distrList.add(distr);
+                }
+
+                Channel channel = new Channel(Integer.parseInt(recordParts[13]),
+                        recordParts[14]);
+                if (!channelList.contains(channel)) {
+                    channelDao.save(channel);
+                    channelList.add(channel);
+                }
+
+
+                Lka lka = null;
+                if (channel.getId() == 1) {
+                    lka = new Lka(Integer.parseInt(recordParts[7]),
+                            recordParts[6]);
+                    if (!lkaList.contains(lka)) {
+                        lkaDao.save(lka);
+                        lkaList.add(lka);
+                    }
+                }
+
+
+                ReportType reportType = reportTypeDao.find(2);
+
+                NkaType nkaType = recordParts[0].equals("X5")
+                        ? new NkaType(1, "X5")
+                        : new NkaType(2, "Тандер");
+
+                if (!nkaTypeList.contains(nkaType)) {
+                    nkaTypeDao.save(nkaType);
+                    nkaTypeList.add(nkaType);
+                }
+
+
+                Employee employee = null;
+                int employeeId = Integer.parseInt(recordParts[9]);
+
+                if (employeeId != 0) {
+                    employee = new Employee(Integer.parseInt(recordParts[9]),
+                            recordParts[8]);
+                    if (!employeeList.contains(employee)) {
+                        employeeDao.save(employee);
+                        employeeList.add(employee);
+                    }
+                }
+
+                NkaResp nkaResp = new NkaResp(nkaType, distr, null);
+
+                if (!nkaRespList.contains(nkaResp)) {
+                    nkaRespDao.save(nkaResp);
+                    nkaRespList.add(nkaResp);
+                }
+
+                ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[10]),
+                        recordParts[11],
+                        recordParts[12],
+                        recordParts[18],
+                        false,
+                        distr,
+                        recordParts[3],
+                        Integer.parseInt(recordParts[13]),
+                        lka,
+                        nkaType.getId());
+
+                if (clientCardDao.find(clientCard.getClientId()) == null) {
+                    clientCardDao.save(clientCard);
+                } else {
+                    clientCardDao.update(clientCard);
+                }
+
+
+                Timestamp photoDate = Timestamp.valueOf(recordParts[15]);
+                LocalDateTime photoDateLocal = photoDate.toLocalDateTime();
+                Timestamp addDate = Timestamp.valueOf(recordParts[16]);
+                LocalDateTime addDateLocal = addDate.toLocalDateTime();
+                String shortUrl = recordParts[17];
+                String day = Integer.toString(addDateLocal.getDayOfMonth()).length() == 1 ? "0" + addDateLocal.getDayOfMonth() : Integer.toString(addDateLocal.getDayOfMonth());
+                String month = Integer.toString(addDateLocal.getMonthValue()).length() == 1 ? "0" + addDateLocal.getMonthValue() : Integer.toString(addDateLocal.getMonthValue());
+                String fullUrl = "https://report.ncsd.ru/upload/foto100g3/" + addDateLocal.getYear() + "_" + month +
+                        "/" + day + "/" + shortUrl;
+
+                PhotoCard photoCard = new PhotoCard(clientCard.getClientId(),
+                        fullUrl,
+                        photoDateLocal,
+                        addDateLocal,
+                        recordParts[19],
+                        false,
+                        reportType,
+                        employee.getId());
+
+                if (!photoCardList.contains(photoCard)) {
+                    photoCardDao.save(photoCard);
+                    photoCardList.add(photoCard);
                 }
 
                 recordCounter++;

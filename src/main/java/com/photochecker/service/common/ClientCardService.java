@@ -12,4 +12,6 @@ import java.util.List;
 public interface ClientCardService {
 
     public List<ClientCard> getClientCardList(int distrId, int lkaId, int channelId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
+
+    List<ClientCard> getClientCardList(int distrId, int mlkaId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd, int nkaId);
 }

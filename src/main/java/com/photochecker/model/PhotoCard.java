@@ -1,6 +1,5 @@
 package com.photochecker.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,12 +13,13 @@ public class PhotoCard {
     private String comment;
     private boolean checked;
     private ReportType reportType;
+    private int employeeId;
 
     public PhotoCard() {
     }
 
-    public PhotoCard(int clientId, String url, LocalDateTime date, LocalDateTime dateAdd,
-                     String comment, boolean checked, ReportType reportType) {
+    public PhotoCard(int clientId, String url, LocalDateTime date, LocalDateTime dateAdd, String comment,
+                     boolean checked, ReportType reportType, int employeeId) {
         this.clientId = clientId;
         this.url = url;
         this.date = date;
@@ -27,6 +27,7 @@ public class PhotoCard {
         this.comment = comment;
         this.checked = checked;
         this.reportType = reportType;
+        this.employeeId = employeeId;
     }
 
     public int getClientId() {
@@ -85,6 +86,14 @@ public class PhotoCard {
         this.reportType = reportType;
     }
 
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,12 +101,15 @@ public class PhotoCard {
 
         PhotoCard photoCard = (PhotoCard) o;
 
-        return url != null ? url.equals(photoCard.url) : photoCard.url == null;
+        if (!url.equals(photoCard.url)) return false;
+        return reportType != null ? reportType.equals(photoCard.reportType) : photoCard.reportType == null;
     }
 
     @Override
     public int hashCode() {
-        return url != null ? url.hashCode() : 0;
+        int result = url.hashCode();
+        result = 31 * result + (reportType != null ? reportType.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -110,6 +122,7 @@ public class PhotoCard {
                 ", comment='" + comment + '\'' +
                 ", checked=" + checked +
                 ", reportType=" + reportType +
+                ", employeeId=" + employeeId +
                 '}';
     }
 }

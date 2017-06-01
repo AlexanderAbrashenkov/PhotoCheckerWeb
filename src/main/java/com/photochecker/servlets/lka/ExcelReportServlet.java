@@ -5,6 +5,7 @@ import com.photochecker.service.lka.ExcelReportService;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +30,7 @@ public class ExcelReportServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         excelReportService = (ExcelReportService) context.getBean("excelReportService");
     }
 

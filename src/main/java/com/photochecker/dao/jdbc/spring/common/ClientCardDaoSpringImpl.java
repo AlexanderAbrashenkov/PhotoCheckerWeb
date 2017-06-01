@@ -23,44 +23,56 @@ import java.util.List;
 public class ClientCardDaoSpringImpl implements ClientCardDao {
 
     //language=SQL
-    private String SQL_FIND_BY_LKA = "select distinct cc.`client_id`, cc.`client_name`, cc.`client_address`, cc.`type_name`, \n" +
-            "case when sav.`save_date` is not null then 1 else 0 end checked,\n" +
-            "cc.`obl`, cc.`distributor_id`, cc.`channel_id`, cc.`lka_id`" +
+    private String SQL_FIND_BY_LKA = "select distinct cc.*, \n" +
+            "case when sav.`save_date` is not null then 1 else 0 end checked\n" +
             "from `client_card` cc\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
             "left join (select slka.`client_id`, slka.`save_date` from %s slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
             "and cc.`lka_id` = ?\n" +
             "and pc.`report_type` = ?\n" +
-            "order by 1;";
+            "order by 2;";
 
     //language=SQL
-    private String SQL_FIND_BY_CHANNEL = "select distinct cc.`client_id`, cc.`client_name`, cc.`client_address`, cc.`type_name`, \n" +
-            "case when sav.`save_date` is not null then 1 else 0 end checked,\n" +
-            "cc.`obl`, cc.`distributor_id`, cc.`channel_id`, cc.`lka_id`" +
+    private String SQL_FIND_BY_NKA = "select distinct cc.*, \n" +
+            "case when sav.`save_date` is not null then 1 else 0 end checked\n" +
+            "from `client_card` cc\n" +
+            "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
+            "left join (select slka.`client_id`, slka.`save_date` from `save_mlka_db` slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "and cc.`nka_type` = ?\n" +
+            "and pc.`employee_id` = ?\n" +
+            "and cc.`distributor_id` = ?\n" +
+            "order by 2;";
+
+    //language=SQL
+    private String SQL_FIND_BY_CHANNEL = "select distinct cc.*, \n" +
+            "case when sav.`save_date` is not null then 1 else 0 end checked\n" +
             "from `client_card` cc\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
             "left join (select slka.`client_id`, slka.`save_date` from %s slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
             "and cc.`channel_id` = ?\n" +
             "and pc.`report_type` = ?\n" +
-            "order by 1;";
+            "order by 2;";
 
     private final String SQL_FIND_BY_ID = "select *, 0 as checked " +
             "from `client_card` cc " +
             "where `client_id`=? " +
-            "order by 1";
+            "order by 2";
 
     private final String SQL_FIND_ALL = "select *, 0 as checked " +
             "from `client_card` cc " +
-            "order by 1";
+            "order by 2";
 
     private final String SQL_SAVE = "INSERT INTO `client_card`\n" +
-            "(`client_id`, `client_name`, `client_address`, `region_id`, `obl`, `distributor_id`, `channel_id`, `lka_id`, `type_name`)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "(`client_id`, `client_name`, `client_address`, `region_id`, " +
+            "`obl`, `distributor_id`, `channel_id`, `lka_id`, `type_name`, `nka_type`)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private final String SQL_UPDATE = "UPDATE `client_card`\n" +
-            "SET `client_name` = ?, `client_address` = ?, `channel_id` = ?, `lka_id` = ?, `type_name` = ?\n" +
+            "SET `client_name` = ?, `client_address` = ?, `channel_id` = ?, `lka_id` = ?, `type_name` = ?, `nka_type` = ?\n" +
             "WHERE `client_id` = ?";
 
 
@@ -99,7 +111,8 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 distr,
                 resultSet.getString("obl"),
                 resultSet.getInt("channel_id"),
-                lka
+                lka,
+                resultSet.getInt("nka_type")
         );
     };
 
@@ -135,7 +148,8 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getDistr().getId(),
                 clientCard.getChannelId(),
                 clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
-                clientCard.getClientType());
+                clientCard.getClientType(),
+                clientCard.getNkaType());
     }
 
     @Override
@@ -159,6 +173,7 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getChannelId(),
                 clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
                 clientCard.getClientType(),
+                clientCard.getNkaType(),
                 clientCard.getClientId());
         return true;
     }
@@ -176,6 +191,22 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     @Override
     public List<ClientCard> findAllByChannelAndDates(Channel channel, LocalDate startDate, LocalDate endDate, int repTypeInd) {
         return findAllByParams(startDate, endDate, repTypeInd, null, channel);
+    }
+
+    @Override
+    public List<ClientCard> findAllByNkaAndDates(int mlkaId, LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId, int distrId) {
+        setClientCardFields();
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_NKA, clientCardRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate.minusDays(1)),
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                repTypeInd,
+                nkaId,
+                mlkaId,
+                distrId);
     }
 
     private List<ClientCard> findAllByParams(LocalDate startDate, LocalDate endDate, int repTypeInd, Lka lka, Channel channel) {

@@ -4,6 +4,7 @@ import com.photochecker.model.ReportType;
 import com.photochecker.service.common.ReportTypeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,13 +27,12 @@ public class CreateUserServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         reportTypeService = (ReportTypeService) context.getBean("reportTypeService");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ReportType> reportTypes = reportTypeService.getReportTypes();
-        System.out.println(reportTypes);
         request.setAttribute("reportTypes", reportTypes);
         request.setAttribute("pageTitle", "Новый сотрудник");
         request.setAttribute("pageCategory", "administrate");

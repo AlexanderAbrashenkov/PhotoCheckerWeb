@@ -4,6 +4,7 @@ import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.service.lka.LkaCriteriasService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -27,7 +28,7 @@ public class DownloadCriteriasServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         lkaCriteriasService = (LkaCriteriasService) context.getBean("lkaCriteriasService");
     }
 

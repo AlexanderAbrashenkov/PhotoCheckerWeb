@@ -38,6 +38,10 @@ $(function () {
         saveResponsibilities();
     });
 
+    $('#nka_resp_save').on('click', function () {
+        saveNkaResp();
+    });
+
     $('#resp_cancel').on('click', function () {
         location.reload();
     });
@@ -186,6 +190,47 @@ function saveResponsibilities() {
         })
 }
 
+function saveNkaResp() {
+    var respArray = new Array();
+    var respList = $('.responsib');
+    var canContinue = true;
+
+    $('#loader').css('display', 'block');
+
+    for (var i = 0; i < respList.length; i++) {
+        var respElem = {
+            nkaType: {
+                id: respList.eq(i).children('.type_name').attr('name')
+            },
+            distr: {
+                id: respList.eq(i).children('.distr_name').attr('name')
+            },
+            user: {
+                id: respList.eq(i).children('.resp_name').children('option').filter(':selected').attr('name')
+            }
+        };
+        respArray.push(respElem);
+    };
+    $.post('mlkaResp/save',
+        {
+            nkaRespList: JSON.stringify(respArray)
+        })
+        .done(function (data) {
+            checkForRedirect(data);
+            if (data.answer === true) {
+                showSavedSuccessfullyPane();
+            } else {
+                showErrorPane();
+            }
+        })
+        .fail(function (data) {
+            showErrorPane();
+        })
+        .always(function () {
+            $('#loader').css('display', 'none');
+        })
+}
+
 function checkUserExist(login) {
     if (login === undefined || login === "") {
         $('#loginError').css('display', 'none');
@@ -280,4 +325,8 @@ function saveNewUser() {
         .always(function () {
             $('#loader').css('display', 'none');
         })
+}
+
+function clearUploadInfoBlock() {
+    $('#upload_info_block').text('');
 }

@@ -8,7 +8,7 @@ public class ApachePoiManager {
 
     public static void createApachePoi (int reportNumber) {
         switch (reportNumber) {
-            //case 0: apachePoi = new ApachePoiLkaDmp(); break;
+            case 1: apachePoi = new ApachePoiLkaDmp(); break;
             //case 1: apachePoi = new ApachePoiNkaMlka(); break;
             //case 2: apachePoi = new ApachePoiNkaDmp(); break;
             //case 3: apachePoi = new ApachePoiNst(); break;

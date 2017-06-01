@@ -6,6 +6,7 @@ import com.photochecker.service.common.CommonService;
 import com.photochecker.service.common.RegionService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +33,7 @@ public class StartLkaDmpServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         commonService = (CommonService) context.getBean("commonService");
         regionService = (RegionService) context.getBean("regionService");
     }

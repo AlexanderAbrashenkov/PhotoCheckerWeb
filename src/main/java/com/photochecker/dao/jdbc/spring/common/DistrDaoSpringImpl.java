@@ -5,8 +5,6 @@ import com.photochecker.dao.common.RegionDao;
 import com.photochecker.model.Distr;
 import com.photochecker.model.Region;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -25,7 +23,16 @@ public class DistrDaoSpringImpl implements DistrDao {
 
     private final String SQL_FIND_ALL = "SELECT * FROM `distr_db`";
 
-    private final String SQL_FIND_BY_PARAMS = "select distinct d.`distr_name`, d.`distr_id`, d.`region_id` \n" +
+    private final String SQL_FIND_BY_DATES_AND_NKA = "select distinct d.`distr_name`, d.`distr_id`, d.`region_id` \n" +
+            "from `distr_db` d\n" +
+            "inner join `client_card` cc on cc.`distributor_id` = d.`distr_id`\n" +
+            "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "and cc.`nka_type` = ?\n" +
+            "order by 1;";
+
+    private final String SQL_FIND_BY_DATES = "select distinct d.`distr_name`, d.`distr_id`, d.`region_id` \n" +
             "from `distr_db` d\n" +
             "inner join `client_card` cc on cc.`distributor_id` = d.`distr_id`\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
@@ -98,9 +105,21 @@ public class DistrDaoSpringImpl implements DistrDao {
         setDistrFields();
         endDate = endDate.plusDays(1);
 
-        return jdbcTemplate.query(SQL_FIND_BY_PARAMS, distrRowMapper,
+        return jdbcTemplate.query(SQL_FIND_BY_DATES, distrRowMapper,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate),
                 repTypeInd);
+    }
+
+    @Override
+    public List<Distr> findAllByDatesAndNka(LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId) {
+        setDistrFields();
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_DATES_AND_NKA, distrRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                repTypeInd,
+                nkaId);
     }
 }

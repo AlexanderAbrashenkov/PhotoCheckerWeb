@@ -20,13 +20,13 @@ public class DmpClientCriteriasDaoSpringImpl implements DmpClientCriteriasDao {
     private final String SQL_SAVE = "INSERT INTO `save_lka_dmp_db`\n" +
             "(`save_date`, " +
             "`dmp_num`, `dmp_count`, `is_photo_corr`, `keyword`, " +
-            "`mz`, `k`, `add_prod`, `s`, `m`, " +
+            "`mz`, `mz_ricco`, `mz_r_spec`, `mz_milad`, `mz_m_spec`, `k`, `s`, `s_spec`, `m`, `m_spec`, " +
             "`min_size`, `tma_prod`, `price`, `fill80`, `place`, " +
             "`comm`, " +
             "`client_id`, `date_from`, `date_to`)\n" +
             "VALUES (?, " +
             "?, ?, ?, ?, " +
-            "?, ?, ?, ?, ?, " +
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
             "?, ?, ?, ?, ?, " +
             "?, " +
             "?, ?, ?);";
@@ -59,10 +59,15 @@ public class DmpClientCriteriasDaoSpringImpl implements DmpClientCriteriasDao {
                 resultSet.getBoolean("keyword"),
 
                 resultSet.getBoolean("mz"),
+                resultSet.getBoolean("mz_ricco"),
+                resultSet.getBoolean("mz_r_spec"),
+                resultSet.getBoolean("mz_milad"),
+                resultSet.getBoolean("mz_m_spec"),
                 resultSet.getBoolean("k"),
-                resultSet.getBoolean("add_prod"),
                 resultSet.getBoolean("s"),
+                resultSet.getBoolean("s_spec"),
                 resultSet.getBoolean("m"),
+                resultSet.getBoolean("m_spec"),
 
                 resultSet.getBoolean("min_size"),
                 resultSet.getBoolean("tma_prod"),
@@ -90,10 +95,15 @@ public class DmpClientCriteriasDaoSpringImpl implements DmpClientCriteriasDao {
                 clientCriterias.isKeyword(),
 
                 clientCriterias.isMz(),
+                clientCriterias.isMzRicco(),
+                clientCriterias.isMzRSpec(),
+                clientCriterias.isMzMilad(),
+                clientCriterias.isMzMSpec(),
                 clientCriterias.isK(),
-                clientCriterias.isAddProd(),
                 clientCriterias.isS(),
+                clientCriterias.issSpec(),
                 clientCriterias.isM(),
+                clientCriterias.ismSpec(),
 
                 clientCriterias.isMinSize(),
                 clientCriterias.isTmaProd(),

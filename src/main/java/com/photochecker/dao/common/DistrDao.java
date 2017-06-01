@@ -12,4 +12,6 @@ import java.util.List;
 public interface DistrDao extends GenericDao<Distr> {
 
     List<Distr> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd);
+
+    List<Distr> findAllByDatesAndNka(LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId);
 }

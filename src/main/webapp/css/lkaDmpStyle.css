@@ -294,6 +294,23 @@ div.tab button.active {
     font-size: 1em;
 }
 
+#right_pane .shift {
+    margin-left: 20px;
+}
+
+#right_pane .shift2 {
+    margin-left: 40px;
+}
+
+#right_pane .bold {
+    font-weight: bold;
+    color: #5b5a98;
+}
+
+#right_pane .italic {
+    font-style: italic;
+}
+
 #right_pane .header {
     font-size: 1.1em;
     font-weight: bold;

@@ -5,8 +5,6 @@ import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.model.PhotoCard;
 import com.photochecker.model.ReportType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -27,7 +25,7 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
     @Autowired
     private ReportTypeDao reportTypeDao;
 
-    private final String SQL_FIND_BY_PARAMS = "select pc.`url`, pc.`date`, pc.`date_add`, pc.`comment`, pc.`checked`, pc.`client_id`, pc.`report_type`\n" +
+    private final String SQL_FIND_BY_PARAMS = "select *\n" +
             "from `photo_card` pc\n" +
             "inner join `client_card` cc on cc.`client_id` = pc.`client_id`\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
@@ -35,11 +33,15 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
             "and pc.`report_type` = ?\n" +
             "order by 2;";
 
-    private final String SQL_SAVE = "INSERT INTO `photo_card`\n" +
-            "(`client_id`, `url`, `date`, `date_add`, `comment`, `report_type`)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?);";
+    private final String SQL_FIND_BY_DATES_ADD = "select *\n" +
+            "from `photo_card` pc\n" +
+            "where pc.`date_add` >= ? and pc.`date_add` < ?";
 
-    private final String SQL_FIND_BY_URL = "select * from `photo_card` where `url` = ?";
+    private final String SQL_SAVE = "INSERT INTO `photo_card`\n" +
+            "(`client_id`, `url`, `date`, `date_add`, `comment`, `report_type`, `employee_id`)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+    private final String SQL_FIND_BY_URL = "select * from `photo_card` where `url` = ? and `report_type` = ? limit 1";
 
     @Autowired
     public PhotoCardDaoSpringImpl(DataSource dataSource) {
@@ -67,7 +69,8 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
                 resultSet.getTimestamp("date_add").toLocalDateTime(),
                 comment,
                 resultSet.getBoolean("checked"),
-                reportType);
+                reportType,
+                resultSet.getInt("employee_id"));
     };
 
     @Override
@@ -78,7 +81,8 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
                 Timestamp.valueOf(photoCard.getDate()),
                 Timestamp.valueOf(photoCard.getDateAdd()),
                 photoCard.getComment(),
-                photoCard.getReportType().getId());
+                photoCard.getReportType().getId(),
+                photoCard.getEmployeeId());
     }
 
     @Override
@@ -114,9 +118,19 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
     }
 
     @Override
-    public PhotoCard findByUrl(String url) {
+    public List<PhotoCard> findAllByDates(LocalDate startDate, LocalDate endDate) {
         setPhotoCardFields();
-        List<PhotoCard> result = jdbcTemplate.query(SQL_FIND_BY_URL, photoCardRowMapper, url);
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_DATES_ADD, photoCardRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate));
+    }
+
+    @Override
+    public PhotoCard findByUrl(String url, ReportType reportType) {
+        setPhotoCardFields();
+        List<PhotoCard> result = jdbcTemplate.query(SQL_FIND_BY_URL, photoCardRowMapper, url, reportType.getId());
         return result.size() > 0 ? result.get(0) : null;
     }
 }

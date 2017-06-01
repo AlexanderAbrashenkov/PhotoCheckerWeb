@@ -110,15 +110,15 @@
             </select>
         </div>
         <div class="tab clientInfoBlock">
-            <button class="tablinks active" onclick="openCity(event, 'dmp1')">ДМП 1</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp2')">ДМП 2</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp3')">ДМП 3</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp4')">ДМП 4</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp5')">ДМП 5</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp6')">ДМП 6</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp7')">ДМП 7</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp8')">ДМП 8</button>
-            <button class="tablinks hidden" onclick="openCity(event, 'dmp9')">ДМП 9</button>
+            <button class="tablinks active" onclick="openDmp(event, 'dmp1')">ДМП 1</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp2')">ДМП 2</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp3')">ДМП 3</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp4')">ДМП 4</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp5')">ДМП 5</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp6')">ДМП 6</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp7')">ДМП 7</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp8')">ДМП 8</button>
+            <button class="tablinks hidden" onclick="openDmp(event, 'dmp9')">ДМП 9</button>
         </div>
 
 
@@ -131,11 +131,16 @@
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
 	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -159,12 +164,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -188,12 +198,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -217,12 +232,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -246,12 +266,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -275,12 +300,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -304,12 +334,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -333,12 +368,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>
@@ -362,12 +402,17 @@
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
-	            <div class="header">Наличие ТГ на ДМП:</div>
-	            <input type="checkbox" class="mz">Майонез<br>
-	            <input type="checkbox" class="k">Кетчуп<br>
-	            <input type="checkbox" class="addProd" style="color:blue">Ласка Постный<br>
-	            <input type="checkbox" class="s">Соус<br>
-	            <input type="checkbox" class="m">ДМП Печка
+				<div class="header">Наличие ТГ на ДМП:</div>
+				<input type="checkbox" class="mz"><label class="bold">Майонез</label><br>
+				<input type="checkbox" class="mzRicco shift">Mr. Ricco<br>
+				<input type="checkbox" class="mzRSpec shift2"><label class="italic">в т.ч. Авокадо</label><br>
+				<input type="checkbox" class="mzMilad shift">Миладора<br>
+				<input type="checkbox" class="mzMSpec shift2"><label class="italic">в т.ч. ПЭТ 50%</label><br>
+				<input type="checkbox" class="k"><label class="bold">Кетчуп</label><br>
+				<input type="checkbox" class="s"><label class="bold">Соус</label><br>
+				<input type="checkbox" class="sSpec shift2"><label class="italic">в т.ч. красные ПЭТ-банки</label><br>
+				<input type="checkbox" class="m"><label class="bold">Масло</label><br>
+				<input type="checkbox" class="mSpec shift">Mr. Ricco
 	        </div>
 	        <div class="clientInfoBlock" class="result">
 	            <div class="header">Критерии оценки</div>

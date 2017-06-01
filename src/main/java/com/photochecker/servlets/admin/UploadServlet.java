@@ -1,9 +1,8 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.model.Upload;
 import com.photochecker.service.common.UploadService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,7 +27,7 @@ public class UploadServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         uploadService = (UploadService) context.getBean("uploadService");
     }
 
@@ -41,6 +40,7 @@ public class UploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long start = System.currentTimeMillis();
         Part filePart = request.getPart("file");
         InputStream fileContent = filePart.getInputStream();
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
@@ -52,7 +52,10 @@ public class UploadServlet extends HttpServlet {
 
         reader.close();
 
-        request.setAttribute("resultOfUpload", "Файл с данными за " + date + " получен. Обработано: " + result);
+        long end = System.currentTimeMillis();
+
+        request.setAttribute("resultOfUpload", "Файл с данными за " + date + " получен. <br><br> Обработано: " + result +
+                "<br><br>Время загрузки: " + (end - start) / 1000 + " сек.");
 
         request.setAttribute("pageTitle", "Загрузка данных");
         request.setAttribute("pageCategory", "administrate");

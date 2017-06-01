@@ -11,8 +11,10 @@ import java.io.IOException;
 /**
  * Created by market6 on 13.04.2017.
  */
-@WebFilter(filterName = "LkaRoleFilter", urlPatterns = {"/reports/upload", "/reports/lka_criteria"})
-public class LkaRoleFilter implements Filter {
+@WebFilter(filterName = "RoleFilter", urlPatterns = {"/reports/upload", "/reports/lka_criteria",
+        "/reports/create_user", "/reports/responsib"})
+
+public class RoleFilter implements Filter {
     public void destroy() {
     }
 

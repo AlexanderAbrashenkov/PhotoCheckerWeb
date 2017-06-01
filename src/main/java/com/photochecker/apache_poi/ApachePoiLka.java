@@ -19,10 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by market6 on 09.03.2017.
- */
-
 public class ApachePoiLka extends AbstractApachePoi implements ApachePoi {
 
     @Override

@@ -5,15 +5,10 @@ import com.photochecker.model.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by market6 on 18.05.2017.
@@ -30,11 +25,19 @@ public class RegionDaoSpringImpl implements RegionDao {
     private final String SQL_FIND_ALL = "SELECT * FROM `region_db`";
 
     //language=SQL
-    private final String SQL_FIND_BY_PARAMS = "select distinct r.`region_name`, r.`region_id` from `region_db` r\n" +
+    private final String SQL_FIND_BY_DATES = "select distinct r.`region_name`, r.`region_id` from `region_db` r\n" +
             "inner join `client_card` cc on cc.`region_id` = r.`region_id`\n" +
             "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
             "where pc.`date` >= ? and pc.`date` < ?\n" +
             "and pc.`report_type` = ?\n" +
+            "order by 1;";
+
+    private final String SQL_FIND_BY_DATES_AND_NKA = "select distinct r.`region_name`, r.`region_id` from `region_db` r\n" +
+            "inner join `client_card` cc on cc.`region_id` = r.`region_id`\n" +
+            "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "and cc.`nka_type` = ?\n" +
             "order by 1;";
 
     private final String SQL_SAVE = "INSERT INTO `region_db` (`region_id`, `region_name`) VALUES (?, ?);";
@@ -81,9 +84,20 @@ public class RegionDaoSpringImpl implements RegionDao {
     public List<Region> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd) {
         endDate = endDate.plusDays(1);
 
-        return jdbcTemplate.query(SQL_FIND_BY_PARAMS, regionRowMapper,
+        return jdbcTemplate.query(SQL_FIND_BY_DATES, regionRowMapper,
                 startDate,
                 endDate,
                 repTypeInd);
+    }
+
+    @Override
+    public List<Region> findAllByDatesAndNka(LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId) {
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_DATES_AND_NKA, regionRowMapper,
+                startDate,
+                endDate,
+                repTypeInd,
+                nkaId);
     }
 }

@@ -1,10 +1,10 @@
-package com.photochecker.servlets.lka.ajax_servlets;
+package com.photochecker.servlets.lkaDmp.ajax_servlets;
 
 import com.google.gson.Gson;
-import com.photochecker.model.lka.ClientCriterias;
-import com.photochecker.service.lka.ClientCriteriasService;
+import com.photochecker.model.lkaDmp.DmpClientCriterias;
+import com.photochecker.service.lkaDmp.DmpClientCriteriasService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,22 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
-/**
- * Created by market6 on 30.03.2017.
- */
 @WebServlet(
-        name = "downLoadSavedCriterias",
-        urlPatterns = "/reports/lka/getSavedCriterias")
-public class DownLoadSavedCriteriasServlet extends HttpServlet {
+        name = "downLoadLkaDmpSavedCriterias",
+        urlPatterns = "/reports/lkaDmp/getSavedCriterias")
+public class DownloadSavedCriteriasServlet extends HttpServlet {
 
-    private ClientCriteriasService clientCriteriasService;
+    private DmpClientCriteriasService dmpClientCriteriasService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        clientCriteriasService = (ClientCriteriasService) context.getBean("clientCriteriasService");
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        dmpClientCriteriasService = (DmpClientCriteriasService) context.getBean("dmpClientCriteriasService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,10 +37,10 @@ public class DownLoadSavedCriteriasServlet extends HttpServlet {
         LocalDate dateFrom = LocalDate.parse(sDateFrom);
         LocalDate dateTo = LocalDate.parse(sDateTo);
 
-        ClientCriterias clientCriterias = clientCriteriasService.getSavedCriterias(clientId, dateFrom, dateTo);
+        List<DmpClientCriterias> dmpClientCriterias = dmpClientCriteriasService.getSavedCriterias(clientId, dateFrom, dateTo);
 
         Gson gson = new Gson();
-        String jsonString = gson.toJson(clientCriterias);
+        String jsonString = gson.toJson(dmpClientCriterias);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

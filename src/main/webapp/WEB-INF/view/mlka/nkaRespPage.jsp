@@ -3,7 +3,7 @@
 <%@ include file="../header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="respList" type="java.util.List<com.photochecker.model.mlka.NkaResp>" scope="request"></jsp:useBean>
-<jsp:useBean id="respUsers" type="java.util.List<com.photochecker.model.User>" scope="request"></jsp:useBean>
+<jsp:useBean id="respUsers" type="java.util.List<com.photochecker.model.common.User>" scope="request"></jsp:useBean>
 
 <div class="report_title">Назначение ответственных верификаторов</div>
 <div id="resp_container">

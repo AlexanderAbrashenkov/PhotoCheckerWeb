@@ -11,7 +11,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="javatime" uri="http://sargue.net/jsptags/time" %>
 
-<jsp:useBean id="photoList" type="java.util.List<com.photochecker.model.PhotoCard>" scope="request"></jsp:useBean>
+<jsp:useBean id="photoList" type="java.util.List<com.photochecker.model.common.PhotoCard>" scope="request"></jsp:useBean>
 <c:forEach items="${photoList}" var="photo" varStatus="theCount">
 
     <javatime:format value="${photo.date}" pattern="dd.MM.yyyy" var="parsedDate" />

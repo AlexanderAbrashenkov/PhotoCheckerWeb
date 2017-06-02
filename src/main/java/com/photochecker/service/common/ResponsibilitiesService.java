@@ -1,6 +1,6 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.Responsibility;
+import com.photochecker.model.common.Responsibility;
 
 import java.util.List;
 

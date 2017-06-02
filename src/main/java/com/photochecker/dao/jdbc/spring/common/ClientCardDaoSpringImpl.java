@@ -3,10 +3,10 @@ package com.photochecker.dao.jdbc.spring.common;
 import com.photochecker.dao.common.ClientCardDao;
 import com.photochecker.dao.common.DistrDao;
 import com.photochecker.dao.common.LkaDao;
-import com.photochecker.model.Channel;
-import com.photochecker.model.ClientCard;
-import com.photochecker.model.Distr;
-import com.photochecker.model.Lka;
+import com.photochecker.model.common.Channel;
+import com.photochecker.model.common.ClientCard;
+import com.photochecker.model.common.Distr;
+import com.photochecker.model.common.Lka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.RowMapper;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**

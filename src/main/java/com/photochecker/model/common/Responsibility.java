@@ -1,4 +1,4 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 /**
  * Created by market6 on 21.04.2017.

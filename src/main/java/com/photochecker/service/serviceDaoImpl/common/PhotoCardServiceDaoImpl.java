@@ -2,8 +2,8 @@ package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.PhotoCardDao;
 import com.photochecker.dao.common.ReportTypeDao;
-import com.photochecker.model.PhotoCard;
-import com.photochecker.model.ReportType;
+import com.photochecker.model.common.PhotoCard;
+import com.photochecker.model.common.ReportType;
 import com.photochecker.service.common.PhotoCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 

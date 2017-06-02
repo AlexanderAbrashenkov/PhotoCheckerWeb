@@ -170,7 +170,7 @@ $(function () {
 
     $('#to_xlsx').on('click', function (e) {
         e.preventDefault();
-        window.location.href = 'lka/getExcelReport?dateFrom=' + $('#dateFrom').val() +
+        window.location.href = 'mlka/getExcelReport?dateFrom=' + $('#dateFrom').val() +
                 '&dateTo=' + $('#dateTo').val();
     });
 });

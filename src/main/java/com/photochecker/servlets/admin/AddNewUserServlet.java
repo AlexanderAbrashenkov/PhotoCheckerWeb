@@ -1,7 +1,7 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.model.ReportType;
-import com.photochecker.model.User;
+import com.photochecker.model.common.ReportType;
+import com.photochecker.model.common.User;
 import com.photochecker.service.common.ReportTypeService;
 import com.photochecker.service.common.UserService;
 import org.springframework.context.ApplicationContext;

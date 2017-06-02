@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="lkaList" type="java.util.List<com.photochecker.model.Lka>" scope="request"></jsp:useBean>
+<jsp:useBean id="lkaList" type="java.util.List<com.photochecker.model.common.Lka>" scope="request"></jsp:useBean>
 
 <option disabled selected data-value="nothing"> -- выберете сеть -- </option>
 <c:forEach var="lka" items="${lkaList}">

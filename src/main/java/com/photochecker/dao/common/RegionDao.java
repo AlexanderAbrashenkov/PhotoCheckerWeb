@@ -1,7 +1,7 @@
 package com.photochecker.dao.common;
 
 import com.photochecker.dao.GenericDao;
-import com.photochecker.model.Region;
+import com.photochecker.model.common.Region;
 
 import java.time.LocalDate;
 import java.util.List;

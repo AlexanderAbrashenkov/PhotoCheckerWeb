@@ -1,11 +1,9 @@
 package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.ReportTypeDao;
-import com.photochecker.model.ReportType;
+import com.photochecker.model.common.ReportType;
 import com.photochecker.service.common.ReportTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 

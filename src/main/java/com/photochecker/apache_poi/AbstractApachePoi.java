@@ -1,6 +1,6 @@
 package com.photochecker.apache_poi;
 
-import com.photochecker.model.TMAActivity;
+import com.photochecker.model.common.TMAActivity;
 import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.service.lka.LkaCriteriasService;
 import org.apache.poi.ss.usermodel.BorderStyle;

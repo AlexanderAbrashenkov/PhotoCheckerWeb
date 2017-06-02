@@ -1,10 +1,6 @@
-// for future usage
-
-/*
 package com.photochecker.apache_poi;
 
-import foto_verif.model.TMAActivity;
-import foto_verif.view.NKA.NkaAddress;
+import com.photochecker.model.mlka.MlkaReportItem;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
@@ -14,15 +10,15 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-*/
+
 /**
  * Created by market6 on 13.01.2017.
- *//*
+ */
 
 public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
     @Override
@@ -68,13 +64,13 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         headerStyle4.setFillForegroundColor(lightPurple);
 
         // заполняем список акций
-        ArrayList<TMAActivity> activitiesList = (ArrayList<TMAActivity>) activities;
+        /*ArrayList<TMAActivity> activitiesList = (ArrayList<TMAActivity>) activities;
         if (activitiesList != null && activitiesList.size() > 0) {
             activityMap = new HashMap<>();
             for (int i = 0; i < activitiesList.size(); i++) {
                 activityMap.put(activitiesList.get(i), 22 + i * 2);
             }
-        }
+        }*/
 
         row = spreadsheet.createRow(2);
         cell = row.createCell(0);
@@ -90,9 +86,10 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell.setCellValue("Адрес");
         cell.setCellStyle(headerStyle);
         cell = row.createCell(4);
-        cell.setCellValue("Майонез");
-        cell.setCellStyle(headerStyle1);
+        cell.setCellValue("Дата фото");
+        cell.setCellStyle(headerStyle);
         cell = row.createCell(5);
+        cell.setCellValue("Майонез");
         cell.setCellStyle(headerStyle1);
         cell = row.createCell(6);
         cell.setCellStyle(headerStyle1);
@@ -101,9 +98,9 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(8);
         cell.setCellStyle(headerStyle1);
         cell = row.createCell(9);
-        cell.setCellValue("Кетчуп");
-        cell.setCellStyle(headerStyle2);
+        cell.setCellStyle(headerStyle1);
         cell = row.createCell(10);
+        cell.setCellValue("Кетчуп");
         cell.setCellStyle(headerStyle2);
         cell = row.createCell(11);
         cell.setCellStyle(headerStyle2);
@@ -112,9 +109,9 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(13);
         cell.setCellStyle(headerStyle2);
         cell = row.createCell(14);
-        cell.setCellValue("Соус");
-        cell.setCellStyle(headerStyle3);
+        cell.setCellStyle(headerStyle2);
         cell = row.createCell(15);
+        cell.setCellValue("Соус");
         cell.setCellStyle(headerStyle3);
         cell = row.createCell(16);
         cell.setCellStyle(headerStyle3);
@@ -123,16 +120,21 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(18);
         cell.setCellStyle(headerStyle3);
         cell = row.createCell(19);
+        cell.setCellStyle(headerStyle3);
+        cell = row.createCell(20);
         cell.setCellValue("Количество нарушений");
         cell.setCellStyle(headerStyle4);
-        cell = row.createCell(20);
+        cell = row.createCell(21);
         cell.setCellValue("Наличие out of stock");
         cell.setCellStyle(headerStyle4);
-        cell = row.createCell(21);
+        cell = row.createCell(22);
         cell.setCellValue("Комментарии");
         cell.setCellStyle(headerStyle4);
+        cell = row.createCell(23);
+        cell.setCellValue("Дата проверки");
+        cell.setCellStyle(headerStyle4);
 
-        if (activityMap != null) {
+        /*if (activityMap != null) {
             for (Map.Entry<TMAActivity, Integer> pair : activityMap.entrySet()) {
                 int colNum = pair.getValue();
                 cell = row.createCell(colNum);
@@ -142,7 +144,7 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
                 cell.setCellStyle(headerStyle);
                 spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, colNum, colNum + 1));
             }
-        }
+        }*/
 
         row = spreadsheet.createRow(3);
         row.setHeight((short) 1200);
@@ -154,7 +156,9 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(headerStyle);
         cell = row.createCell(3);
         cell.setCellStyle(headerStyle);
-        int colInd = 4;
+        cell = row.createCell(4);
+        cell.setCellStyle(headerStyle);
+        int colInd = 5;
         for (int i = 0; i < 3; i++) {
             XSSFCellStyle cellStyle = null;
             switch (i) {
@@ -193,14 +197,16 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
             cell.setCellStyle(cellStyle);
             colInd += 5;
         }
-        cell = row.createCell(19);
-        cell.setCellStyle(headerStyle4);
         cell = row.createCell(20);
         cell.setCellStyle(headerStyle4);
         cell = row.createCell(21);
         cell.setCellStyle(headerStyle4);
+        cell = row.createCell(22);
+        cell.setCellStyle(headerStyle4);
+        cell = row.createCell(23);
+        cell.setCellStyle(headerStyle4);
 
-        if (activityMap != null) {
+        /*if (activityMap != null) {
             for (Map.Entry<TMAActivity, Integer> pair : activityMap.entrySet()) {
                 int colNum = pair.getValue();
                 cell = row.createCell(colNum);
@@ -212,47 +218,52 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
                 spreadsheet.setColumnWidth(colNum, 3000);
                 spreadsheet.setColumnWidth(colNum + 1, 3000);
             }
-        }
+        }*/
 
         // Объединение ячеек
-        spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 21));
+        spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 23));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 0, 0));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 1, 1));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 2, 2));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 3, 3));
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 4, 8));
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 9, 13));
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 14, 18));
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 19, 19));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 4, 4));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 5, 9));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 10, 14));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 15, 19));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 20, 20));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 21, 21));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 22, 22));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 23, 23));
         //ширина столбцов
         spreadsheet.setColumnWidth(2, 9000);
         spreadsheet.setColumnWidth(3, 13000);
-        for (int i = 4; i < 20; i++) {
+        spreadsheet.setColumnWidth(4, 4000);
+        for (int i = 5; i < 21; i++) {
             spreadsheet.setColumnWidth(i, 3000);
         }
-        spreadsheet.setColumnWidth(20, 3000);
-        spreadsheet.setColumnWidth(21, 13000);
+        spreadsheet.setColumnWidth(21, 3000);
+        spreadsheet.setColumnWidth(22, 13000);
+        spreadsheet.setColumnWidth(23, 4000);
     }
 
     @Override
     public void writeOneTtToConcreteSheet(List parameters) {
 
-        NkaAddress nkaAddress = (NkaAddress) parameters.get(1);
+        MlkaReportItem mlkaReportItem = (MlkaReportItem) parameters.get(1);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         String netName = (String) parameters.get(0);
-        String mlka = nkaAddress.getMlka();
-        String address = nkaAddress.getAddress();
-        String comment = nkaAddress.getComment();
-        List<TMAActivity> activities = nkaAddress.getTmaActivityList();
+        String mlka = mlkaReportItem.getMlkaName();
+        String address = mlkaReportItem.getClientAddress();
+        //List<TMAActivity> activities = mlkaReportItem.getTmaActivityList();
 
         // стили
         XSSFCellStyle leftTextStyle = createBorderedStyle();
         XSSFCellStyle centerTextStyle = createBorderedStyle();
         centerTextStyle.setAlignment(HorizontalAlignment.CENTER);
 
-        if (nkaAddress.getChecked().equals("1")) {
+        if (mlkaReportItem.getMlkaClientCriterias().getSaveDate() != null) {
             leftTextStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             centerTextStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             leftTextStyle.setFillForegroundColor(new XSSFColor(new Color(170, 250, 200)));
@@ -275,6 +286,13 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(3);
         cell.setCellValue(address);
         cell.setCellStyle(leftTextStyle);
+        cell = row.createCell(4);
+        cell.setCellValue(mlkaReportItem.getPhoto_date().format(formatter));
+        CreationHelper creationHelper = workbook.getCreationHelper();
+        XSSFCellStyle dateStyle = (XSSFCellStyle) leftTextStyle.clone();
+        dateStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd.MM.yyyy"));
+        dateStyle.setAlignment(HorizontalAlignment.GENERAL);
+        cell.setCellStyle(dateStyle);
 
         for (int i = 0; i < 15; i++) {
             XSSFCellStyle cellStyle = (XSSFCellStyle) centerTextStyle.clone();
@@ -286,82 +304,91 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
             } else {
                 cellStyle.setFillForegroundColor(lightGreen);
             }
-            cell = row.createCell(i + 4, CellType.NUMERIC);
-            if (nkaAddress.getChecked().equals("1")) {
+            cell = row.createCell(i + 5, CellType.NUMERIC);
+            if (mlkaReportItem.getMlkaClientCriterias().getSaveDate() != null) {
                 switch (i) {
                     case 0:
-                        cell.setCellValue(nkaAddress.isHavePhotoMZ() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().isMzPhoto() ? 1 : 0);
                         break;
                     case 1:
-                        cell.setCellValue(nkaAddress.isCorrectPhotoMZ() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().isMzCorr() ? 1 : 0);
                         break;
                     case 2:
-                        cell.setCellValue(nkaAddress.isCenterPhotoMZ() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().isMzCrit1() ? 1 : 0);
                         break;
                     case 3:
-                        cell.setCellValue(nkaAddress.is_30PhotoMZ() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().isMzCrit2() ? 1 : 0);
                         break;
                     case 4:
-                        cell.setCellValue(nkaAddress.isVertPhotoMZ() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().isMzCrit3() ? 1 : 0);
                         break;
                     case 5:
-                        cell.setCellValue(nkaAddress.isHavePhotoK() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().iskPhoto() ? 1 : 0);
                         break;
                     case 6:
-                        cell.setCellValue(nkaAddress.isCorrectPhotoK() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().iskCorr() ? 1 : 0);
                         break;
                     case 7:
-                        cell.setCellValue(nkaAddress.isCenterPhotoK() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().iskCrit1() ? 1 : 0);
                         break;
                     case 8:
-                        cell.setCellValue(nkaAddress.is_30PhotoK() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().iskCrit2() ? 1 : 0);
                         break;
                     case 9:
-                        cell.setCellValue(nkaAddress.isVertPhotoK() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().iskCrit3() ? 1 : 0);
                         break;
                     case 10:
-                        cell.setCellValue(nkaAddress.isHavePhotoS() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().issPhoto() ? 1 : 0);
                         break;
                     case 11:
-                        cell.setCellValue(nkaAddress.isCorrectPhotoS() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().issCorr() ? 1 : 0);
                         break;
                     case 12:
-                        cell.setCellValue(nkaAddress.isCenterPhotoS() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().issCrit1() ? 1 : 0);
                         break;
                     case 13:
-                        cell.setCellValue(nkaAddress.is_30PhotoS() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().issCrit2() ? 1 : 0);
                         break;
                     case 14:
-                        cell.setCellValue(nkaAddress.isVertPhotoS() ? 1 : 0);
+                        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().issCrit3() ? 1 : 0);
                         break;
                 }
             }
             cell.setCellStyle(cellStyle);
         }
-        cell = row.createCell(19);
+        cell = row.createCell(20);
         XSSFCellStyle lastColumnsStyle = (XSSFCellStyle) centerTextStyle.clone();
         lastColumnsStyle.setFillForegroundColor(lightPurple);
         lastColumnsStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cell.setCellStyle(lastColumnsStyle);
         cell.setCellType(CellType.FORMULA);
-        cell.setCellFormula("COUNTIF(E" + rowIndex + ":S" + rowIndex + ",\"=0\")");
-        cell = row.createCell(20);
-        if (nkaAddress.getChecked().equals("1")) {
-            cell.setCellValue(nkaAddress.isOos() ? 1 : 0);
+        cell.setCellFormula("COUNTIF(F" + rowIndex + ":T" + rowIndex + ",\"=0\")");
+        cell = row.createCell(21);
+        if (mlkaReportItem.getMlkaClientCriterias().getSaveDate() != null) {
+            cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().isOos() ? 1 : 0);
         }
         cell.setCellStyle(lastColumnsStyle);
-        cell = row.createCell(21);
+        cell = row.createCell(22);
         XSSFCellStyle commentStyle = (XSSFCellStyle) lastColumnsStyle.clone();
         commentStyle.setAlignment(HorizontalAlignment.LEFT);
-        cell.setCellValue(comment);
+        cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().getComment());
         cell.setCellType(CellType.STRING);
         cell.setCellStyle(commentStyle);
+
+        cell = row.createCell(23);
+        if (mlkaReportItem.getMlkaClientCriterias().getSaveDate() != null) {
+            cell.setCellValue(mlkaReportItem.getMlkaClientCriterias().getSaveDate().format(formatter));
+        }
+        XSSFCellStyle dateStyle1 = (XSSFCellStyle) commentStyle.clone();
+        dateStyle1.setDataFormat(creationHelper.createDataFormat().getFormat("dd.MM.yyyy"));
+        dateStyle1.setAlignment(HorizontalAlignment.GENERAL);
+        cell.setCellStyle(dateStyle1);
 
         XSSFCellStyle centerErrorStyle = (XSSFCellStyle) centerTextStyle.clone();
         centerErrorStyle.setFillForegroundColor(new XSSFColor(new Color(255, 242, 204)));
         centerErrorStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-        if (activityMap != null && activityMap.size() > 0) {
+        /*if (activityMap != null && activityMap.size() > 0) {
             for (Map.Entry<TMAActivity, Integer> pair : activityMap.entrySet()) {
                 if (activities != null && activities.contains(pair.getKey())) {
                     TMAActivity tmaActivity = activities.get(activities.indexOf(pair.getKey()));
@@ -382,7 +409,7 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
                     cell.setCellStyle(centerErrorStyle);
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -407,18 +434,24 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(cellStyle);
         cell = row.createCell(3);
         cell.setCellStyle(cellStyle);
+        cell = row.createCell(4);
+        cell.setCellStyle(cellStyle);
 
-        for (int i = 4; i < 21; i++) {
+        for (int i = 5; i < 22; i++) {
             cell = row.createCell(i);
             cell.setCellType(CellType.FORMULA);
             cell.setCellFormula("SUM(" + (char) ('A' + i) + 5 + ":" + (char) ('A' + i) + rowIndex + ")");
             cell.setCellStyle(cellStyle);
         }
-        cell = row.createCell(21);
+        cell = row.createCell(22);
         cell.setCellStyle(cellStyle);
-        spreadsheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 3));
 
-        if (activityMap != null) {
+        cell = row.createCell(23);
+        cell.setCellStyle(cellStyle);
+
+        spreadsheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 4));
+
+        /*if (activityMap != null) {
             for (int i = 22; i < 22 + activityMap.size() * 2; i++) {
                 String col;
                 if (i < 26) {
@@ -431,11 +464,11 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
                 cell.setCellFormula("SUM(" + col + 5 + ":" + col + rowIndex + ")");
                 cell.setCellStyle(cellStyle);
             }
-        }
+        }*/
 
         // условное форматирование
-        */
-/*SheetConditionalFormatting sheetCF = spreadsheet.getSheetConditionalFormatting();
+
+        /*SheetConditionalFormatting sheetCF = spreadsheet.getSheetConditionalFormatting();
         ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule(ComparisonOperator.EQUAL, "0");
         PatternFormatting fill = rule.createPatternFormatting();
         fill.setFillBackgroundColor(new XSSFColor(new Color(255, 204, 204)));
@@ -445,7 +478,7 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         CellRangeAddress[] regions = {
                 CellRangeAddress.valueOf("E5:S" + rowIndex)
         };
-        sheetCF.addConditionalFormatting(regions, rule);*//*
+        sheetCF.addConditionalFormatting(regions, rule);*/
 
     }
 
@@ -688,16 +721,16 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
                 int corrIndex;
                 switch (tgNum) {
                     case 0:
-                        corrIndex = 1;
+                        corrIndex = 2;
                         break;
                     case 1:
-                        corrIndex = -2;
+                        corrIndex = -1;
                         break;
                     case 2:
-                        corrIndex = -5;
+                        corrIndex = -4;
                         break;
                     default:
-                        corrIndex = 0;
+                        corrIndex = 1;
                 }
                 cell.setCellStyle(centerStyle);
                 cell.setCellType(CellType.FORMULA);
@@ -782,4 +815,3 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         nkaRowIndex++;
     }
 }
-*/

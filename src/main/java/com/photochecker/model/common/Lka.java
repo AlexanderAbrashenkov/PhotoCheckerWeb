@@ -1,16 +1,16 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 /**
  * Created by market6 on 27.04.2017.
  */
-public class Region {
+public class Lka {
     private int id;
     private String name;
 
-    public Region() {
+    public Lka() {
     }
 
-    public Region(int id, String name) {
+    public Lka(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -36,9 +36,9 @@ public class Region {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Region region = (Region) o;
+        Lka lka = (Lka) o;
 
-        return id == region.id;
+        return id == lka.id;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Region {
 
     @Override
     public String toString() {
-        return "Region{" +
+        return "Lka{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

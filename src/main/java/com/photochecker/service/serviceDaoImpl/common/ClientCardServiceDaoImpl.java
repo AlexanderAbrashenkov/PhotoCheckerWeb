@@ -3,9 +3,9 @@ package com.photochecker.service.serviceDaoImpl.common;
 import com.photochecker.dao.common.ChannelDao;
 import com.photochecker.dao.common.ClientCardDao;
 import com.photochecker.dao.common.LkaDao;
-import com.photochecker.model.Channel;
-import com.photochecker.model.ClientCard;
-import com.photochecker.model.Lka;
+import com.photochecker.model.common.Channel;
+import com.photochecker.model.common.ClientCard;
+import com.photochecker.model.common.Lka;
 import com.photochecker.service.common.ClientCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 

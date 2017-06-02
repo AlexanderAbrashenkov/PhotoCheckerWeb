@@ -1,4 +1,4 @@
-package com.photochecker.servlets;
+package com.photochecker.servlets.admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

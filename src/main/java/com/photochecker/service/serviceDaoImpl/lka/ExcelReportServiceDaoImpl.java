@@ -4,14 +4,12 @@ import com.photochecker.apache_poi.ApachePoi;
 import com.photochecker.apache_poi.ApachePoiManager;
 import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.dao.lka.LkaReportItemDao;
-import com.photochecker.model.Responsibility;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Responsibility;
+import com.photochecker.model.common.User;
 import com.photochecker.model.lka.LkaReportItem;
 import com.photochecker.service.lka.ExcelReportService;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

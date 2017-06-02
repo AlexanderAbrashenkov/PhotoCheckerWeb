@@ -1,11 +1,8 @@
 package com.photochecker.service.serviceDaoImpl.mlka;
 
-import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.dao.mlka.NkaRespDao;
 import com.photochecker.dao.mlka.NkaTypeDao;
-import com.photochecker.model.Region;
-import com.photochecker.model.Responsibility;
-import com.photochecker.model.User;
+import com.photochecker.model.common.User;
 import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.model.mlka.NkaType;
 import com.photochecker.service.mlka.NkaTypeService;

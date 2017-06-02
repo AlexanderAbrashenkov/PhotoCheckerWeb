@@ -4,7 +4,7 @@ import com.photochecker.dao.common.*;
 import com.photochecker.dao.mlka.EmployeeDao;
 import com.photochecker.dao.mlka.NkaRespDao;
 import com.photochecker.dao.mlka.NkaTypeDao;
-import com.photochecker.model.*;
+import com.photochecker.model.common.*;
 import com.photochecker.model.mlka.Employee;
 import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.model.mlka.NkaType;

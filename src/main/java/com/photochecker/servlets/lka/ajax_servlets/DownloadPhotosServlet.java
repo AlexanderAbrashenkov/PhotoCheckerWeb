@@ -1,9 +1,8 @@
 package com.photochecker.servlets.lka.ajax_servlets;
 
-import com.photochecker.model.PhotoCard;
+import com.photochecker.model.common.PhotoCard;
 import com.photochecker.service.common.PhotoCardService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;

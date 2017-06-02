@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="distrList" type="java.util.List<com.photochecker.model.Distr>" scope="request"></jsp:useBean>
+<jsp:useBean id="distrList" type="java.util.List<com.photochecker.model.common.Distr>" scope="request"></jsp:useBean>
 
 <option disabled selected data-value="nothing"> -- выберете дистрибьютора -- </option>
 <c:forEach var="distr" items="${distrList}">

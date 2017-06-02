@@ -2,7 +2,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="reportTypes" type="java.util.List<com.photochecker.model.ReportType>" scope="request"></jsp:useBean>
+<jsp:useBean id="reportTypes" type="java.util.List<com.photochecker.model.common.ReportType>" scope="request"></jsp:useBean>
 
 <div class="report_title">Создание нового пользователя</div>
 <div id="crus_container">

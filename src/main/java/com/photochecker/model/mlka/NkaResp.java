@@ -1,7 +1,7 @@
 package com.photochecker.model.mlka;
 
-import com.photochecker.model.Distr;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Distr;
+import com.photochecker.model.common.User;
 
 /**
  * Created by market6 on 01.06.2017.

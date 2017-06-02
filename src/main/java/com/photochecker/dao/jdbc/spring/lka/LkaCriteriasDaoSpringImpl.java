@@ -2,11 +2,9 @@ package com.photochecker.dao.jdbc.spring.lka;
 
 import com.photochecker.dao.common.LkaDao;
 import com.photochecker.dao.lka.LkaCriteriasDao;
-import com.photochecker.model.Lka;
+import com.photochecker.model.common.Lka;
 import com.photochecker.model.lka.LkaCriterias;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;

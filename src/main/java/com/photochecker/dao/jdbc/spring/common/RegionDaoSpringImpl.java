@@ -1,7 +1,7 @@
 package com.photochecker.dao.jdbc.spring.common;
 
 import com.photochecker.dao.common.RegionDao;
-import com.photochecker.model.Region;
+import com.photochecker.model.common.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -29,6 +29,7 @@
     <bean id="employeeDao" class="com.photochecker.dao.jdbc.spring.mlka.EmployeeDaoSpringImpl" />
     <bean id="nkaRespDao" class="com.photochecker.dao.jdbc.spring.mlka.NkaRespDaoSpringImpl" />
     <bean id="mlkaClientCriteriasDao" class="com.photochecker.dao.jdbc.spring.mlka.MlkaClientCriteriasDaoSpringImpl" />
+    <bean id="mlkaReportItemDao" class="com.photochecker.dao.jdbc.spring.mlka.MlkaReportItemDaoSpringImpl" />
 
 
 
@@ -55,5 +56,6 @@
     <bean id="employeeService" class="com.photochecker.service.serviceDaoImpl.mlka.EmployeeServiceDaoImpl" />
     <bean id="nkaRespService" class="com.photochecker.service.serviceDaoImpl.mlka.NkaRespServiceDaoImpl" />
     <bean id="mlkaClientCriteriasService" class="com.photochecker.service.serviceDaoImpl.mlka.MlkaClientCriteriasServiceDaoImpl" />
+    <bean id="mlkaExcelReportService" class="com.photochecker.service.serviceDaoImpl.mlka.MlkaExcelReportServiceDaoImpl" />
 
 </beans>

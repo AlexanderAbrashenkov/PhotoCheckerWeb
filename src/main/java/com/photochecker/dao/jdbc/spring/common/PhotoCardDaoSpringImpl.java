@@ -2,8 +2,8 @@ package com.photochecker.dao.jdbc.spring.common;
 
 import com.photochecker.dao.common.PhotoCardDao;
 import com.photochecker.dao.common.ReportTypeDao;
-import com.photochecker.model.PhotoCard;
-import com.photochecker.model.ReportType;
+import com.photochecker.model.common.PhotoCard;
+import com.photochecker.model.common.ReportType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

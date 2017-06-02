@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="regionList" type="java.util.List<com.photochecker.model.Region>" scope="request"></jsp:useBean>
+<jsp:useBean id="regionList" type="java.util.List<com.photochecker.model.common.Region>" scope="request"></jsp:useBean>
 
 <option disabled selected data-value="nothing"> -- выберете регион -- </option>
 <c:forEach var="region" items="${regionList}">

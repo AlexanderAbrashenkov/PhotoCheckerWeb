@@ -1,11 +1,10 @@
 package com.photochecker.servlets.admin;
 
-import com.photochecker.model.Responsibility;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Responsibility;
+import com.photochecker.model.common.User;
 import com.photochecker.service.common.ResponsibilitiesService;
 import com.photochecker.service.common.UserService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;

@@ -1,4 +1,4 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 import java.time.LocalDate;
 

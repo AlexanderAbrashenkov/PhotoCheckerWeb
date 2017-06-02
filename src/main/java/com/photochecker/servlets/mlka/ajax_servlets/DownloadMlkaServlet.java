@@ -1,8 +1,6 @@
 package com.photochecker.servlets.mlka.ajax_servlets;
 
-import com.photochecker.model.Lka;
 import com.photochecker.model.mlka.Employee;
-import com.photochecker.service.common.LkaService;
 import com.photochecker.service.mlka.EmployeeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;

@@ -1,20 +1,15 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 /**
- * Created by market6 on 27.04.2017.
+ * Created by market6 on 25.05.2017.
  */
-public class Distr {
+public class Channel {
     private int id;
     private String name;
-    private Region region;
 
-    public Distr() {
-    }
-
-    public Distr(int id, String name, Region region) {
+    public Channel(int id, String name) {
         this.id = id;
         this.name = name;
-        this.region = region;
     }
 
     public int getId() {
@@ -33,22 +28,14 @@ public class Distr {
         this.name = name;
     }
 
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Distr distr = (Distr) o;
+        Channel channel = (Channel) o;
 
-        return id == distr.id;
+        return id == channel.id;
     }
 
     @Override
@@ -58,10 +45,9 @@ public class Distr {
 
     @Override
     public String toString() {
-        return "Distr{" +
+        return "Channel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", region=" + region +
                 '}';
     }
 }

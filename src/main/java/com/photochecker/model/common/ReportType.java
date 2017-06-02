@@ -1,13 +1,16 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 /**
- * Created by market6 on 25.05.2017.
+ * Created by market6 on 27.04.2017.
  */
-public class Channel {
+public class ReportType {
     private int id;
     private String name;
 
-    public Channel(int id, String name) {
+    public ReportType() {
+    }
+
+    public ReportType(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -33,9 +36,9 @@ public class Channel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Channel channel = (Channel) o;
+        ReportType that = (ReportType) o;
 
-        return id == channel.id;
+        return id == that.id;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class Channel {
 
     @Override
     public String toString() {
-        return "Channel{" +
+        return "ReportType{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

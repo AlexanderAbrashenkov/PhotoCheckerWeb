@@ -2,10 +2,9 @@ package com.photochecker.servlets.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.photochecker.model.Responsibility;
+import com.photochecker.model.common.Responsibility;
 import com.photochecker.service.common.ResponsibilitiesService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.json.Json;

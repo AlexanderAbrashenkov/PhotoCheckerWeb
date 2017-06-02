@@ -2,12 +2,10 @@ package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.dao.common.UserDao;
-import com.photochecker.model.ReportType;
-import com.photochecker.model.User;
+import com.photochecker.model.common.ReportType;
+import com.photochecker.model.common.User;
 import com.photochecker.service.common.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

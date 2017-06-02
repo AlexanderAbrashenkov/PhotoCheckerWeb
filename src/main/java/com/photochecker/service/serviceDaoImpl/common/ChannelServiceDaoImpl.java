@@ -2,8 +2,8 @@ package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.ChannelDao;
 import com.photochecker.dao.common.DistrDao;
-import com.photochecker.model.Channel;
-import com.photochecker.model.Distr;
+import com.photochecker.model.common.Channel;
+import com.photochecker.model.common.Distr;
 import com.photochecker.service.common.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 

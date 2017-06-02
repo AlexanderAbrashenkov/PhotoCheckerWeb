@@ -1,7 +1,6 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.PhotoCard;
-import com.photochecker.model.ReportType;
+import com.photochecker.model.common.PhotoCard;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.ReportType;
+import com.photochecker.model.common.ReportType;
 
 import java.util.List;
 

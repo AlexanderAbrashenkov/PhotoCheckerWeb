@@ -1,9 +1,7 @@
 package com.photochecker.servlets.mlka.ajax_servlets;
 
-import com.photochecker.model.Region;
-import com.photochecker.model.User;
+import com.photochecker.model.common.User;
 import com.photochecker.model.mlka.NkaType;
-import com.photochecker.service.common.RegionService;
 import com.photochecker.service.mlka.NkaTypeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;

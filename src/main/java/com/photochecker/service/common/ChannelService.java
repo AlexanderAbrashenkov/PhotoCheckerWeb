@@ -1,6 +1,6 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.Channel;
+import com.photochecker.model.common.Channel;
 
 import java.time.LocalDate;
 import java.util.List;

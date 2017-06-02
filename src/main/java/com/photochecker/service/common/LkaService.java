@@ -1,7 +1,6 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.Distr;
-import com.photochecker.model.Lka;
+import com.photochecker.model.common.Lka;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,7 +1,4 @@
-package com.photochecker.model;
-
-import java.util.HashSet;
-import java.util.Set;
+package com.photochecker.model.common;
 
 /**
  * Created by market6 on 27.03.2017.

@@ -1,12 +1,10 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.Distr;
-import com.photochecker.model.Responsibility;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Distr;
+import com.photochecker.model.common.User;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by market6 on 17.05.2017.

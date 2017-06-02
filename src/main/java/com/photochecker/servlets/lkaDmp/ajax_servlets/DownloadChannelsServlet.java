@@ -1,9 +1,8 @@
 package com.photochecker.servlets.lkaDmp.ajax_servlets;
 
-import com.photochecker.model.Channel;
+import com.photochecker.model.common.Channel;
 import com.photochecker.service.common.ChannelService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;

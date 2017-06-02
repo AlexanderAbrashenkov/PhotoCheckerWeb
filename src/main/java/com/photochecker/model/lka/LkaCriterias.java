@@ -1,6 +1,6 @@
 package com.photochecker.model.lka;
 
-import com.photochecker.model.Lka;
+import com.photochecker.model.common.Lka;
 
 /**
  * Created by market6 on 29.03.2017.

@@ -1,16 +1,16 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 /**
  * Created by market6 on 27.04.2017.
  */
-public class ReportType {
+public class Region {
     private int id;
     private String name;
 
-    public ReportType() {
+    public Region() {
     }
 
-    public ReportType(int id, String name) {
+    public Region(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -36,9 +36,9 @@ public class ReportType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReportType that = (ReportType) o;
+        Region region = (Region) o;
 
-        return id == that.id;
+        return id == region.id;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ReportType {
 
     @Override
     public String toString() {
-        return "ReportType{" +
+        return "Region{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

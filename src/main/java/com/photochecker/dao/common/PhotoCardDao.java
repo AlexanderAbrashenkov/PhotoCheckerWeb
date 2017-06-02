@@ -1,8 +1,8 @@
 package com.photochecker.dao.common;
 
 import com.photochecker.dao.GenericDao;
-import com.photochecker.model.PhotoCard;
-import com.photochecker.model.ReportType;
+import com.photochecker.model.common.PhotoCard;
+import com.photochecker.model.common.ReportType;
 
 import java.time.LocalDate;
 import java.util.List;

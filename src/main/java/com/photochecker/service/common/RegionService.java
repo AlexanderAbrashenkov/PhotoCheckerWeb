@@ -1,7 +1,7 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.Region;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Region;
+import com.photochecker.model.common.User;
 
 import java.time.LocalDate;
 import java.util.List;

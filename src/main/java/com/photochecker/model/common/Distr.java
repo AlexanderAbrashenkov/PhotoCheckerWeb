@@ -1,18 +1,20 @@
-package com.photochecker.model;
+package com.photochecker.model.common;
 
 /**
  * Created by market6 on 27.04.2017.
  */
-public class Lka {
+public class Distr {
     private int id;
     private String name;
+    private Region region;
 
-    public Lka() {
+    public Distr() {
     }
 
-    public Lka(int id, String name) {
+    public Distr(int id, String name, Region region) {
         this.id = id;
         this.name = name;
+        this.region = region;
     }
 
     public int getId() {
@@ -31,14 +33,22 @@ public class Lka {
         this.name = name;
     }
 
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Lka lka = (Lka) o;
+        Distr distr = (Distr) o;
 
-        return id == lka.id;
+        return id == distr.id;
     }
 
     @Override
@@ -48,9 +58,10 @@ public class Lka {
 
     @Override
     public String toString() {
-        return "Lka{" +
+        return "Distr{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", region=" + region +
                 '}';
     }
 }

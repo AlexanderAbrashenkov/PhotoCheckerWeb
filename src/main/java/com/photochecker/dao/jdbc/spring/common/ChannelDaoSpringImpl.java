@@ -1,8 +1,8 @@
 package com.photochecker.dao.jdbc.spring.common;
 
 import com.photochecker.dao.common.ChannelDao;
-import com.photochecker.model.Channel;
-import com.photochecker.model.Distr;
+import com.photochecker.model.common.Channel;
+import com.photochecker.model.common.Distr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -2,8 +2,8 @@ package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.DistrDao;
 import com.photochecker.dao.common.LkaDao;
-import com.photochecker.model.Distr;
-import com.photochecker.model.Lka;
+import com.photochecker.model.common.Distr;
+import com.photochecker.model.common.Lka;
 import com.photochecker.service.common.LkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 

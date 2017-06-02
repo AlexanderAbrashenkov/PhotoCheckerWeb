@@ -1,6 +1,6 @@
 package com.photochecker.service.mlka;
 
-import com.photochecker.model.User;
+import com.photochecker.model.common.User;
 import com.photochecker.model.mlka.NkaType;
 
 import java.time.LocalDate;

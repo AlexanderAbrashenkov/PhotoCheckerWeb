@@ -1,10 +1,8 @@
 
 package com.photochecker.apache_poi;
 
-import com.photochecker.model.Lka;
 import com.photochecker.model.lka.ClientCriterias;
 import com.photochecker.model.lka.LkaReportItem;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -15,9 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ApachePoiLka extends AbstractApachePoi implements ApachePoi {
 

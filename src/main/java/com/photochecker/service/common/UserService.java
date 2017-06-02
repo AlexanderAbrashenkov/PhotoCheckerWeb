@@ -1,6 +1,6 @@
 package com.photochecker.service.common;
 
-import com.photochecker.model.User;
+import com.photochecker.model.common.User;
 
 import java.util.List;
 import java.util.Map;

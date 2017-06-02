@@ -1,7 +1,7 @@
 package com.photochecker.servlets.lka;
 
-import com.photochecker.model.Region;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Region;
+import com.photochecker.model.common.User;
 import com.photochecker.service.common.CommonService;
 import com.photochecker.service.common.RegionService;
 import org.springframework.context.ApplicationContext;

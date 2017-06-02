@@ -1,11 +1,10 @@
 package com.photochecker.servlets.lkaDmp;
 
-import com.photochecker.model.Region;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Region;
+import com.photochecker.model.common.User;
 import com.photochecker.service.common.CommonService;
 import com.photochecker.service.common.RegionService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;

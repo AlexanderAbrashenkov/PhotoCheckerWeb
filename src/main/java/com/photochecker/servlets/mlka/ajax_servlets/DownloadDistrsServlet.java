@@ -1,7 +1,7 @@
 package com.photochecker.servlets.mlka.ajax_servlets;
 
-import com.photochecker.model.Distr;
-import com.photochecker.model.User;
+import com.photochecker.model.common.Distr;
+import com.photochecker.model.common.User;
 import com.photochecker.service.common.DistrService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;

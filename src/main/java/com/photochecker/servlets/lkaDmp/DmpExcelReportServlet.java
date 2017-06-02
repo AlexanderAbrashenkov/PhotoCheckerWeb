@@ -1,6 +1,6 @@
 package com.photochecker.servlets.lkaDmp;
 
-import com.photochecker.model.User;
+import com.photochecker.model.common.User;
 import com.photochecker.service.lkaDmp.DmpExcelReportService;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.ApplicationContext;

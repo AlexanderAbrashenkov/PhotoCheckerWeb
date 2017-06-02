@@ -1,9 +1,7 @@
 package com.photochecker.servlets.mlka;
 
-import com.photochecker.model.Responsibility;
-import com.photochecker.model.User;
+import com.photochecker.model.common.User;
 import com.photochecker.model.mlka.NkaResp;
-import com.photochecker.service.common.ResponsibilitiesService;
 import com.photochecker.service.common.UserService;
 import com.photochecker.service.mlka.NkaRespService;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by market6 on 20.04.2017.

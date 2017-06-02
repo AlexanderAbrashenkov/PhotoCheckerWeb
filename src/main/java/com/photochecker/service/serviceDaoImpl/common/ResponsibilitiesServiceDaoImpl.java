@@ -1,14 +1,11 @@
 package com.photochecker.service.serviceDaoImpl.common;
 
 import com.photochecker.dao.common.ResponsibilityDao;
-import com.photochecker.model.Responsibility;
+import com.photochecker.model.common.Responsibility;
 import com.photochecker.service.common.ResponsibilitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**

@@ -2,8 +2,8 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ include file="header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="respList" type="java.util.List<com.photochecker.model.Responsibility>" scope="request"></jsp:useBean>
-<jsp:useBean id="respUsers" type="java.util.Map<java.lang.Integer, java.util.List<com.photochecker.model.User>>" scope="request"></jsp:useBean>
+<jsp:useBean id="respList" type="java.util.List<com.photochecker.model.common.Responsibility>" scope="request"></jsp:useBean>
+<jsp:useBean id="respUsers" type="java.util.Map<java.lang.Integer, java.util.List<com.photochecker.model.common.User>>" scope="request"></jsp:useBean>
 
 <div class="report_title">Назначение ответственных верификаторов</div>
 <div id="resp_container">

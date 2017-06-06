@@ -95,7 +95,7 @@
         <div class="clientInfoBlock" id="mzInfoBlock">
             <div class="tgName">ТГ Майонез</div>
             <b><input type="checkbox" id="mzPhoto">Наличие фото</b><br>
-            <b style="color:blue"><input type="checkbox" id="mzSP">Наличие МЗ Ласка Постный</b><br>
+            <b style="color:blue"><input type="checkbox" id="mzSP">Наличие МЗ Mr.Ricco Авокадо</b><br>
             <b><input type="checkbox" id="mzCorrect">Корректность фото</b><br>
             <input type="checkbox" id="mzCrit1"><label for="mzCrit1" id="mzCrit1Label">Критерий 1</label><br>
             <input type="checkbox" id="mzCrit2"><label for="mzCrit2" id="mzCrit2Label">Критерий 2</label>

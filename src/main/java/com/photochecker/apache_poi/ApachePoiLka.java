@@ -198,7 +198,7 @@ public class ApachePoiLka extends AbstractApachePoi implements ApachePoi {
         cell.setCellValue("Наличие фотоотчета");
         cell.setCellStyle(headerStyle1);
         cell = row.createCell(11);
-        cell.setCellValue("Наличие МЗ Ласка Постный");
+        cell.setCellValue("Наличие МЗ Mr.Ricco Авокадо");
         cell.setCellStyle(headerStyle1);
         cell = row.createCell(12);
         cell.setCellValue("Корректность фото");

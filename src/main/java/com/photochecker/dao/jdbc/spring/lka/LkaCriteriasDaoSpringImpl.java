@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by 777 on 21.05.2017.
@@ -56,10 +57,15 @@ public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
 
     private RowMapper<LkaCriterias> lkaCriteriasRowMapper = (resultSet, i) -> {
         int lkaId = resultSet.getInt("lka_id");
-        Lka lka = lkaList.stream()
-                .filter(lka1 -> lka1.getId() == lkaId)
-                .findFirst()
-                .get();
+        Lka lka;
+        try {
+            lka = lkaList.stream()
+                    .filter(lka1 -> lka1.getId() == lkaId)
+                    .findFirst()
+                    .get();
+        } catch (NoSuchElementException e) {
+            lka = new Lka(lkaId, "");
+        }
         return new LkaCriterias(
                 lka,
                 resultSet.getString("crit1_name"),

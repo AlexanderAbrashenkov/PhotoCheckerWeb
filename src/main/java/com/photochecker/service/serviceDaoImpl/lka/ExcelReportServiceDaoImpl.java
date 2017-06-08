@@ -8,7 +8,7 @@ import com.photochecker.model.common.Responsibility;
 import com.photochecker.model.common.User;
 import com.photochecker.model.lka.LkaReportItem;
 import com.photochecker.service.lka.ExcelReportService;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
     private ResponsibilityDao responsibilityDao;
 
     @Override
-    public XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {
+    public Workbook getExcelReport(Workbook workbook, LocalDate dateFrom, LocalDate dateTo, User user) {
         List<LkaReportItem> lkaReportItemList = lkaReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 5);
 
         if (user.getRole() == 1) {
@@ -46,7 +46,7 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
         ApachePoi apachePoi = ApachePoiManager.getInstance();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        apachePoi.createReportFile(dateFrom.format(formatter), dateTo.format(formatter));
+        apachePoi.createReportFile(workbook, dateFrom.format(formatter), dateTo.format(formatter));
 
         String sheetName = "LKA";
         if (user.getRole() == 1) {
@@ -59,7 +59,7 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
         }
 
         apachePoi.calcSumRowConcreteSheet("LKA");
-        XSSFWorkbook workbook = apachePoi.endWriting("LKA");
+        workbook = apachePoi.endWriting("LKA");
 
         return workbook;
     }

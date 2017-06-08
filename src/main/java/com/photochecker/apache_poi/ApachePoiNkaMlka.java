@@ -421,7 +421,7 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         Font boldFont = workbook.createFont();
         boldFont.setBold(true);
         cellStyle.setFont(boldFont);
-        cellStyle.setFillForegroundColor(HSSFColor.YELLOW.index);
+        cellStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.YELLOW.getIndex());
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         XSSFRow row = spreadsheet.createRow(rowIndex);
@@ -763,7 +763,7 @@ public class ApachePoiNkaMlka extends AbstractApachePoi implements ApachePoi {
         boldFont.setBold(true);
         leftStyle.setFont(boldFont);
         leftStyle.setAlignment(HorizontalAlignment.LEFT);
-        leftStyle.setFillForegroundColor(HSSFColor.YELLOW.index);
+        leftStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.YELLOW.getIndex());
         leftStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         XSSFCellStyle centerStyle = (XSSFCellStyle) leftStyle.clone();
         centerStyle.setAlignment(HorizontalAlignment.CENTER);

@@ -9,7 +9,7 @@
         <div id="photoFull">
             <div id="toLeft">
                 <div class="blockBeforeImage"></div>
-                <img class="arrow" src="../images/left.png">
+                <img class="arrow" src="<c:url value="/resources/images/left.png"/>">
             </div>
             <div id="fullPhotoInfo">
                 <span class="title"><b>Дата фото: </b></span>
@@ -24,7 +24,7 @@
             </div>
             <div id="toRight">
                 <div class="blockBeforeImage"></div>
-                <img class="arrow" src="../images/right.png">
+                <img class="arrow" src="<c:url value="/resources/images/right.png"/>">
             </div>
         </div>
         <div id="photoControl">
@@ -32,20 +32,20 @@
             <div id="fullPhotoCount" class="photoNum"></div>
             <br><br>
             <div id="zoomIn" class="iconBlock">
-                <img src="../images/zoom-in.png">
+                <img src="<c:url value="/resources/images/zoom-in.png"/>">
             </div>
             <div id="zoomOut" class="iconBlock">
-                <img src="../images/zoom-out.png">
+                <img src="<c:url value="/resources/images/zoom-out.png"/>">
             </div>
             <div id="turnForward" class="iconBlock">
-                <img src="../images/forward.png">
+                <img src="<c:url value="/resources/images/forward.png"/>">
             </div>
             <div id="turnBack" class="iconBlock">
-                <img src="../images/back.png">
+                <img src="<c:url value="/resources/images/back.png"/>">
             </div>
             <br><br>
             <div id="close" class="iconBlock">
-                <img src="../images/close.png">
+                <img src="<c:url value="/resources/images/close.png"/>">
             </div>
         </div>
     </div>

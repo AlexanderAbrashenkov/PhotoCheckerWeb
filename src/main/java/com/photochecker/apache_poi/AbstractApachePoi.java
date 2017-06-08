@@ -5,6 +5,7 @@ import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.service.lka.LkaCriteriasService;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -47,13 +48,13 @@ public abstract class AbstractApachePoi implements ApachePoi {
         this.reportPath = reportPath;
     }
 
-    public void createReportFile(String dateFrom, String dateTo) {
-        workbook = new XSSFWorkbook();
+    public void createReportFile(Workbook workbook, String dateFrom, String dateTo) {
+        this.workbook = (XSSFWorkbook) workbook;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
     }
 
-    public XSSFWorkbook endWriting(String net) {
+    public Workbook endWriting(String net) {
         return workbook;
     }
 

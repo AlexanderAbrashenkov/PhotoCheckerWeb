@@ -31,10 +31,10 @@
                 <input type="text" class="crit crit_value crit1_m" value="${critItem.crit1M}">
                 <div class="crit perc">%</div>
                 <input type="text" class="crit crit_name crit2_name" value="${critItem.crit2Name}">
-                <img class="remove_row" src="../images/cancel.png">
+                <img class="remove_row" src="<c:url value="/resources/images/cancel.png" />">
             </div>
         </c:forEach>
-        <img class="add_row" src="../images/add.png">
+        <img class="add_row" src="<c:url value="/resources/images/add.png" />">
     </div>
     <div class="button button_save" id="lka_crit_save">Сохранить изменения</div>
     <div class="button button_cancel" id="lka_crit_cancel">Отменить изменения</div>

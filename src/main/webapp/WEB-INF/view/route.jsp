@@ -1,5 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -8,8 +9,8 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Маршруты</title>
-    <link type="text/css" href="../css/style.css" rel="stylesheet">
-    <link type="text/css" href="../css/route.css" rel="stylesheet">
+    <link type="text/css" href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+    <link type="text/css" href="<c:url value="/resources/css/route.css" />" rel="stylesheet">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
 
@@ -52,7 +53,7 @@
 <div id="right-panel">
 </div>
 <div id="map"></div>
-<script src="../js/route.js"></script>
+<script src="<c:url value="/resources/js/route.js" />"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqy7bZuU0AFm5UsnZXNB0JOGP5S3UEoVM&callback=initMap">
 
 </script>

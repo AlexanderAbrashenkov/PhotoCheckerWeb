@@ -11,4 +11,5 @@
             username="root"
             password="root"
     />
+    allowCasualMultipartParsing="true"
 </Context>

@@ -8,6 +8,7 @@ import com.photochecker.model.common.Responsibility;
 import com.photochecker.model.common.User;
 import com.photochecker.model.lkaDmp.DmpReportItem;
 import com.photochecker.service.lkaDmp.DmpExcelReportService;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +30,7 @@ public class DmpExcelReportServiceDaoImpl implements DmpExcelReportService {
     private ResponsibilityDao responsibilityDao;
 
     @Override
-    public XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {
+    public Workbook getExcelReport(Workbook workbook, LocalDate dateFrom, LocalDate dateTo, User user) {
         List<DmpReportItem> dmpReportItemList = dmpReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 1);
 
         if (user.getRole() == 1) {
@@ -46,7 +47,7 @@ public class DmpExcelReportServiceDaoImpl implements DmpExcelReportService {
         ApachePoi apachePoi = ApachePoiManager.getInstance();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        apachePoi.createReportFile(dateFrom.format(formatter), dateTo.format(formatter));
+        apachePoi.createReportFile(workbook, dateFrom.format(formatter), dateTo.format(formatter));
 
         String sheetName = "DMP";
         if (user.getRole() == 1) {
@@ -59,7 +60,6 @@ public class DmpExcelReportServiceDaoImpl implements DmpExcelReportService {
         }
 
         apachePoi.calcSumRowConcreteSheet("DMP");
-        XSSFWorkbook workbook = apachePoi.endWriting("DMP");
 
         return workbook;
     }

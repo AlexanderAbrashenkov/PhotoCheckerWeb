@@ -15,6 +15,7 @@ import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.model.mlka.NkaType;
 import com.photochecker.service.lka.ExcelReportService;
 import com.photochecker.service.mlka.MlkaExcelReportService;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,7 +35,7 @@ public class MlkaExcelReportServiceDaoImpl implements MlkaExcelReportService {
     private NkaRespDao nkaRespDao;
 
     @Override
-    public XSSFWorkbook getExcelReport(LocalDate dateFrom, LocalDate dateTo, User user) {
+    public Workbook getExcelReport(Workbook workbook, LocalDate dateFrom, LocalDate dateTo, User user) {
         List<MlkaReportItem> mlkaReportItemList = mlkaReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 2);
 
         if (user.getRole() == 1) {
@@ -64,7 +65,7 @@ public class MlkaExcelReportServiceDaoImpl implements MlkaExcelReportService {
         ApachePoi apachePoi = ApachePoiManager.getInstance();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        apachePoi.createReportFile(dateFrom.format(formatter), dateTo.format(formatter));
+        apachePoi.createReportFile(workbook, dateFrom.format(formatter), dateTo.format(formatter));
 
         //X5 sheet
         String sheetName = "X5";
@@ -138,8 +139,6 @@ public class MlkaExcelReportServiceDaoImpl implements MlkaExcelReportService {
             }
             apachePoi.calcSumRowTotalSheet();
         }
-
-        XSSFWorkbook workbook = apachePoi.endWriting("NKA MLKA");
 
         return workbook;
     }

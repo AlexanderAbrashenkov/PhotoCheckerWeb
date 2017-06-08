@@ -1,6 +1,7 @@
 package com.photochecker.apache_poi;
 
 import com.photochecker.model.lka.LkaCriterias;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
@@ -14,9 +15,9 @@ public interface ApachePoi {
 
     void setReportPath(String reportPath);
 
-    void createReportFile(String dateFrom, String dateTo);
+    void createReportFile(Workbook workbook, String dateFrom, String dateTo);
 
-    XSSFWorkbook endWriting(String net);
+    Workbook endWriting(String net);
 
     //ArrayList<TMAActivity> getTMAActivityFromFile(int photoType, String netName, LocalDate dateFrom, LocalDate dateTo) throws IOException;
 

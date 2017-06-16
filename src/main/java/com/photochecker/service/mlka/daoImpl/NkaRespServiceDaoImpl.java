@@ -4,13 +4,12 @@ import com.photochecker.dao.mlka.NkaRespDao;
 import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.service.mlka.NkaRespService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by market6 on 01.06.2017.
- */
+@Component
 public class NkaRespServiceDaoImpl implements NkaRespService {
 
     @Autowired

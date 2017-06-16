@@ -6,13 +6,12 @@ import com.photochecker.model.common.Distr;
 import com.photochecker.model.common.Lka;
 import com.photochecker.service.common.LkaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class LkaServiceDaoImpl implements LkaService {
 
     @Autowired

@@ -10,6 +10,7 @@ import com.photochecker.model.lkaDmp.DmpReportItem;
 import com.photochecker.service.lkaDmp.DmpExcelReportService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,9 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by market6 on 29.05.2017.
- */
+@Component
 public class DmpExcelReportServiceDaoImpl implements DmpExcelReportService {
 
     @Autowired

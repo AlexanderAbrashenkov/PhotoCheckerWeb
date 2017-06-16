@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.security.MessageDigest;
@@ -16,9 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by market6 on 18.05.2017.
- */
+@Component
 public class UserDaoSpringImpl implements UserDao {
 
     private final String SQL_FIND_BY_ID = "SELECT * FROM `users`\n" +

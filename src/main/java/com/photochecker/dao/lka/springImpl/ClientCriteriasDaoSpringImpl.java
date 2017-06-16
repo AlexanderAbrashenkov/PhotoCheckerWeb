@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Date;
@@ -16,9 +17,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by 777 on 18.05.2017.
- */
+@Component
 public class ClientCriteriasDaoSpringImpl implements ClientCriteriasDao {
 
     private JdbcTemplate jdbcTemplate;

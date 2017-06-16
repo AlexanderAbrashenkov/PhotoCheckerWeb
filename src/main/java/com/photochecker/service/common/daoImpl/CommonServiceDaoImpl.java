@@ -1,10 +1,9 @@
 package com.photochecker.service.common.daoImpl;
 
 import com.photochecker.service.common.CommonService;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class CommonServiceDaoImpl extends CommonService {
 
 }

@@ -4,12 +4,11 @@ import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.model.common.ReportType;
 import com.photochecker.service.common.ReportTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class ReportTypeServiceDaoImpl implements ReportTypeService {
 
     @Autowired

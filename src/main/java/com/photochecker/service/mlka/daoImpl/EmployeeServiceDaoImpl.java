@@ -4,13 +4,12 @@ import com.photochecker.dao.mlka.EmployeeDao;
 import com.photochecker.model.mlka.Employee;
 import com.photochecker.service.mlka.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 31.05.2017.
- */
+@Component
 public class EmployeeServiceDaoImpl implements EmployeeService {
 
     @Autowired

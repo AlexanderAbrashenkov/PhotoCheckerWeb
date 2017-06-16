@@ -10,6 +10,7 @@ import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.model.mlka.NkaType;
 import com.photochecker.service.common.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,9 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Created by market6 on 23.05.2017.
- */
+@Component
 public class UploadServiceDaoImpl implements UploadService {
     @Autowired
     private RegionDao regionDao;

@@ -6,15 +6,14 @@ import com.photochecker.model.mlka.MlkaReportItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by 777 on 21.05.2017.
- */
+@Component
 public class MlkaReportItemDaoSpringImpl implements MlkaReportItemDao {
 
     private final String SQL_FIND_BY_PARAMS = "select distinct nka.name as nka_name, r.region_name, d.distr_name, emp.name as emp_name, " +

@@ -1,50 +1,17 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
 
-  <context-param>
-    <param-name>pageTitle</param-name>
-    <param-value>Стартовый заголовок</param-value>
-  </context-param>
-  
-  <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:/**/spring-context.xml</param-value>
-  </context-param>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error</location>
+    </error-page>
 
-  <error-page>
-    <exception-type>java.lang.Exception</exception-type>
-    <location>/error</location>
-  </error-page>
-
-  <error-page>
-    <error-code>404</error-code>
-    <location>/error</location>
-  </error-page>
-
-  <servlet>
-    <servlet-name>spring</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>spring</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-
-  <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
-
-  <resource-ref>
-    <res-ref-name>jdbc/library</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-    <res-sharing-scope>Shareable</res-sharing-scope>
-  </resource-ref>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error</location>
+    </error-page>
 
 </web-app>

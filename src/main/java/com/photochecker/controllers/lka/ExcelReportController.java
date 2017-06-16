@@ -1,5 +1,6 @@
 package com.photochecker.controllers.lka;
 
+import com.photochecker.excelViews.ExcelReportView;
 import com.photochecker.service.lka.ExcelReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,6 @@ public class ExcelReportController {
         excelParams.put("dateFrom", request.getParameter("dateFrom"));
         excelParams.put("dateTo", request.getParameter("dateTo"));
         excelParams.put("excelReportService", excelReportService);
-        return new ModelAndView("excelReport", "excelParams", excelParams);
+        return new ModelAndView(new ExcelReportView(), "excelParams", excelParams);
     }
 }

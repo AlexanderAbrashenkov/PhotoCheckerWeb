@@ -12,4 +12,7 @@
             password="root"
     />
     allowCasualMultipartParsing="true"
+    <ResourceLink name="jdbc/library"
+                  global="jdbc/library"
+                  type="javax.sql.DataSource" />
 </Context>

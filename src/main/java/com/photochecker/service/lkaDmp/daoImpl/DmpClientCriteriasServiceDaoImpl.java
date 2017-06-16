@@ -5,13 +5,12 @@ import com.photochecker.dao.lkaDmp.DmpClientCriteriasDao;
 import com.photochecker.model.lkaDmp.DmpClientCriterias;
 import com.photochecker.service.lkaDmp.DmpClientCriteriasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 26.05.2017.
- */
+@Component
 public class DmpClientCriteriasServiceDaoImpl implements DmpClientCriteriasService {
     @Autowired
     private DmpClientCriteriasDao dmpClientCriteriasDao;

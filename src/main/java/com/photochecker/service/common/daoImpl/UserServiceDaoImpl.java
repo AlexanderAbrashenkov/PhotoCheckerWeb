@@ -6,6 +6,7 @@ import com.photochecker.model.common.ReportType;
 import com.photochecker.model.common.User;
 import com.photochecker.service.common.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,9 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class UserServiceDaoImpl implements UserService {
 
     @Autowired

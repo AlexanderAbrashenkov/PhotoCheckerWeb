@@ -6,13 +6,12 @@ import com.photochecker.model.common.Channel;
 import com.photochecker.model.common.Distr;
 import com.photochecker.service.common.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 25.05.2017.
- */
+@Component
 public class ChannelServiceDaoImpl implements ChannelService {
 
     @Autowired

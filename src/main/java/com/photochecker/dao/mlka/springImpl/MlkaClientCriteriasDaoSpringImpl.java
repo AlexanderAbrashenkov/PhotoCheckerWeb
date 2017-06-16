@@ -5,6 +5,7 @@ import com.photochecker.model.mlka.MlkaClientCriterias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Date;
@@ -12,9 +13,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 01.06.2017.
- */
+@Component
 public class MlkaClientCriteriasDaoSpringImpl implements MlkaClientCriteriasDao {
 
     private JdbcTemplate jdbcTemplate;

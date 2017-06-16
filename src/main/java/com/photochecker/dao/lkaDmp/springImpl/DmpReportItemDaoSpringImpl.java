@@ -6,15 +6,14 @@ import com.photochecker.model.lkaDmp.DmpReportItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 29.05.2017.
- */
+@Component
 public class DmpReportItemDaoSpringImpl implements DmpReportItemDao {
     private JdbcTemplate jdbcTemplate;
 

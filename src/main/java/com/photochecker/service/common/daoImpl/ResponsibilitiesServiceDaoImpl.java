@@ -4,13 +4,12 @@ import com.photochecker.dao.common.ResponsibilityDao;
 import com.photochecker.model.common.Responsibility;
 import com.photochecker.service.common.ResponsibilitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class ResponsibilitiesServiceDaoImpl implements ResponsibilitiesService {
 
     @Autowired

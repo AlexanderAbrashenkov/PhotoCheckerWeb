@@ -1,5 +1,6 @@
 package com.photochecker.controllers.dmp;
 
+import com.photochecker.excelViews.DmpExcelReportView;
 import com.photochecker.service.lkaDmp.DmpExcelReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,6 @@ public class DmpExcelReportController {
         excelParams.put("dateFrom", request.getParameter("dateFrom"));
         excelParams.put("dateTo", request.getParameter("dateTo"));
         excelParams.put("dmpExcelReportService", dmpExcelReportService);
-        return new ModelAndView("dmpExcelReport", "excelParams", excelParams);
+        return new ModelAndView(new DmpExcelReportView(), "excelParams", excelParams);
     }
 }

@@ -6,15 +6,14 @@ import com.photochecker.model.common.Distr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 25.05.2017.
- */
+@Component
 public class ChannelDaoSpringImpl implements ChannelDao {
 
     private String SQL_SAVE = "INSERT INTO `channel_db` (`id`, `name`) VALUES (?, ?)";

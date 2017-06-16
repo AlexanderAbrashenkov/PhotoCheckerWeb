@@ -8,13 +8,12 @@ import com.photochecker.model.common.ClientCard;
 import com.photochecker.model.common.Lka;
 import com.photochecker.service.common.ClientCardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class ClientCardServiceDaoImpl implements ClientCardService {
     @Autowired
     private LkaDao lkaDao;

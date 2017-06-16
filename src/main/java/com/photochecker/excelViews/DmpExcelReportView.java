@@ -5,6 +5,7 @@ import com.photochecker.model.common.User;
 import com.photochecker.service.lka.ExcelReportService;
 import com.photochecker.service.lkaDmp.DmpExcelReportService;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+@Component
 public class DmpExcelReportView extends AbstractXlsxView {
 
     @Override

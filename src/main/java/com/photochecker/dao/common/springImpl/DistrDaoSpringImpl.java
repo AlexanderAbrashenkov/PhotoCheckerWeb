@@ -7,15 +7,14 @@ import com.photochecker.model.common.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 18.05.2017.
- */
+@Component
 public class DistrDaoSpringImpl implements DistrDao {
 
     private final String SQL_FIND_BY_ID = "SELECT * FROM `distr_db`\n" +

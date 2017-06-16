@@ -4,13 +4,12 @@ import com.photochecker.dao.mlka.MlkaClientCriteriasDao;
 import com.photochecker.model.mlka.MlkaClientCriterias;
 import com.photochecker.service.mlka.MlkaClientCriteriasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 01.06.2017.
- */
+@Component
 public class MlkaClientCriteriasServiceDaoImpl implements MlkaClientCriteriasService {
 
     @Autowired

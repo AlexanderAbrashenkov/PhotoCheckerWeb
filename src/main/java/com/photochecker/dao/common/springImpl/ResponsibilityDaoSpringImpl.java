@@ -13,15 +13,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by market6 on 18.05.2017.
- */
+@Component
 public class ResponsibilityDaoSpringImpl implements ResponsibilityDao {
 
     private JdbcTemplate jdbcTemplate;

@@ -6,13 +6,12 @@ import com.photochecker.model.common.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.List;
 
-/**
- * Created by market6 on 18.05.2017.
- */
+@Component
 public class ReportTypeDaoSpringImpl implements ReportTypeDao {
 
     private JdbcTemplate jdbcTemplate;

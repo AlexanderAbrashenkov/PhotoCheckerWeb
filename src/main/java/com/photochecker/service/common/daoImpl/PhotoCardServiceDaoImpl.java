@@ -6,13 +6,12 @@ import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.common.ReportType;
 import com.photochecker.service.common.PhotoCardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class PhotoCardServiceDaoImpl implements PhotoCardService {
     @Autowired
     private ReportTypeDao reportTypeDao;

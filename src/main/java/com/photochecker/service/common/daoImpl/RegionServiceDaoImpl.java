@@ -9,14 +9,13 @@ import com.photochecker.model.common.User;
 import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.service.common.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by market6 on 17.05.2017.
- */
+@Component
 public class RegionServiceDaoImpl implements RegionService {
 
     @Autowired

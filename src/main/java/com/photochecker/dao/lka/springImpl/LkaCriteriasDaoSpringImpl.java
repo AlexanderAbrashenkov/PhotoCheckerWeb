@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -16,9 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-/**
- * Created by 777 on 21.05.2017.
- */
+@Component
 public class LkaCriteriasDaoSpringImpl implements LkaCriteriasDao {
 
     private JdbcTemplate jdbcTemplate;

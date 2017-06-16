@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by market6 on 17.05.2017.
  */
 public interface UserService {
-    public Map<Integer, List<User>> getRespUsers();
+    public Map<String, List<User>> getRespUsers();
 
     public boolean checkLogin(String login);
 

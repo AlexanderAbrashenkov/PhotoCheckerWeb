@@ -102,22 +102,21 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(9);
         cell.setCellValue("Адрес клиента");
         cell.setCellStyle(headerStyle);
-        cell = row.createCell(10);
-        cell.setCellValue("Дата");
-        cell.setCellStyle(headerStyle);
 
-        cell = row.createCell(11);
+        cell = row.createCell(10);
         cell.setCellValue("Номер ДМП");
         cell.setCellStyle(headerStyle1);
-        cell = row.createCell(12);
+        cell = row.createCell(11);
         cell.setCellValue("Корректность фото");
         cell.setCellStyle(headerStyle1);
-        cell = row.createCell(13);
+        cell = row.createCell(12);
         cell.setCellValue("Наличие кодового слова");
         cell.setCellStyle(headerStyle1);
 
-        cell = row.createCell(14);
+        cell = row.createCell(13);
         cell.setCellValue("Товарные группы на ДМП");
+        cell.setCellStyle(headerStyle2);
+        cell = row.createCell(14);
         cell.setCellStyle(headerStyle2);
         cell = row.createCell(15);
         cell.setCellStyle(headerStyle2);
@@ -135,32 +134,30 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(headerStyle2);
         cell = row.createCell(22);
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(23);
-        cell.setCellStyle(headerStyle2);
 
-        cell = row.createCell(24);
+        cell = row.createCell(23);
         cell.setCellValue("Соответствует минимальному размеру");
         cell.setCellStyle(headerStyle3);
-        cell = row.createCell(25);
+        cell = row.createCell(24);
         cell.setCellValue("Наличие акционного продукта на ДМП");
         cell.setCellStyle(headerStyle3);
-        cell = row.createCell(26);
+        cell = row.createCell(25);
         cell.setCellValue("Наличие акц. ценников");
         cell.setCellStyle(headerStyle3);
-        cell = row.createCell(27);
+        cell = row.createCell(26);
         cell.setCellValue("Заполненность ДМП");
         cell.setCellStyle(headerStyle3);
-        cell = row.createCell(28);
+        cell = row.createCell(27);
         cell.setCellValue("Соответствие требованиям по месту");
         cell.setCellStyle(headerStyle3);
 
-        cell = row.createCell(29);
+        cell = row.createCell(28);
         cell.setCellValue("Оценка паллета");
         cell.setCellStyle(headerStyle4);
-        cell = row.createCell(30);
+        cell = row.createCell(29);
         cell.setCellValue("Комментарии");
         cell.setCellStyle(headerStyle4);
-        cell = row.createCell(31);
+        cell = row.createCell(30);
         cell.setCellValue("Дата проверки");
         cell.setCellStyle(headerStyle4);
 
@@ -198,46 +195,46 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(headerStyle);
         cell = row.createCell(9);
         cell.setCellStyle(headerStyle);
-        cell = row.createCell(10);
-        cell.setCellStyle(headerStyle);
 
+        cell = row.createCell(10);
+        cell.setCellStyle(headerStyle1);
         cell = row.createCell(11);
         cell.setCellStyle(headerStyle1);
         cell = row.createCell(12);
-        cell.setCellStyle(headerStyle1);
-        cell = row.createCell(13);
 
-        cell = row.createCell(14);
+        cell = row.createCell(13);
         cell.setCellValue("Майонез");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(15);
+        cell = row.createCell(14);
         cell.setCellValue("МЗ Mr.Ricco");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(16);
+        cell = row.createCell(15);
         cell.setCellValue("в т.ч. Авокадо");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(17);
+        cell = row.createCell(16);
         cell.setCellValue("МЗ Миладора");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(18);
+        cell = row.createCell(17);
         cell.setCellValue("в т.ч. ПЭТ 50%");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(19);
+        cell = row.createCell(18);
         cell.setCellValue("Кетчуп");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(20);
+        cell = row.createCell(19);
         cell.setCellValue("Соус");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(21);
+        cell = row.createCell(20);
         cell.setCellValue("в т.ч. Красные ПЭТ-банки");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(22);
+        cell = row.createCell(21);
         cell.setCellValue("Масло");
         cell.setCellStyle(headerStyle2);
-        cell = row.createCell(23);
+        cell = row.createCell(22);
         cell.setCellValue("М Mr.Ricco");
         cell.setCellStyle(headerStyle2);
 
+        cell = row.createCell(23);
+        cell.setCellStyle(headerStyle3);
         cell = row.createCell(24);
         cell.setCellStyle(headerStyle3);
         cell = row.createCell(25);
@@ -246,14 +243,12 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(headerStyle3);
         cell = row.createCell(27);
         cell.setCellStyle(headerStyle3);
-        cell = row.createCell(28);
-        cell.setCellStyle(headerStyle3);
 
+        cell = row.createCell(28);
+        cell.setCellStyle(headerStyle4);
         cell = row.createCell(29);
         cell.setCellStyle(headerStyle4);
         cell = row.createCell(30);
-        cell.setCellStyle(headerStyle4);
-        cell = row.createCell(31);
         cell.setCellStyle(headerStyle4);
 
         /*if (activityMap != null) {
@@ -271,7 +266,7 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         }*/
 
         // Объединение ячеек
-        spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 31));
+        spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 30));
 
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 0, 0));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 1, 1));
@@ -286,10 +281,10 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 10, 10));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 11, 11));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 12, 12));
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 13, 13));
 
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 14, 23));
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, 13, 22));
 
+        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 23, 23));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 24, 24));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 25, 25));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 26, 26));
@@ -297,7 +292,6 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 28, 28));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 29, 29));
         spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 30, 30));
-        spreadsheet.addMergedRegion(new CellRangeAddress(2, 3, 31, 31));
 
         //ширина столбцов
         spreadsheet.setColumnWidth(2, 7000);
@@ -307,13 +301,12 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         spreadsheet.setColumnWidth(7, 5000);
         spreadsheet.setColumnWidth(8, 13000);
         spreadsheet.setColumnWidth(9, 13000);
-        spreadsheet.setColumnWidth(10, 4000);
 
-        for (int i = 11; i < 30; i++) {
+        for (int i = 10; i < 29; i++) {
             spreadsheet.setColumnWidth(i, 3000);
         }
-        spreadsheet.setColumnWidth(30,13000);
-        spreadsheet.setColumnWidth(31,4000);
+        spreadsheet.setColumnWidth(29,13000);
+        spreadsheet.setColumnWidth(30,4000);
     }
 
     @Override
@@ -333,7 +326,6 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         String clientName = dmpReportItem.getClientName();
         String clientAddress = dmpReportItem.getClientAddress();
         DmpClientCriterias clientCriterias = dmpReportItem.getDmpClientCriterias();
-        LocalDate photo_date = dmpReportItem.getPhoto_date();
         //List<TMAActivity> activities = lkaAddress.getTmaActivityList();
 
         // стили
@@ -390,13 +382,6 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         if (clientAddress != null)
             cell.setCellValue(clientAddress);
         cell.setCellStyle(leftTextStyle);
-        cell = row.createCell(10);
-        cell.setCellValue(photo_date.format(formatter));
-        CreationHelper creationHelper = workbook.getCreationHelper();
-        XSSFCellStyle dateStyle = (XSSFCellStyle) leftTextStyle.clone();
-        dateStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd.MM.yyyy"));
-        dateStyle.setAlignment(HorizontalAlignment.GENERAL);
-        cell.setCellStyle(dateStyle);
 
         XSSFCellStyle style1 = (XSSFCellStyle) centerTextStyle.clone();
         style1.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -408,82 +393,82 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         XSSFCellStyle style4 = (XSSFCellStyle) style1.clone();
         style4.setFillForegroundColor(lightPurple);
 
-        cell = row.createCell(11, CellType.NUMERIC);
+        cell = row.createCell(10, CellType.NUMERIC);
         if (clientCriterias.getDmpNum() != -1)
             cell.setCellValue(clientCriterias.getDmpNum() + 1);
         cell.setCellStyle(style1);
-        cell = row.createCell(12, CellType.NUMERIC);
+        cell = row.createCell(11, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isPhotoCorr() ? 1 : 0);
         cell.setCellStyle(style1);
-        cell = row.createCell(13, CellType.NUMERIC);
+        cell = row.createCell(12, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isKeyword() ? 1 : 0);
         cell.setCellStyle(style1);
 
-        cell = row.createCell(14, CellType.NUMERIC);
+        cell = row.createCell(13, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isMz() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(15, CellType.NUMERIC);
+        cell = row.createCell(14, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isMzRicco() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(16, CellType.NUMERIC);
+        cell = row.createCell(15, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isMzRSpec() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(17, CellType.NUMERIC);
+        cell = row.createCell(16, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isMzMilad() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(18, CellType.NUMERIC);
+        cell = row.createCell(17, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isMzMSpec() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(19, CellType.NUMERIC);
+        cell = row.createCell(18, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isK() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(20, CellType.NUMERIC);
+        cell = row.createCell(19, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isS() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(21, CellType.NUMERIC);
+        cell = row.createCell(20, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.issSpec() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(22, CellType.NUMERIC);
+        cell = row.createCell(21, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isM() ? 1 : 0);
         cell.setCellStyle(style2);
-        cell = row.createCell(23, CellType.NUMERIC);
+        cell = row.createCell(22, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.ismSpec() ? 1 : 0);
         cell.setCellStyle(style2);
 
-        cell = row.createCell(24, CellType.NUMERIC);
+        cell = row.createCell(23, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isMinSize() ? 1 : 0);
         cell.setCellStyle(style3);
-        cell = row.createCell(25, CellType.NUMERIC);
+        cell = row.createCell(24, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isTmaProd() ? 1 : 0);
         cell.setCellStyle(style3);
-        cell = row.createCell(26, CellType.NUMERIC);
+        cell = row.createCell(25, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isPrice() ? 1 : 0);
         cell.setCellStyle(style3);
-        cell = row.createCell(27, CellType.NUMERIC);
+        cell = row.createCell(26, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isFill80() ? 1 : 0);
         cell.setCellStyle(style3);
-        cell = row.createCell(28, CellType.NUMERIC);
+        cell = row.createCell(27, CellType.NUMERIC);
         if (clientCriterias.getSaveDate() != null)
             cell.setCellValue(clientCriterias.isPlace() ? 1 : 0);
         cell.setCellStyle(style3);
 
-        cell = row.createCell(29);
+        cell = row.createCell(28);
         XSSFCellStyle lastColumnsStyle = (XSSFCellStyle) centerTextStyle.clone();
         lastColumnsStyle.setFillForegroundColor(lightPurple);
         lastColumnsStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -491,9 +476,9 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         lastColumnsPercentageStyle.setDataFormat(workbook.createDataFormat().getFormat("0%"));
         cell.setCellStyle(lastColumnsPercentageStyle);
         cell.setCellType(CellType.FORMULA);
-        cell.setCellFormula("SUM(Y" + rowIndex + ":AC" + rowIndex + ")/5");
+        cell.setCellFormula("SUM(X" + rowIndex + ":AB" + rowIndex + ")/5");
 
-        cell = row.createCell(30);
+        cell = row.createCell(29);
         XSSFCellStyle commentStyle = (XSSFCellStyle) lastColumnsStyle.clone();
         commentStyle.setAlignment(HorizontalAlignment.LEFT);
         cell.setCellValue(clientCriterias.getComment());
@@ -505,10 +490,13 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
             cell.setCellValue(allPhotoList.get(i));
         }*/
 
-        cell = row.createCell(31);
+        cell = row.createCell(30);
         if (clientCriterias.getSaveDate() != null) {
             cell.setCellValue(clientCriterias.getSaveDate().format(formatter));
         }
+
+        CreationHelper creationHelper = workbook.getCreationHelper();
+
         XSSFCellStyle dateStyle1 = (XSSFCellStyle) commentStyle.clone();
         dateStyle1.setDataFormat(creationHelper.createDataFormat().getFormat("dd.MM.yyyy"));
         dateStyle1.setAlignment(HorizontalAlignment.GENERAL);
@@ -575,12 +563,11 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(cellStyle);
         cell = row.createCell(9);
         cell.setCellStyle(cellStyle);
+
         cell = row.createCell(10);
         cell.setCellStyle(cellStyle);
-        cell = row.createCell(11);
-        cell.setCellStyle(cellStyle);
 
-        for (int i = 12; i < 29; i++) {
+        for (int i = 11; i < 28; i++) {
             String col;
             if (i < 26) {
                 col = "" + (char) ('A' + i);
@@ -593,18 +580,18 @@ public class ApachePoiLkaDmp extends AbstractApachePoi implements ApachePoi {
             cell.setCellStyle(cellStyle);
         }
 
-        cell = row.createCell(29);
+        cell = row.createCell(28);
         cell.setCellType(CellType.FORMULA);
-        cell.setCellFormula("AVERAGE(AD" + 5 + ":AD" + rowIndex + ")");
+        cell.setCellFormula("AVERAGE(AC" + 5 + ":AC" + rowIndex + ")");
         XSSFCellStyle percentageStyle = (XSSFCellStyle) cellStyle.clone();
         percentageStyle.setDataFormat(workbook.createDataFormat().getFormat("0%"));
         cell.setCellStyle(percentageStyle);
 
+        cell = row.createCell(29);
+        cell.setCellStyle(cellStyle);
         cell = row.createCell(30);
         cell.setCellStyle(cellStyle);
-        cell = row.createCell(31);
-        cell.setCellStyle(cellStyle);
-        spreadsheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 10));
+        spreadsheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 9));
 
         /*if (activityMap != null) {
             for (int i = 25; i < 25 + activityMap.size() * 2; i++) {

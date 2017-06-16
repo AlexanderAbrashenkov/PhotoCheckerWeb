@@ -294,7 +294,7 @@ tr.addr:hover{
 
 /*Central part of page content*/
 #center_pane {
-    width: calc(100% - 602px);
+    width: calc(100% - 605px);
     height: 100%;
     float: left;
     border-top: 1px solid #666;

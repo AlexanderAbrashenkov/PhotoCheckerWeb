@@ -15,15 +15,14 @@
     <param-value>classpath:/**/spring-context.xml</param-value>
   </context-param>
 
-
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
-    <location>/error.jsp</location>
+    <location>/error</location>
   </error-page>
 
   <error-page>
     <error-code>404</error-code>
-    <location>/error.jsp</location>
+    <location>/error</location>
   </error-page>
 
   <servlet>

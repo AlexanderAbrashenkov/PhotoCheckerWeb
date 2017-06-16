@@ -1,6 +1,7 @@
 package com.photochecker.model.common;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by market6 on 05.04.2017.
@@ -22,6 +23,13 @@ public class User {
         this.userName = userName;
         this.role = role;
         this.reportTypeList = reportTypeList;
+    }
+
+    public List<Integer> getReportsIndexes() {
+        return reportTypeList.stream()
+                .map(reportType -> reportType.getId())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public int getId() {

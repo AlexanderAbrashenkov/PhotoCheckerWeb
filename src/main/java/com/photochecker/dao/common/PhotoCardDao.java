@@ -5,6 +5,7 @@ import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.common.ReportType;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,4 +18,6 @@ public interface PhotoCardDao extends GenericDao<PhotoCard> {
     PhotoCard findByUrl(String url, ReportType reportType);
 
     public List<PhotoCard> findAllByDates(LocalDate startDate, LocalDate endDate);
+
+    boolean markCheckedByUrl(List<String> photoUrlList);
 }

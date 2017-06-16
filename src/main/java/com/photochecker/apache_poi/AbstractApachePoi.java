@@ -125,48 +125,7 @@ public abstract class AbstractApachePoi implements ApachePoi {
         return activityList;
     }*/
 
-    public List<LkaCriterias> getLkaCriteriaList() throws IOException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        List<LkaCriterias> result = ((LkaCriteriasService) context.getBean("lkaCriteriasService")).getAllLkaCriterias();
-/*
-        File file = new File("save/критерии выкладка.xlsx");
-        if (!file.exists() || !file.isFile())
-            return null;
-        FileInputStream fis = new FileInputStream(file);
-        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
-        XSSFSheet spreadsheet = xssfWorkbook.getSheetAt(0);
-        XSSFRow row;
-        Iterator<Row> rowIterator = spreadsheet.iterator();
-        int i = 0;
-        while (rowIterator.hasNext()) {
-            i++;
-            if (i < 2) {
-                rowIterator.next();
-                continue;
-            }
-            row = (XSSFRow) rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-            Cell cell = cellIterator.next();
-            String lka = cell.getStringCellValue();
-            if (lka == "")
-                break;
-            cell = cellIterator.next();
-            int id = (int) cell.getNumericCellValue();
-            cell = cellIterator.next();
-            String criteria1Text = cell.getStringCellValue();
-            cell = cellIterator.next();
-            double criteria1Mz = cell.getNumericCellValue();
-            cell = cellIterator.next();
-            double criteria1K = cell.getNumericCellValue();
-            cell = cellIterator.next();
-            double criteria1S = cell.getNumericCellValue();
-            cell = cellIterator.next();
-            String criteria2Text = cell.getStringCellValue();
-            LkaCriterias lkaCriteria = new LkaCriterias(id, criteria1Text, criteria1Mz, criteria1K, criteria1S, criteria2Text);
-            result.add(lkaCriteria);
-        }*/
-        return result;
-    }
+
 
     protected XSSFCellStyle createBorderedStyle() {
         XSSFCellStyle cellStyle = workbook.createCellStyle();

@@ -38,8 +38,8 @@ public class DmpController {
     public ModelAndView showDmpPage(HttpSession session) {
 
         ModelAndView modelAndView = new ModelAndView("lkaDmp/lkaDmpPage");
-        LocalDate startDate = commonService.getInitialStartDate();
-        LocalDate endDate = commonService.getInitialEndDate();
+        LocalDate startDate = commonService.getInitialStartDateWeek();
+        LocalDate endDate = commonService.getInitialEndDateWeek();
         modelAndView.addObject("startDate", startDate);
         modelAndView.addObject("endDate", endDate);
 

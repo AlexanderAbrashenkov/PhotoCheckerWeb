@@ -30,7 +30,7 @@ public class ResponsibController {
         ModelAndView modelAndView = new ModelAndView("responsibilitiesPage");
 
         List<Responsibility> responsibilitiesList = responsibilitiesService.getAllResponsibilities();
-        Map<Integer, List<User>> respUsers = userService.getRespUsers();
+        Map<String, List<User>> respUsers = userService.getRespUsers();
 
         modelAndView.addObject("respList", responsibilitiesList);
         modelAndView.addObject("respUsers", respUsers);

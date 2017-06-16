@@ -1,5 +1,6 @@
 package com.photochecker.service.common;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 /**
@@ -15,5 +16,21 @@ public abstract class CommonService {
     public LocalDate getInitialEndDate() {
         LocalDate endDate = LocalDate.now().minusDays(2);
         return endDate;
+    }
+
+    public LocalDate getInitialStartDateWeek() {
+        LocalDate result = LocalDate.now().minusDays(1);
+        while (!result.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
+            result = result.minusDays(1);
+        }
+        return result;
+    }
+
+    public LocalDate getInitialEndDateWeek() {
+        LocalDate result = LocalDate.now().minusDays(1);
+        while (!result.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            result = result.plusDays(1);
+        }
+        return result;
     }
 }

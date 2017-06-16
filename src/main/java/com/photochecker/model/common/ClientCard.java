@@ -8,7 +8,7 @@ public class ClientCard {
     private String clientName;
     private String clientAddress;
     private String clientType;
-    private boolean checked;
+    private int checked;
     private Distr distr;
     private String obl;
     private int channelId;
@@ -19,7 +19,7 @@ public class ClientCard {
     }
 
     public ClientCard(int clientId, String clientName, String clientAddress, String clientType,
-                      boolean checked, Distr distr, String obl, int channelId, Lka lka, int nkaType) {
+                      int checked, Distr distr, String obl, int channelId, Lka lka, int nkaType) {
         this.clientId = clientId;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
@@ -64,11 +64,11 @@ public class ClientCard {
         this.clientType = clientType;
     }
 
-    public boolean isChecked() {
+    public int getChecked() {
         return checked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(int checked) {
         this.checked = checked;
     }
 

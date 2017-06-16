@@ -33,7 +33,7 @@ public class NkaRespController {
         ModelAndView modelAndView = new ModelAndView("mlka/nkaRespPage");
 
         List<NkaResp> nkaRespList = nkaRespService.getAllNkaResp();
-        List<User> respUsers = userService.getRespUsers().get(new Integer(2));
+        List<User> respUsers = userService.getRespUsers().get("2");
         modelAndView.addObject("respList", nkaRespList);
         modelAndView.addObject("respUsers", respUsers);
         modelAndView.addObject("pageTitle", "Ответственные");

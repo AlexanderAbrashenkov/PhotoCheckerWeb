@@ -2,6 +2,7 @@ package com.photochecker.controllers.dmp;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.photochecker.dao.common.PhotoCardDao;
 import com.photochecker.model.lkaDmp.DmpClientCriterias;
 import com.photochecker.service.lkaDmp.DmpClientCriteriasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class DmpClientCriteriasController {
     @PostMapping(value = "/reports/lkaDmp/saveCriterias", produces = "application/json")
     @ResponseBody
     public Map<String, Boolean> saveDmpClientCriterias(@RequestParam("dmpArray") String dmpArrayJson,
+                                                       @RequestParam("photoUrls") String photoUrls,
                                                        @RequestParam("dateFrom") String dateFromS,
                                                        @RequestParam("dateTo") String dateToS) {
 
@@ -43,7 +45,12 @@ public class DmpClientCriteriasController {
             dmpClientCriterias.setSaveDate(LocalDateTime.now());
         }
 
-        boolean answer = dmpClientCriteriasService.saveCriterias(critList);
+        photoUrls = photoUrls.replace("[", "")
+                .replace("]", "")
+                .replace("\"", "");
+        ArrayList<String> photoUrlList = new ArrayList<>(Arrays.asList(photoUrls.split(",")));
+        boolean answer = dmpClientCriteriasService.saveCriterias(critList, photoUrlList);
+
         return Collections.singletonMap("answer", answer);
     }
 

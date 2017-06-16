@@ -59,7 +59,6 @@ div#fullPhotoCont {
     height: 100%;
     float: left;
     overflow: scroll;
-    background-color: white;
 }
 
 #fullPhotoCont img {
@@ -115,6 +114,10 @@ div.photoNum {
     width: 40px;
     margin: 10px;
     cursor:pointer;
+}
+
+.photoChecked {
+    background-color: lightgreen;
 }
 
 /*Left part of page content*/
@@ -364,7 +367,7 @@ div.tab button.active {
 
 /*Central part of page content*/
 #center_pane {
-    width: calc(100% - 602px);
+    width: calc(100% - 605px);
     height: 100%;
     float: left;
     border-top: 1px solid #666;

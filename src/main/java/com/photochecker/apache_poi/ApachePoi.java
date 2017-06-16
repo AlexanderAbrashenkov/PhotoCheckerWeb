@@ -34,6 +34,4 @@ public interface ApachePoi {
     void writeOneTtToTotalSheet(List parameters);
 
     void calcSumRowTotalSheet();
-
-    List<LkaCriterias> getLkaCriteriaList() throws IOException;
 }

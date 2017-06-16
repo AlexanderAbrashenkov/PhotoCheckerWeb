@@ -1,32 +1,19 @@
 $(function () {
     $('#dateFrom').change(function () {
         var dateFrom = this.value;
-        $('#dateTo').val(dateFrom);
-        var dateDiff = 0;
-        clearAllFromDates();
-        loadRegions(dateFrom, dateFrom);
-        $('#saveButton').removeClass('hidden');
+        var dateTo = new Date(dateFrom);
+        dateTo.setDate(dateTo.getDate() + 6);
+        var dateToS = dateTo.getFullYear() + '-'
+            + ('0' + (dateTo.getMonth() + 1)).slice(-2) + '-'
+            + ('0' + dateTo.getDate()).slice(-2);
+        $('#dateTo').val(dateToS);
+        checkDatesAndLoadRegions(dateFrom, dateToS);
     });
 
     $('#dateTo').change(function () {
         var dateFrom = $('#dateFrom').val();
         var dateTo = this.value;
-        var dateDiffer = dateDiff(dateFrom, dateTo);
-        console.log(dateFrom);
-        console.log(dateTo);
-        console.log(dateDiffer);
-        clearAllFromDates();
-        if (dateTo >= dateFrom) {
-            $('.datePicker').css('background-color', 'red');
-            loadRegions(dateFrom, dateTo);
-        } else {
-            $('.datePicker').css('background-color', 'red');
-        }
-        if (dateDiffer === 0) {
-            $('#saveButton').removeClass('hidden');
-        } else {
-            $('#saveButton').addClass('hidden');
-        }
+        checkDatesAndLoadRegions(dateFrom, dateTo);
     });
 
     $('#selRegion').change(function () {
@@ -86,7 +73,7 @@ $(function () {
         var dateTo = $("#dateTo").val();
         $(this).addClass('addressSelected');
         loadPhotos(dateFrom, dateTo, client_id);
-        if ($(this).hasClass('addressChecked')) {
+        if ($(this).children().eq(4).text() > 0) {
             loadSavedCriterias(client_id, dateFrom, dateTo);
         }
     });
@@ -97,6 +84,11 @@ $(function () {
         var date = $(this).parent().find('.photoDate').text();
         var dateAdd = $(this).parent().find('.addDate').text();
         var comment = $(this).parent().find('textarea').val();
+        if ($(this).parent().hasClass('photoChecked')) {
+            $('#fullPhotoCont').addClass('photoChecked');
+        } else {
+            $('#fullPhotoCont').removeClass('photoChecked');
+        }
         date = date.replace("Дата: ", "");
         dateAdd = dateAdd.replace("Дата добавления: ", "");
         var count = $('#center_pane .photoBlock:last-child img').data('num');
@@ -191,12 +183,23 @@ $(function () {
     });
 });
 
-function dateDiff(dateFrom, dateTo) {
-    var date1 = new Date(dateFrom);
-    var date2 = new Date(dateTo);
-    var timeDiff = date2.getTime() - date1.getTime();
+function checkDatesAndLoadRegions(dateFrom, dateTo) {
+    var dateFromD = new Date(dateFrom);
+    var dateToD = new Date(dateTo);
+    var timeDiff = dateToD.getTime() - dateFromD.getTime();
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return diffDays;
+    var dayFrom = dateFromD.getDay();
+    clearAllFromDates();
+    if (diffDays === 6 && dayFrom === 1) {
+        $('.datePicker').css('background-color', '');
+        loadRegions(dateFrom, dateTo);
+        $('#saveButton').removeClass('hidden');
+        $('#to_xlsx').removeClass('hidden');
+    } else {
+        $('.datePicker').css('background-color', 'red');
+        $('#saveButton').addClass('hidden');
+        $('#to_xlsx').addClass('hidden');
+    }
 }
 
 function clearAllFromDates() {
@@ -441,6 +444,11 @@ function fillDatasOnPhotoShow(newPhotoBlockNum) {
     var date = newPhotoBlock.find('.photoDate').text();
     var dateAdd = newPhotoBlock.find('.addDate').text();
     var comment = newPhotoBlock.find('textarea').val();
+    if ($(newPhotoBlock).hasClass('photoChecked')) {
+        $('#fullPhotoCont').addClass('photoChecked');
+    } else {
+        $('#fullPhotoCont').removeClass('photoChecked');
+    }
     date = date.replace("Дата: ", "");
     dateAdd = dateAdd.replace("Дата добавления: ", "");
     $('#fullPhotoDate').text(date);
@@ -461,6 +469,14 @@ function saveCriteriasByClient(clientId) {
 
     var tabContents = $('.dmp');
     var array = [];
+
+    var photos = $('.photoBlock');
+    var photoUrls = [];
+
+    for (var i = 0; i < photos.length; i++) {
+        photoUrls.push(photos.eq(i).find('img').attr('src'));
+    }
+
     for (var i = 0; i < dmpCount; i++) {
         var dmp = {
             clientId: clientId,
@@ -495,12 +511,14 @@ function saveCriteriasByClient(clientId) {
     $.post('lkaDmp/saveCriterias',
         {
             dmpArray: JSON.stringify(array),
+            photoUrls: JSON.stringify(photoUrls),
             dateFrom: $('#dateFrom').val(),
             dateTo: $('#dateTo').val()
         })
         .done(function (data) {
             checkForRedirect(data);
             showSavedSuccessfullyPane();
+            addCheckedClassToPhotos();
         })
         .fail(function (data) {
             showErrorPane();
@@ -509,6 +527,13 @@ function saveCriteriasByClient(clientId) {
             $('#loader').css('display', 'none');
         })
 };
+
+function addCheckedClassToPhotos() {
+    var photos = $('.photoBlock');
+    for (var i = 0; i < photos.length; i++) {
+        photos.eq(i).addClass('photoChecked');
+    }
+}
 
 function resizeTabs(tabsCount) {
     $('#dmpCountSelector').val(tabsCount);

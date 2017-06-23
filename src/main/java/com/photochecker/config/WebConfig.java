@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.util.List;
+import java.util.HashMap;
 
 @Configuration
 @EnableWebMvc
@@ -30,7 +30,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(1000000);
+        commonsMultipartResolver.setMaxUploadSize(10_000_000);
         return commonsMultipartResolver;
     }
 
@@ -60,4 +60,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+
+
 }

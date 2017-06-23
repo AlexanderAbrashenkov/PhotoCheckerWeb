@@ -7,6 +7,7 @@ import com.photochecker.model.common.User;
 import com.photochecker.service.common.ResponsibilitiesService;
 import com.photochecker.service.common.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,7 +27,7 @@ public class ResponsibController {
     private UserService userService;
 
     @GetMapping("/reports/responsib")
-    public ModelAndView showResponsibilities() {
+    public ModelAndView showResponsibilities(@Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("responsibilitiesPage");
 
         List<Responsibility> responsibilitiesList = responsibilitiesService.getAllResponsibilities();
@@ -36,6 +37,7 @@ public class ResponsibController {
         modelAndView.addObject("respUsers", respUsers);
         modelAndView.addObject("pageTitle", "Ответственные");
         modelAndView.addObject("pageCategory", "administrate");
+        modelAndView.addObject("resVer", resVer);
         return modelAndView;
     }
 

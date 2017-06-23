@@ -14,7 +14,7 @@ div#showPhoto {
     top: 53px;
     left: 0px;
     height: calc(100% - 53px);
-    width: calc(100% - 253px);
+    width: calc(100% - 257px);
     background-color: #efefef;
     display: none;
     border-right: 3px solid #687798;

@@ -1,6 +1,7 @@
 package com.photochecker.model.common;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by market6 on 28.03.2017.
@@ -124,5 +125,15 @@ public class PhotoCard {
                 ", reportType=" + reportType +
                 ", employeeId=" + employeeId +
                 '}';
+    }
+
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return this.date.format(formatter);
+    }
+
+    public String getFormattedDateAdd() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return this.dateAdd.format(formatter);
     }
 }

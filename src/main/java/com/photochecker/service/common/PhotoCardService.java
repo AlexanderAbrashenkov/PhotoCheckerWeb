@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface PhotoCardService {
     public List<PhotoCard> getPhotoList(int clientId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
+
+    List<PhotoCard> getPhotoListNst(int clientId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
 }

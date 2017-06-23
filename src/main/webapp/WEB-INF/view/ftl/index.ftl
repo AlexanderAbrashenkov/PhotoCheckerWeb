@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Заголовок</title>
-    <link type="text/css" href="<@spring.url "/resources/css/style.css" />" rel="stylesheet">
+    <link type="text/css" href="<@spring.url "/resources/css/style.css" />?${resVer}" rel="stylesheet">
 </head>
 <body>
 <div id="welcomeTitle">Добро пожаловать!</div>

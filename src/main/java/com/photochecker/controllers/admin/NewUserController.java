@@ -6,6 +6,7 @@ import com.photochecker.service.common.ReportTypeService;
 import com.photochecker.service.common.UserService;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,12 +25,13 @@ public class NewUserController {
     private UserService userService;
 
     @GetMapping("/reports/create_user")
-    public ModelAndView showCreateUserPage() {
+    public ModelAndView showCreateUserPage(@Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("createUserPage");
         List<ReportType> reportTypes = reportTypeService.getReportTypes();
         modelAndView.addObject("reportTypes", reportTypes);
         modelAndView.addObject("pageTitle", "Новый сотрудник");
         modelAndView.addObject("pageCategory", "administrate");
+        modelAndView.addObject("resVer", resVer);
         return modelAndView;
     }
 

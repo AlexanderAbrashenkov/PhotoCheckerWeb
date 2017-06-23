@@ -33,4 +33,20 @@ public abstract class CommonService {
         }
         return result;
     }
+
+    public LocalDate getInitialStartDateNst() {
+        LocalDate result = LocalDate.now().minusDays(14);
+        while (!result.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
+            result = result.minusDays(1);
+        }
+        return result;
+    }
+
+    public LocalDate getInitialEndDateNst() {
+        LocalDate result = LocalDate.now().minusDays(8);
+        while (!result.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            result = result.minusDays(1);
+        }
+        return result;
+    }
 }

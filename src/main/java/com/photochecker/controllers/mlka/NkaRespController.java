@@ -7,6 +7,7 @@ import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.service.common.UserService;
 import com.photochecker.service.mlka.NkaRespService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,7 @@ public class NkaRespController {
     UserService userService;
 
     @GetMapping("/reports/mlkaResp")
-    public ModelAndView getNkaRespPage() {
+    public ModelAndView getNkaRespPage(@Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("mlka/nkaRespPage");
 
         List<NkaResp> nkaRespList = nkaRespService.getAllNkaResp();
@@ -38,6 +39,8 @@ public class NkaRespController {
         modelAndView.addObject("respUsers", respUsers);
         modelAndView.addObject("pageTitle", "Ответственные");
         modelAndView.addObject("pageCategory", "administrate");
+        modelAndView.addObject("resVer", resVer);
+
         return modelAndView;
     }
 

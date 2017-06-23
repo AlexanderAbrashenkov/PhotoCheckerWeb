@@ -3,6 +3,7 @@ package com.photochecker.controllers.lka;
 import com.photochecker.model.common.*;
 import com.photochecker.service.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,8 @@ public class LkaController {
     private final int REP_TYPE_INDEX = 5;
 
     @GetMapping("/reports/lka")
-    public ModelAndView showLka(HttpSession session) {
+    public ModelAndView showLka(HttpSession session,
+                                @Value("${resVer}") String resVer) {
 
         ModelAndView modelAndView = new ModelAndView("lka/lkaPage");
 
@@ -50,6 +52,8 @@ public class LkaController {
         modelAndView.addObject("regionList", regionList);
         modelAndView.addObject("pageTitle", "Фотоотчет LKA");
         modelAndView.addObject("pageCategory", "lka");
+        modelAndView.addObject("resVer", resVer);
+
         return modelAndView;
     }
 

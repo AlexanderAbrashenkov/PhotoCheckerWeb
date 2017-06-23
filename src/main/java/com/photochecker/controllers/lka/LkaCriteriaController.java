@@ -6,6 +6,7 @@ import com.photochecker.model.lka.LkaCriterias;
 import com.photochecker.service.common.LkaService;
 import com.photochecker.service.lka.LkaCriteriasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,13 +31,14 @@ public class LkaCriteriaController {
     private LkaService lkaService;
 
     @GetMapping("/reports/lka_criteria")
-    public ModelAndView showLkaCriterias() {
+    public ModelAndView showLkaCriterias(@Value("${resVer}") String resVer) {
 
         ModelAndView modelAndView = new ModelAndView("lka/lkaCriteriaPage");
         List<LkaCriterias> criteriasList = lkaCriteriasService.getAllLkaCriterias();
         modelAndView.addObject("critList", criteriasList);
         modelAndView.addObject("pageTitle", "Критерии LKA");
         modelAndView.addObject("pageCategory", "administrate");
+        modelAndView.addObject("resVer", resVer);
         return modelAndView;
     }
 

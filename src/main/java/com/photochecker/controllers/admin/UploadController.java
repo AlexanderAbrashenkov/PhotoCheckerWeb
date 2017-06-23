@@ -2,6 +2,7 @@ package com.photochecker.controllers.admin;
 
 import com.photochecker.service.common.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,19 +20,23 @@ public class UploadController {
     private UploadService uploadService;
 
     @GetMapping("/reports/upload")
-    public ModelAndView showUploadPage() {
+    public ModelAndView showUploadPage(@Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("uploadPage");
         modelAndView.addObject("pageTitle", "Загрузка данных");
         modelAndView.addObject("pageCategory", "administrate");
+        modelAndView.addObject("resVer", resVer);
         return modelAndView;
     }
 
     @PostMapping("/reports/upload")
-    public ModelAndView uploadFile (@RequestParam("file") MultipartFile file) {
+    public ModelAndView uploadFile (@RequestParam("file") MultipartFile file,
+                                    @Value("${resVer}") String resVer) {
 
         ModelAndView modelAndView = new ModelAndView("uploadPage");
         modelAndView.addObject("pageTitle", "Загрузка данных");
         modelAndView.addObject("pageCategory", "administrate");
+        modelAndView.addObject("resVer", resVer);
+
 
         if (file.isEmpty()) {
             modelAndView.addObject("resultOfUpload", "Файл не выбран");

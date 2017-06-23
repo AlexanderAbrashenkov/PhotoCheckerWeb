@@ -7,6 +7,7 @@ import com.photochecker.service.common.*;
 import com.photochecker.service.mlka.EmployeeService;
 import com.photochecker.service.mlka.NkaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +41,8 @@ public class MlkaController {
 
 
     @GetMapping("/reports/mlka")
-    public ModelAndView showMlkaPage(HttpSession session) {
+    public ModelAndView showMlkaPage(HttpSession session,
+                                     @Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("mlka/mlkaPage");
 
         LocalDate startDate = commonService.getInitialStartDate();
@@ -54,6 +56,8 @@ public class MlkaController {
         modelAndView.addObject("nkaTypeList", nkaTypeList);
         modelAndView.addObject("pageTitle", "Фотоотчет MLKA");
         modelAndView.addObject("pageCategory", "mlka");
+        modelAndView.addObject("resVer", resVer);
+
         return modelAndView;
     }
 

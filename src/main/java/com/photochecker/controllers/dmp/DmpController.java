@@ -3,6 +3,7 @@ package com.photochecker.controllers.dmp;
 import com.photochecker.model.common.*;
 import com.photochecker.service.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +36,8 @@ public class DmpController {
     private final int REP_TYPE_INDEX = 1;
 
     @GetMapping("/reports/lkaDmp")
-    public ModelAndView showDmpPage(HttpSession session) {
+    public ModelAndView showDmpPage(HttpSession session,
+                                    @Value("${resVer}") String resVer) {
 
         ModelAndView modelAndView = new ModelAndView("lkaDmp/lkaDmpPage");
         LocalDate startDate = commonService.getInitialStartDateWeek();
@@ -48,6 +50,8 @@ public class DmpController {
         modelAndView.addObject("regionList", regionList);
         modelAndView.addObject("pageTitle", "Фотоотчет LKA ДМП");
         modelAndView.addObject("pageCategory", "lkaDmp");
+        modelAndView.addObject("resVer", resVer);
+
         return modelAndView;
     }
 

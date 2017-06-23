@@ -170,6 +170,7 @@ $(function () {
         var clientId = addrRow.children().eq(2).text();
         saveCriteriasByClient(clientId);
         addrRow.addClass('addressChecked');
+        addrRow.children().eq(4).text(1);
     });
 
     $('#clearButton').on('click', function () {

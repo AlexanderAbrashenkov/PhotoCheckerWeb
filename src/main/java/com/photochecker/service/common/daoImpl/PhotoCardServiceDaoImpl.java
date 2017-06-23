@@ -25,4 +25,12 @@ public class PhotoCardServiceDaoImpl implements PhotoCardService {
 
             return photoCardList;
     }
+
+    @Override
+    public List<PhotoCard> getPhotoListNst(int clientId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd) {
+        ReportType reportType = reportTypeDao.find(repTypeInd);
+        List<PhotoCard> photoCardList = photoCardDao.findAllByDatesNst(clientId, dateFrom, dateTo, repTypeInd);
+
+        return photoCardList;
+    }
 }

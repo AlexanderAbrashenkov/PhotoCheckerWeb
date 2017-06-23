@@ -53,6 +53,7 @@ public class UploadServiceDaoImpl implements UploadService {
     private List<NkaResp> nkaRespList;
     private List<Employee> employeeList;
     private List<PhotoCard> photoCardList;
+    private List<ReportType> reportTypeList;
 
     @Override
     public String uploadDatas(BufferedReader reader, String date) {
@@ -65,6 +66,7 @@ public class UploadServiceDaoImpl implements UploadService {
         nkaTypeList = nkaTypeDao.findAll();
         nkaRespList = nkaRespDao.findAll();
         employeeList = employeeDao.findAll();
+        reportTypeList = reportTypeDao.findAll();
 
         LocalDate dateAdd = LocalDate.parse(date);
         photoCardList = photoCardDao.findAllByDates(dateAdd, dateAdd);
@@ -137,7 +139,10 @@ public class UploadServiceDaoImpl implements UploadService {
                 }
 
 
-                ReportType reportType = reportTypeDao.find(5);
+                ReportType reportType = reportTypeList.stream()
+                        .filter(reportType1 -> reportType1.getId() == 5)
+                        .findFirst()
+                        .get();
 
                 Responsibility responsibility = new Responsibility(reportType, distr, null);
 
@@ -244,7 +249,10 @@ public class UploadServiceDaoImpl implements UploadService {
                 }
 
 
-                ReportType reportType = reportTypeDao.find(1);
+                ReportType reportType = reportTypeList.stream()
+                        .filter(reportType1 -> reportType1.getId() == 1)
+                        .findFirst()
+                        .get();
 
                 Responsibility responsibility = new Responsibility(reportType, distr, null);
 
@@ -351,7 +359,10 @@ public class UploadServiceDaoImpl implements UploadService {
                 }
 
 
-                ReportType reportType = reportTypeDao.find(2);
+                ReportType reportType = reportTypeList.stream()
+                        .filter(reportType1 -> reportType1.getId() == 2)
+                        .findFirst()
+                        .get();
 
                 NkaType nkaType = recordParts[0].equals("X5")
                         ? new NkaType(1, "X5")

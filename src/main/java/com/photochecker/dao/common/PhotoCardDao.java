@@ -19,5 +19,9 @@ public interface PhotoCardDao extends GenericDao<PhotoCard> {
 
     public List<PhotoCard> findAllByDates(LocalDate startDate, LocalDate endDate);
 
+    List<PhotoCard> findAllByDatesNst(int clientId, LocalDate startDate, LocalDate endDate, int repTypeInd);
+
     boolean markCheckedByUrl(List<String> photoUrlList);
+
+    List<PhotoCard> findAllByDatesAndReport(LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
 }

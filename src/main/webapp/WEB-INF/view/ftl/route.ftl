@@ -8,8 +8,8 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Маршруты</title>
-    <link type="text/css" href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
-    <link type="text/css" href="<c:url value="/resources/css/route.css" />" rel="stylesheet">
+    <link type="text/css" href="<@spring.url "/resources/css/style.css"/>?${resVer}" rel="stylesheet">
+    <link type="text/css" href="<@spring.url "/resources/css/route.css"/>?${resVer}" rel="stylesheet">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
 

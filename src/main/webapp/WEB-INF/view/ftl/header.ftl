@@ -6,36 +6,48 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <title>${pageTitle}</title>
 
-    <link type="text/css" href="<@spring.url "/resources/css/style.css"/>" rel="stylesheet">
+    <link type="text/css" href="<@spring.url "/resources/css/style.css"/>?${resVer}" rel="stylesheet">
     <#if pageCategory == 'lka'>
-        <link type="text/css" href="<@spring.url "/resources/css/lkaStyle.css"/>" rel="stylesheet">
+        <link type="text/css" href="<@spring.url "/resources/css/lkaStyle.css"/>?${resVer}" rel="stylesheet">
     </#if>
     <#if pageCategory == 'mlka'>
-        <link type="text/css" href="<@spring.url "/resources/css/mlkaStyle.css"/>" rel="stylesheet">
+        <link type="text/css" href="<@spring.url "/resources/css/mlkaStyle.css"/>?${resVer}" rel="stylesheet">
     </#if>
     <#if pageCategory == 'lkaDmp'>
-        <link type="text/css" href="<@spring.url "/resources/css/lkaDmpStyle.css"/>" rel="stylesheet">
+        <link type="text/css" href="<@spring.url "/resources/css/lkaDmpStyle.css"/>?${resVer}" rel="stylesheet">
     </#if>
     <#if pageCategory == 'administrate'>
-        <link type="text/css" href="<@spring.url "/resources/css/administrateStyle.css"/>" rel="stylesheet">
+        <link type="text/css" href="<@spring.url "/resources/css/administrateStyle.css"/>?${resVer}" rel="stylesheet">
+    </#if>
+    <#if pageCategory == 'lkaMa'>
+        <link type="text/css" href="<@spring.url "/resources/css/lkaMaStyle.css"/>?${resVer}" rel="stylesheet">
+    </#if>
+    <#if pageCategory == 'nst'>
+        <link type="text/css" href="<@spring.url "/resources/css/nstStyle.css"/>?${resVer}" rel="stylesheet">
     </#if>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="<@spring.url "/resources/js/main.js"/>" type="text/javascript"></script>
+    <script src="<@spring.url "/resources/js/main.js"/>?${resVer}" type="text/javascript"></script>
     <#if pageCategory == 'lka'>
-        <script src="<@spring.url "/resources/js/lka.js"/>" type="text/javascript"></script>
+        <script src="<@spring.url "/resources/js/lka.js"/>?${resVer}" type="text/javascript"></script>
     </#if>
     <#if pageCategory == 'mlka'>
-        <script src="<@spring.url "/resources/js/mlka.js"/>" type="text/javascript"></script>
+        <script src="<@spring.url "/resources/js/mlka.js"/>?${resVer}" type="text/javascript"></script>
     </#if>
     <#if pageCategory == 'lkaDmp'>
-        <script src="<@spring.url "/resources/js/lkaDmp.js"/>" type="text/javascript"></script>
+        <script src="<@spring.url "/resources/js/lkaDmp.js"/>?${resVer}" type="text/javascript"></script>
     </#if>
     <#if pageCategory == 'reports'>
-        <script src="<@spring.url "/resources/js/reports.js"/>" type="text/javascript"></script>
+        <script src="<@spring.url "/resources/js/reports.js"/>?${resVer}" type="text/javascript"></script>
     </#if>
     <#if pageCategory == 'administrate'>
-        <script src="<@spring.url "/resources/js/administrate.js"/>" type="text/javascript"></script>
+        <script src="<@spring.url "/resources/js/administrate.js"/>?${resVer}" type="text/javascript"></script>
+    </#if>
+    <#if pageCategory == 'lkaMa'>
+        <script src="<@spring.url "/resources/js/lkaMa.js"/>?${resVer}" type="text/javascript"></script>
+    </#if>
+    <#if pageCategory == 'nst'>
+        <script src="<@spring.url "/resources/js/nst.js"/>?${resVer}" type="text/javascript"></script>
     </#if>
 </head>
 <body>

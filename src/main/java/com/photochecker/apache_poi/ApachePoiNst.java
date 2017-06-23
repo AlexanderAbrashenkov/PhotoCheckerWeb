@@ -1,9 +1,7 @@
-// for future usage
-
-/*
 package com.photochecker.apache_poi;
 
-import foto_verif.model.TMAActivity;
+import com.photochecker.model.nst.NstClientCriterias;
+import com.photochecker.model.nst.NstReportItem;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
@@ -14,15 +12,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 
 import java.awt.Color;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-*/
 /**
  * Created by market6 on 23.01.2017.
- *//*
-
+ */
 public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
     @Override
     public void createConcreteSheet(String format, List activities) {
@@ -67,13 +64,13 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         headerStyle4.setFillForegroundColor(lightPurple);
 
         // заполняем список акций
-        ArrayList<TMAActivity> activitiesList = (ArrayList<TMAActivity>) activities;
+        /*ArrayList<TMAActivity> activitiesList = (ArrayList<TMAActivity>) activities;
         if (activitiesList != null && activitiesList.size() > 0) {
             activityMap = new HashMap<>();
             for (int i = 0; i < activitiesList.size(); i++) {
                 activityMap.put(activitiesList.get(i), 23 + i * 2);
             }
-        }
+        }*/
 
         row = spreadsheet.createRow(2);
         cell = row.createCell(0);
@@ -98,7 +95,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell.setCellValue("Стоимость ММ, без учета НДС, руб.");
         cell.setCellStyle(headerStyle);
         cell = row.createCell(7);
-        cell.setCellValue("Наличие фотоотчета");
+        cell.setCellValue("Количество посещений");
         cell.setCellStyle(headerStyle);
 
         cell = row.createCell(8);
@@ -158,8 +155,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell.setCellStyle(headerStyle);
         cell.setCellValue("Дата проверки");
 
-        */
-/*if (activityMap != null) {
+        /*if (activityMap != null) {
             for (Map.Entry<TMAActivity, Integer> pair : activityMap.entrySet()) {
                 int colNum = pair.getValue();
                 cell = row.createCell(colNum);
@@ -169,8 +165,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
                 cell.setCellStyle(headerStyle);
                 spreadsheet.addMergedRegion(new CellRangeAddress(2, 2, colNum, colNum + 1));
             }
-        }*//*
-
+        }*/
 
         row = spreadsheet.createRow(3);
         row.setHeight((short) 1200);
@@ -253,8 +248,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(29);
         cell.setCellStyle(headerStyle);
 
-        */
-/*if (activityMap != null) {
+        /*if (activityMap != null) {
             for (Map.Entry<TMAActivity, Integer> pair : activityMap.entrySet()) {
                 int colNum = pair.getValue();
                 cell = row.createCell(colNum);
@@ -266,8 +260,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
                 spreadsheet.setColumnWidth(colNum, 3000);
                 spreadsheet.setColumnWidth(colNum + 1, 3000);
             }
-        }*//*
-
+        }*/
 
         // Объединение ячеек
         spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 28));
@@ -306,30 +299,22 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         spreadsheet.setColumnWidth(28, 13000);
     }
 
+
     @Override
     public void writeOneTtToConcreteSheet(List parameters) {
-        String netName = (String) parameters.get(0);
-        String oblName = (String) parameters.get(1);
-        String cityName = (String) parameters.get(2);
-        String shopName = (String) parameters.get(3);
-        boolean hasPhotos = (boolean) parameters.get(4);
-        String commentMZ = (String) parameters.get(5);
-        String commentKS = (String) parameters.get(6);
-        String commentM = (String) parameters.get(7);
-        ArrayList<Boolean> photoList = (ArrayList<Boolean>) parameters.get(8);
-        ArrayList<TMAActivity> activities = (ArrayList<TMAActivity>) parameters.get(9);
-        String isChecked = (String) parameters.get(10);
-        LocalDate savedDate = (LocalDate) parameters.get(11);
+        NstReportItem nstReportItem = (NstReportItem) parameters.get(0);
+        NstClientCriterias nstClientCriterias = nstReportItem.getNstClientCriterias();
+        int visitCount = nstReportItem.getNstClientCriterias().getVisitCount();
 
         // стили
         XSSFCellStyle leftTextStyle = createBorderedStyle();
         XSSFCellStyle centerTextStyle = createBorderedStyle();
         centerTextStyle.setAlignment(HorizontalAlignment.CENTER);
 
-        if (hasPhotos) {
+        if (visitCount != -1) {
             leftTextStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             centerTextStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            if (isChecked.equals("0")) {
+            if (null == nstClientCriterias.getSaveDate()) {
                 leftTextStyle.setFillForegroundColor(new XSSFColor(new Color(255, 230, 153)));
                 centerTextStyle.setFillForegroundColor(new XSSFColor(new Color(255, 230, 153)));
             } else {
@@ -345,19 +330,17 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(1);
         cell.setCellStyle(leftTextStyle);
         cell = row.createCell(2);
-        if (!oblName.equals("10%")) {
-            cell.setCellValue(oblName);
+        if (!nstReportItem.getNstObl().equals("10%")) {
+            cell.setCellValue(nstReportItem.getNstObl());
         }
         cell.setCellStyle(leftTextStyle);
         cell = row.createCell(3);
-        */
-/*if (!cityName.equals("Все города")) {
+        /*if (!cityName.equals("Все города")) {
             cell.setCellValue(cityName);
-        }*//*
-
+        }*/
         cell.setCellStyle(leftTextStyle);
         cell = row.createCell(4);
-        cell.setCellValue(shopName);
+        cell.setCellValue(nstReportItem.getNstClient());
         cell.setCellStyle(leftTextStyle);
         cell = row.createCell(5);
         cell.setCellStyle(leftTextStyle);
@@ -365,28 +348,76 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell.setCellValue(646.8);
         cell.setCellStyle(leftTextStyle);
         cell = row.createCell(7);
-        cell.setCellValue(hasPhotos ? 1 : 0);
+        cell.setCellValue(visitCount);
         cell.setCellStyle(leftTextStyle);
 
-        for (int i = 0; i < 14; i++) {
-            XSSFCellStyle cellStyle = (XSSFCellStyle) centerTextStyle.clone();
-            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            if (i >= 0 && i < 5) {
-                cellStyle.setFillForegroundColor(lightBlue);
-            } else if (i >= 5 && i < 10) {
-                cellStyle.setFillForegroundColor(lightRed);
-            } else {
-                cellStyle.setFillForegroundColor(lightGreen);
-            }
-            cell = row.createCell(i + 8);
-            if (hasPhotos && isChecked.equals("1")) {
-                if ((i >= 0 && i < 5 && !photoList.get(14)) ||
-                        (i >= 5 && i < 10 && !photoList.get(15)) ||
-                        (i >= 10 && !photoList.get(16)))
-                cell.setCellValue(photoList.get(i) ? "+" : "-");
-            }
-            cell.setCellStyle(cellStyle);
-        }
+        XSSFCellStyle mzCellStyle = (XSSFCellStyle) centerTextStyle.clone();
+        mzCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        mzCellStyle.setFillForegroundColor(lightBlue);
+        cell = row.createCell(8);
+        cell.setCellStyle(mzCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isMzMatrix())
+            cell.setCellValue(nstClientCriterias.isMzPhoto() ? "+" : "-");
+        cell = row.createCell(9);
+        cell.setCellStyle(mzCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isMzMatrix())
+            cell.setCellValue(nstClientCriterias.isMzBorders() ? "+" : "-");
+        cell = row.createCell(10);
+        cell.setCellStyle(mzCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isMzMatrix())
+            cell.setCellValue(nstClientCriterias.isMzVert() ? "+" : "-");
+        cell = row.createCell(11);
+        cell.setCellStyle(mzCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isMzMatrix())
+            cell.setCellValue(nstClientCriterias.isMz30() ? "+" : "-");
+        cell = row.createCell(12);
+        cell.setCellStyle(mzCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isMzMatrix())
+            cell.setCellValue(nstClientCriterias.isMzCenter() ? "+" : "-");
+
+        XSSFCellStyle ksCellStyle = (XSSFCellStyle) centerTextStyle.clone();
+        ksCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        ksCellStyle.setFillForegroundColor(lightRed);
+        cell = row.createCell(13);
+        cell.setCellStyle(ksCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isKsMatrix())
+            cell.setCellValue(nstClientCriterias.isKsPhoto() ? "+" : "-");
+        cell = row.createCell(14);
+        cell.setCellStyle(ksCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isKsMatrix())
+            cell.setCellValue(nstClientCriterias.isKsBorders() ? "+" : "-");
+        cell = row.createCell(15);
+        cell.setCellStyle(ksCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isKsMatrix())
+            cell.setCellValue(nstClientCriterias.isKsVert() ? "+" : "-");
+        cell = row.createCell(16);
+        cell.setCellStyle(ksCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isKsMatrix())
+            cell.setCellValue(nstClientCriterias.isKs30() ? "+" : "-");
+        cell = row.createCell(17);
+        cell.setCellStyle(ksCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.isKsMatrix())
+            cell.setCellValue(nstClientCriterias.isKsCenter() ? "+" : "-");
+
+        XSSFCellStyle mCellStyle = (XSSFCellStyle) centerTextStyle.clone();
+        mCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        mCellStyle.setFillForegroundColor(lightGreen);
+        cell = row.createCell(18);
+        cell.setCellStyle(mCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.ismMatrix())
+            cell.setCellValue(nstClientCriterias.ismPhoto() ? "+" : "-");
+        cell = row.createCell(19);
+        cell.setCellStyle(mCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.ismMatrix())
+            cell.setCellValue(nstClientCriterias.ismBorders() ? "+" : "-");
+        cell = row.createCell(20);
+        cell.setCellStyle(mCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.ismMatrix())
+            cell.setCellValue(nstClientCriterias.ismVert() ? "+" : "-");
+        cell = row.createCell(21);
+        cell.setCellStyle(mCellStyle);
+        if (visitCount != -1 && null != nstClientCriterias.getSaveDate() && nstClientCriterias.ismMatrix())
+            cell.setCellValue(nstClientCriterias.ismCenter() ? "+" : "-");
 
         cell = row.createCell(22);
         XSSFCellStyle lastColumnsStyle = (XSSFCellStyle) leftTextStyle.clone();
@@ -412,32 +443,30 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell = row.createCell(26);
         XSSFCellStyle commentStyle = (XSSFCellStyle) lastColumnsStyle.clone();
         commentStyle.setAlignment(HorizontalAlignment.LEFT);
-        cell.setCellValue(commentMZ);
+        cell.setCellValue(nstClientCriterias.getMzComment());
         cell.setCellType(CellType.STRING);
         cell.setCellStyle(leftTextStyle);
 
         cell = row.createCell(27);
-        cell.setCellValue(commentKS);
+        cell.setCellValue(nstClientCriterias.getKsComment());
         cell.setCellStyle(leftTextStyle);
 
         cell = row.createCell(28);
         cell.setCellStyle(leftTextStyle);
-        cell.setCellValue(commentM);
+        cell.setCellValue(nstClientCriterias.getmComment());
 
         cell = row.createCell(29);
         cell.setCellStyle(centerTextStyle);
-        if (savedDate != null) {
-            cell.setCellValue(foto_verif.util.DateUtil.format(savedDate));
+        if (nstClientCriterias.getSaveDate() != null && visitCount != -1) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            cell.setCellValue(formatter.format(nstClientCriterias.getSaveDate()));
         }
 
-        */
-/*XSSFCellStyle centerErrorStyle = (XSSFCellStyle) centerTextStyle.clone();
+        /*XSSFCellStyle centerErrorStyle = (XSSFCellStyle) centerTextStyle.clone();
         centerErrorStyle.setFillForegroundColor(new XSSFColor(new Color(255, 242, 204)));
-        centerErrorStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);*//*
+        centerErrorStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);*/
 
-
-        */
-/*if (activityMap != null && activityMap.size() > 0) {
+        /*if (activityMap != null && activityMap.size() > 0) {
             for (Map.Entry<TMAActivity, Integer> pair : activityMap.entrySet()) {
                 if (activities != null && activities.contains(pair.getKey())) {
                     TMAActivity tmaActivity = activities.get(activities.indexOf(pair.getKey()));
@@ -458,8 +487,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
                     cell.setCellStyle(centerTextStyle);
                 }
             }
-        }*//*
-
+        }*/
     }
 
     @Override
@@ -493,8 +521,8 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
 
         cell = row.createCell(7);
         cell.setCellStyle(cellStyle);
-        cell.setCellType(CellType.FORMULA);
-        cell.setCellFormula("SUM(H5:H" + rowIndex + ")");
+        //cell.setCellType(CellType.FORMULA);
+        //cell.setCellFormula("SUM(H5:H" + rowIndex + ")");
 
         for (int i = 8; i < 22; i++) {
             cell = row.createCell(i);
@@ -516,7 +544,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
 
         cell = row.createCell(29);
         cell.setCellStyle(cellStyle);
-        
+
         row = spreadsheet.createRow(rowIndex + 1);
         cell = row.createCell(0);
         cell.setCellStyle(cellStyle);
@@ -543,8 +571,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         spreadsheet.addMergedRegion(new CellRangeAddress(rowIndex + 1, rowIndex + 1, 0, 22));
         spreadsheet.addMergedRegion(new CellRangeAddress(rowIndex + 1, rowIndex + 1, 23, 25));
 
-        */
-/*if (activityMap != null) {
+        /*if (activityMap != null) {
             for (int i = 23; i < 23 + activityMap.size() * 2; i++) {
                 String col;
                 if (i < 26) {
@@ -557,12 +584,10 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
                 cell.setCellFormula("SUM(" + col + 5 + ":" + col + rowIndex + ")");
                 cell.setCellStyle(cellStyle);
             }
-        }*//*
-
+        }*/
 
         // условное форматирование
-        */
-/*SheetConditionalFormatting sheetCF = spreadsheet.getSheetConditionalFormatting();
+        /*SheetConditionalFormatting sheetCF = spreadsheet.getSheetConditionalFormatting();
         ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule(ComparisonOperator.EQUAL, "0");
         PatternFormatting fill = rule.createPatternFormatting();
         fill.setFillBackgroundColor(new XSSFColor(new Color(255, 204, 204)));
@@ -572,36 +597,26 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         CellRangeAddress[] regions = {
                 CellRangeAddress.valueOf("F5:T" + rowIndex)
         };
-        sheetCF.addConditionalFormatting(regions, rule);*//*
-
+        sheetCF.addConditionalFormatting(regions, rule);*/
     }
 
     @Override
     public void createTotalSheet(String partForHeader) {
-        */
-/*NONE*//*
-
+        /*NONE*/
     }
 
     @Override
     public void createTotalSheetHeader(String partForHeader) {
-        */
-/*NONE*//*
-
+        /*NONE*/
     }
 
     @Override
     public void writeOneTtToTotalSheet(List parameters) {
-        */
-/*NONE*//*
-
+        /*NONE*/
     }
 
     @Override
     public void calcSumRowTotalSheet() {
-        */
-/*NONE*//*
-
+        /*NONE*/
     }
 }
-*/

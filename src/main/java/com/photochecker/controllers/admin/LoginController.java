@@ -3,6 +3,7 @@ package com.photochecker.controllers.admin;
 import com.photochecker.model.common.User;
 import com.photochecker.service.common.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +17,11 @@ public class LoginController {
     private UserService userService;
 
     @GetMapping("/login")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("error", false);
         modelAndView.addObject("pageTitle", "Авторизация");
+        modelAndView.addObject("resVer", resVer);
         return modelAndView;
     }
 
@@ -27,7 +29,8 @@ public class LoginController {
     public ModelAndView checkLogin(
             HttpSession session,
             @RequestParam(value = "login_login") String login,
-            @RequestParam(value = "login_password") String password) {
+            @RequestParam(value = "login_password") String password,
+            @Value("${resVer}") String resVer) {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -36,6 +39,7 @@ public class LoginController {
         if (null == user) {
             modelAndView.addObject("error", true);
             modelAndView.addObject("pageTitle", "Авторизация");
+            modelAndView.addObject("resVer", resVer);
             modelAndView.setViewName("login");
             return modelAndView;
         }

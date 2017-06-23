@@ -34,11 +34,24 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
 
     private final String SQL_FIND_BY_DATES_ADD = "select *\n" +
             "from `photo_card` pc\n" +
-            "where pc.`date_add` >= ? and pc.`date_add` < ?";
+            "where pc.`date` >= ? and pc.`date` < ?";
+
+    private final String SQL_FIND_BY_DATES_ADD_AND_REPORT = "select *\n" +
+            "from `photo_card` pc\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?";
 
     private final String SQL_SAVE = "INSERT INTO `photo_card`\n" +
             "(`client_id`, `url`, `date`, `date_add`, `comment`, `report_type`, `employee_id`)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+    private final String SQL_FIND_BY_DATES_NST = "select *\n" +
+            "from `photo_card` pc\n" +
+            "inner join `nst_client_card` cc on cc.`id` = pc.`client_id`\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and cc.`id` = ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "order by 2;";
 
     private final String SQL_FIND_BY_URL = "select * from `photo_card` where `url` = ? and `report_type` = ? limit 1";
 
@@ -126,6 +139,29 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
         return jdbcTemplate.query(SQL_FIND_BY_DATES_ADD, photoCardRowMapper,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate));
+    }
+
+    @Override
+    public List<PhotoCard> findAllByDatesAndReport(LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        setPhotoCardFields();
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_DATES_ADD_AND_REPORT, photoCardRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                repTypeInd);
+    }
+
+    @Override
+    public List<PhotoCard> findAllByDatesNst(int clientId, LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        setPhotoCardFields();
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_DATES_NST, photoCardRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                clientId,
+                repTypeInd);
     }
 
     @Override

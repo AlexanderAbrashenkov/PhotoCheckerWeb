@@ -32,4 +32,10 @@ public class LkaServiceDaoImpl implements LkaService {
         Lka lka = lkaDao.find(id);
         return lka;
     }
+
+    @Override
+    public List<Lka> getLkaByRjkam(LocalDate dateFrom, LocalDate dateTo, int repTypeIndex, int rjkamId) {
+        List<Lka> lkaList = lkaDao.findAllByRjkamAndDates(rjkamId, dateFrom, dateTo, repTypeIndex);
+        return lkaList;
+    }
 }

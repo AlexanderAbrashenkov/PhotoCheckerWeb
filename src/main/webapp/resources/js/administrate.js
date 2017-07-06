@@ -42,6 +42,10 @@ $(function () {
         saveNkaResp();
     });
 
+    $('#nst_resp_save').on('click', function () {
+        saveNstResp();
+    });
+
     $('#resp_cancel').on('click', function () {
         location.reload();
     });
@@ -217,6 +221,48 @@ function saveNkaResp() {
     $.post('mlkaResp/save',
         {
             nkaRespList: JSON.stringify(respArray)
+        })
+        .done(function (data) {
+            checkForRedirect(data);
+            console.log(data);
+            if (data.answer === true) {
+                showSavedSuccessfullyPane();
+            } else {
+                showErrorPane();
+            }
+        })
+        .fail(function (data) {
+            showErrorPane();
+        })
+        .always(function () {
+            $('#loader').css('display', 'none');
+        })
+}
+
+function saveNstResp() {
+    var respArray = new Array();
+    var respList = $('.responsib');
+    var canContinue = true;
+
+    $('#loader').css('display', 'block');
+
+    for (var i = 0; i < respList.length; i++) {
+        var respElem = {
+            nstFormat: {
+                id: respList.eq(i).children('.nstFormat_name').attr('name')
+            },
+            nstObl: {
+                id: respList.eq(i).children('.nstObl_name').attr('name')
+            },
+            user: {
+                id: respList.eq(i).children('.resp_name').children('option').filter(':selected').attr('name')
+            }
+        };
+        respArray.push(respElem);
+    };
+    $.post('nstResp/save',
+        {
+            nstRespList: JSON.stringify(respArray)
         })
         .done(function (data) {
             checkForRedirect(data);

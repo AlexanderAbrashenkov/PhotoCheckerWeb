@@ -6,14 +6,16 @@ package com.photochecker.model.nst;
 public class NstReportItem {
     private String nstObl;
     private String nstClient;
+    private String nstFormat;
     private NstClientCriterias nstClientCriterias;
 
     public NstReportItem() {
     }
 
-    public NstReportItem(String nstObl, String nstClient, NstClientCriterias nstClientCriterias) {
+    public NstReportItem(String nstObl, String nstClient, String nstFormat, NstClientCriterias nstClientCriterias) {
         this.nstObl = nstObl;
         this.nstClient = nstClient;
+        this.nstFormat = nstFormat;
         this.nstClientCriterias = nstClientCriterias;
     }
 
@@ -31,6 +33,14 @@ public class NstReportItem {
 
     public void setNstClient(String nstClient) {
         this.nstClient = nstClient;
+    }
+
+    public String getNstFormat() {
+        return nstFormat;
+    }
+
+    public void setNstFormat(String nstFormat) {
+        this.nstFormat = nstFormat;
     }
 
     public NstClientCriterias getNstClientCriterias() {

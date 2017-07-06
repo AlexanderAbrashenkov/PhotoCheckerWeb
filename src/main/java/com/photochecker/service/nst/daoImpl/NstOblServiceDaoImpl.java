@@ -24,13 +24,14 @@ public class NstOblServiceDaoImpl implements NstOblService {
     private NstRespDao nstRespDao;
 
     @Override
-    public List<NstObl> getNstObls(User user, LocalDate startDate, LocalDate endDate, int repTypeIndex) {
-        List<NstObl> allNstObls = nstOblDao.findAllByDates(startDate, endDate, repTypeIndex);
+    public List<NstObl> getNstObls(User user, LocalDate startDate, LocalDate endDate, int formatId, int repTypeIndex) {
+        List<NstObl> allNstObls = nstOblDao.findAllByDates(startDate, endDate, formatId, repTypeIndex);
 
         if (user.getRole() == 1) {
             List<NstResp> nstRespList = nstRespDao.findAllByUser(user);
 
             List<NstObl> allowedObls = nstRespList.stream()
+                    .filter(nstResp -> nstResp.getNstFormat().getId() == formatId)
                     .map(resp -> resp.getNstObl())
                     .distinct()
                     .collect(Collectors.toList());

@@ -12,4 +12,6 @@ public interface LkaService {
     public List<Lka> getLkas(int distrId, LocalDate dateFrom, LocalDate dateTo, int repTypeInd);
 
     public Lka getLkaById(int id);
+
+    List<Lka> getLkaByRjkam(LocalDate dateFrom, LocalDate dateTo, int repTypeIndex, int rjkamId);
 }

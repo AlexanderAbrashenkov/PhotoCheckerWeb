@@ -1,8 +1,10 @@
 package com.photochecker.dao.nst.springImpl;
 
 import com.photochecker.dao.nst.NstClientCardDao;
+import com.photochecker.dao.nst.NstFormatDao;
 import com.photochecker.dao.nst.NstOblDao;
 import com.photochecker.model.nst.NstClientCard;
+import com.photochecker.model.nst.NstFormat;
 import com.photochecker.model.nst.NstObl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,6 +35,7 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
             "INNER JOIN `nst_obl` obl ON obl.id = cc.obl_id\n" +
             "LEFT JOIN (SELECT slka.`client_id`, slka.`save_date` FROM `nst_save_db` slka WHERE slka.date_from=? AND slka.date_to=?) sav ON sav.client_id=cc.id\n" +
             "WHERE pc.`date` >= ? AND pc.`date` < ?\n" +
+            "AND cc.format_id = ?\n" +
             "AND obl.id = ?\n" +
             "AND pc.`report_type` = ?\n" +
             "ORDER BY 2;";
@@ -42,8 +45,11 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
 
     @Autowired
     private NstOblDao nstOblDao;
+    @Autowired
+    private NstFormatDao nstFormatDao;
 
     private List<NstObl> nstOblList;
+    private List<NstFormat> nstFormatList;
 
     @Autowired
     public NstClientCardDaoSpringImpl(DataSource dataSource) {
@@ -55,18 +61,26 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
 
     private RowMapper<NstClientCard> nstClientCardRowMapper = (rs, rowNum) -> {
         int oblId = rs.getInt("obl_id");
+        int formatId = rs.getInt("format_id");
         NstObl nstObl = nstOblList.stream()
                 .filter(nstObl1 -> nstObl1.getId() == oblId)
+                .findFirst()
+                .get();
+
+        NstFormat nstFormat = nstFormatList.stream()
+                .filter(nstFormat1 -> nstFormat1.getId() == formatId)
                 .findFirst()
                 .get();
 
         return new NstClientCard(rs.getInt("id"),
                 rs.getString("name"),
                 nstObl,
+                nstFormat,
                 rs.getInt("checked"));
     };
 
     private void setNstClientCardFields() {
+        nstFormatList = nstFormatDao.findAll();
         nstOblList = nstOblDao.findAll();
     }
 
@@ -75,6 +89,7 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
         Map<String, Object> params = new HashMap<>();
         params.put("name", nstClientCard.getName());
         params.put("obl_id", nstClientCard.getNstObl().getId());
+        params.put("format_id", nstClientCard.getNstFormat().getId());
 
         return simpleJdbcInsert.executeAndReturnKey(params).intValue();
     }
@@ -103,13 +118,14 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
     }
 
     @Override
-    public List<NstClientCard> findAllByOblAndDates(int oblId, LocalDate startDate, LocalDate endDate, int repTypeInd) {
+    public List<NstClientCard> findAllByOblAndDates(int formatId, int oblId, LocalDate startDate, LocalDate endDate, int repTypeInd) {
         setNstClientCardFields();
         return jdbcTemplate.query(SQL_FIND_BY_OBL_AND_DATES, nstClientCardRowMapper,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate),
                 Date.valueOf(startDate),
                 Date.valueOf(endDate.plusDays(1)),
+                formatId,
                 oblId,
                 repTypeInd);
     }

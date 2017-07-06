@@ -1,8 +1,8 @@
-package com.photochecker.service.mlka.daoImpl;
+package com.photochecker.service.common.daoImpl;
 
-import com.photochecker.dao.mlka.EmployeeDao;
+import com.photochecker.dao.common.EmployeeDao;
 import com.photochecker.model.mlka.Employee;
-import com.photochecker.service.mlka.EmployeeService;
+import com.photochecker.service.common.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,5 +18,10 @@ public class EmployeeServiceDaoImpl implements EmployeeService {
     @Override
     public List<Employee> getEmployees(int distrId, LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId) {
         return employeeDao.findAllByDatesAndNka(distrId, startDate, endDate, repTypeInd, nkaId);
+    }
+
+    @Override
+    public List<Employee> getEmployees(LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        return employeeDao.findAllByDates(startDate, endDate, repTypeInd);
     }
 }

@@ -16,7 +16,7 @@ public class NstClientCardServiceDaoImpl implements NstClientCardService {
     private NstClientCardDao nstClientCardDao;
 
     @Override
-    public List<NstClientCard> getClientCardList(int nstOblId, LocalDate startDate, LocalDate endDate, int repTypeIndex) {
-        return nstClientCardDao.findAllByOblAndDates(nstOblId, startDate, endDate, repTypeIndex);
+    public List<NstClientCard> getClientCardList(int formatId, int nstOblId, LocalDate startDate, LocalDate endDate, int repTypeIndex) {
+        return nstClientCardDao.findAllByOblAndDates(formatId, nstOblId, startDate, endDate, repTypeIndex);
     }
 }

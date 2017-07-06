@@ -15,12 +15,14 @@ public class PhotoCard {
     private boolean checked;
     private ReportType reportType;
     private int employeeId;
+    private int tagId;
+    private String tagName;
 
     public PhotoCard() {
     }
 
     public PhotoCard(int clientId, String url, LocalDateTime date, LocalDateTime dateAdd, String comment,
-                     boolean checked, ReportType reportType, int employeeId) {
+                     boolean checked, ReportType reportType, int employeeId, int tagId, String tagName) {
         this.clientId = clientId;
         this.url = url;
         this.date = date;
@@ -29,6 +31,8 @@ public class PhotoCard {
         this.checked = checked;
         this.reportType = reportType;
         this.employeeId = employeeId;
+        this.tagId = tagId;
+        this.tagName = tagName;
     }
 
     public int getClientId() {
@@ -95,6 +99,22 @@ public class PhotoCard {
         this.employeeId = employeeId;
     }
 
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
+    }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,6 +144,8 @@ public class PhotoCard {
                 ", checked=" + checked +
                 ", reportType=" + reportType +
                 ", employeeId=" + employeeId +
+                ", tagId=" + tagId +
+                ", tagName=" + tagName +
                 '}';
     }
 

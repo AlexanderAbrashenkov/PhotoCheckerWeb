@@ -29,6 +29,7 @@ public class NstOblDaoSpringImpl implements NstOblDao {
             "INNER JOIN `photo_card` pc ON pc.`client_id` = cc.`id`\n" +
             "WHERE pc.`date` >= ? AND pc.`date` < ?\n" +
             "AND pc.`report_type` = ?\n" +
+            "AND cc.`format_id` = ?\n" +
             "ORDER BY 1;";
 
     private JdbcTemplate jdbcTemplate;
@@ -78,10 +79,11 @@ public class NstOblDaoSpringImpl implements NstOblDao {
     }
 
     @Override
-    public List<NstObl> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd) {
+    public List<NstObl> findAllByDates(LocalDate startDate, LocalDate endDate, int formatId, int repTypeInd) {
         return jdbcTemplate.query(SQL_FIND_BY_DATES, nstOblRowMapper,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate.plusDays(1)),
-                repTypeInd);
+                repTypeInd,
+                formatId);
     }
 }

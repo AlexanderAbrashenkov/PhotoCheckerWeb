@@ -175,7 +175,7 @@ div.photoNum {
 
 #address_pane {
     overflow-y: auto;
-    height: calc(100% - 165px);
+    height: calc(100% - 200px);
 }
 
 table {

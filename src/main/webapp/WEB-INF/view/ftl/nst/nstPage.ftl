@@ -44,6 +44,41 @@
             </div>
         </div>
     </div>
+    <div id="statPane" shown="0">
+        <div id="statInfo">
+            <div class="infoHeader">Всего:</div>
+            <br>
+            <div class="text">Точек с фото:</div>
+            <div id="totalCount" class="data">-</div>
+            <div class="text">Проверено:</div>
+            <div id="totalChecked" class="data">-</div>
+            <div class="text">Проверено сегодня:</div>
+            <div id="totalCheckedToday" class="data">-</div><br>
+
+
+            <div class="infoHeader">Область:</div>
+            <div class="text">Точек с фото:</div>
+            <div id="oblCount" class="data">-</div>
+            <div class="text">Проверено:</div>
+            <div id="oblChecked" class="data">-</div>
+            <div class="text">Проверено сегодня:</div>
+            <div id="oblCheckedToday" class="data">-</div>
+        </div>
+        <div id="statHeader">
+            <div class="vertBlock">
+                <div class="letter">С</div>
+                <div class="letter">Т</div>
+                <div class="letter">А</div>
+                <div class="letter">Т</div>
+                <div class="letter">И</div>
+                <div class="letter">С</div>
+                <div class="letter">Т</div>
+                <div class="letter">И</div>
+                <div class="letter">К</div>
+                <div class="letter">А</div>
+            </div>
+        </div>
+    </div>
     <div id="left_pane">
         <div id="filter_menu">
             <form id="lkaParamethers" action="" method="post">
@@ -52,12 +87,18 @@
                 -
                 <input type="date" class="datePicker" id="dateTo" name="dateTo" value="${endDate}">
                 <div class="filterBlock">
+                    <h4>Формат:</h4>
+                    <select class="selectBox" name="selNstFormat" id="selNstFormat">
+                        <option disabled="" selected="" value="nothing"> -- формат -- </option>
+                    <#list nstFormatList as nstFormat>
+                        <option data-value="${nstFormat.id?string["0"]}">${nstFormat.name}</option>
+                    </#list>
+                    </select>
+                </div>
+                <div class="filterBlock">
                     <h4>Область:</h4>
                     <select class="selectBox" name="selNstObl" id="selNstObl">
-                        <option disabled="" selected="" value="nothing"> -- область -- </option>
-                        <#list nstOblList as nstObl>
-                            <option data-value="${nstObl.id?string["0"]}">${nstObl.name}</option>
-                        </#list>
+
                     </select>
                 </div>
             </form>
@@ -76,6 +117,7 @@
         <div class="clientInfoBlock">
             <div id="visitCountField">Количество посещений:
                 <select name="selVisitCount" id="selVisitCount">
+                    <option data-value="0">0</option>
                     <option data-value="1">1</option>
                     <option data-value="2">2</option>
                     <option data-value="3">3</option>

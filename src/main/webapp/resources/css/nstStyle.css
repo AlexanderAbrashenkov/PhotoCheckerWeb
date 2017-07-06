@@ -123,12 +123,13 @@ div.photoNum {
     height: 100%;
     width: 350px;
     border-right : 1px solid #666;
-    float: left;
+    position: fixed;
+    left: 30px;
 }
 
 #filter_menu {
     width: calc(100% - 2px);
-    height: 94px;
+    height: 130px;
     border: 1px solid #696767;
     border-right: 0px;
     background-color: #f7f7f7;
@@ -172,7 +173,7 @@ div.photoNum {
 
 #address_pane {
     overflow-y: auto;
-    height: calc(100% - 94px);
+    height: calc(100% - 180px);
 }
 
 table {
@@ -222,12 +223,13 @@ tr.addr:hover{
 
 #right_pane {
     width: 250px;
-    float: left;
     font-size: 12px;
-    height: 100%;
+    height: calc(100% - 50px);
     border-left: 1px solid #666;
     background-color: #f7f7f7;
     overflow-y: auto;
+    position: fixed;
+    right: 0;
 }
 
 #right_pane .clientInfoBlock {
@@ -316,12 +318,13 @@ tr.addr:hover{
 
 /*Central part of page content*/
 #center_pane {
-    width: calc(100% - 605px);
-    height: 100%;
-    float: left;
+    width: calc(100% - 630px);
+    height: calc(100% - 50px);
     border-top: 1px solid #666;
     overflow: hidden;
     overflow-y: auto;
+    position: fixed;
+    left: 380px;
 }
 
 #center_pane .photoBlock {
@@ -346,4 +349,62 @@ tr.addr:hover{
     height: 35px;
     width: calc(100% - 10px);
     resize: none;
+}
+
+div#statPane {
+    position: fixed;
+    height: 100%;
+    width: 230px;
+    left: -200px;
+    border-right: 1px solid black;
+}
+
+div#statInfo {
+    width: 200px;
+    height: 100%;
+    float: left;
+}
+
+.infoHeader {
+    margin-top: 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-left: 10px;
+    float: left;
+    width: 100%;
+}
+
+.text {
+    font-size: 1.1em;
+    margin-top: 15px;
+    margin-left: 20px;
+    float: left;
+}
+
+div.data {
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+div#statHeader {
+    width: 29px;
+    float: left;
+    height: 100%;
+    background-color: gainsboro;
+    border-left: 1px solid black;
+    cursor: pointer;
+}
+
+.vertBlock {
+    height: 200px;
+    margin-top: 200px;
+    margin-left: 9px;
+}
+
+.letter {
+    font-size: 1.2em;
+    color: black;
 }

@@ -1,9 +1,11 @@
 package com.photochecker.dao.nst.springImpl;
 
 import com.photochecker.dao.common.UserDao;
+import com.photochecker.dao.nst.NstFormatDao;
 import com.photochecker.dao.nst.NstOblDao;
 import com.photochecker.dao.nst.NstRespDao;
 import com.photochecker.model.common.User;
+import com.photochecker.model.nst.NstFormat;
 import com.photochecker.model.nst.NstObl;
 import com.photochecker.model.nst.NstResp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,8 @@ public class NstRespDaoSpringImpl implements NstRespDao{
 
     private final String SQL_UPDATE = "UPDATE `nst_resp` " +
             "SET user_id = ? " +
-            "WHERE obl_id = ?";
+            "WHERE format_id = ? " +
+            "AND obl_id = ?";
 
     private final String SQL_FIND_BY_USER = "SELECT DISTINCT res.* " +
             "FROM `nst_resp` res " +
@@ -34,10 +37,13 @@ public class NstRespDaoSpringImpl implements NstRespDao{
     private SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
+    private NstFormatDao nstFormatDao;
+    @Autowired
     private NstOblDao nstOblDao;
     @Autowired
     private UserDao userDao;
 
+    private List<NstFormat> nstFormatList;
     private List<NstObl> nstOblList;
     private List<User> userList;
 
@@ -50,13 +56,20 @@ public class NstRespDaoSpringImpl implements NstRespDao{
     }
 
     private void setNstRespFields() {
+        nstFormatList = nstFormatDao.findAll();
         nstOblList = nstOblDao.findAll();
         userList = userDao.findAll();
     }
 
     private RowMapper<NstResp> nstRespRowMapper = (rs, rowNum) -> {
+        int formatId = rs.getInt("format_id");
         int oblId = rs.getInt("obl_id");
         int userId = rs.getInt("user_id");
+
+        NstFormat nstFormat = nstFormatList.stream()
+                .filter(nstFormat1 -> nstFormat1.getId() == formatId)
+                .findFirst()
+                .get();
 
         NstObl nstObl = nstOblList.stream()
                 .filter(nstObl1 -> nstObl1.getId() == oblId)
@@ -71,12 +84,13 @@ public class NstRespDaoSpringImpl implements NstRespDao{
                     .get();
         }
 
-        return new NstResp(nstObl, user);
+        return new NstResp(nstFormat, nstObl, user);
     };
 
     @Override
     public int save(NstResp nstResp) {
         Map<String, Object> params = new HashMap<>();
+        params.put("format_id", nstResp.getNstFormat().getId());
         params.put("obl_id", nstResp.getNstObl().getId());
 
         return simpleJdbcInsert.executeAndReturnKey(params).intValue();
@@ -97,6 +111,7 @@ public class NstRespDaoSpringImpl implements NstRespDao{
     public boolean update(NstResp nstResp) {
         jdbcTemplate.update(SQL_UPDATE,
                 nstResp.getUser().getId(),
+                nstResp.getNstFormat().getId(),
                 nstResp.getNstObl().getId());
         return true;
     }
@@ -108,6 +123,7 @@ public class NstRespDaoSpringImpl implements NstRespDao{
 
     @Override
     public List<NstResp> findAllByUser(User user) {
+        setNstRespFields();
         return jdbcTemplate.query(SQL_FIND_BY_USER, nstRespRowMapper,
                 user.getId());
     }

@@ -328,6 +328,7 @@ public class ApachePoiNst extends AbstractApachePoi implements ApachePoi {
         cell.setCellValue(rowIndex - 4);
         cell.setCellStyle(centerTextStyle);
         cell = row.createCell(1);
+        cell.setCellValue(nstReportItem.getNstFormat());
         cell.setCellStyle(leftTextStyle);
         cell = row.createCell(2);
         if (!nstReportItem.getNstObl().equals("10%")) {

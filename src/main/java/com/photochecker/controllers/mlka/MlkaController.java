@@ -4,7 +4,7 @@ import com.photochecker.model.common.*;
 import com.photochecker.model.mlka.Employee;
 import com.photochecker.model.mlka.NkaType;
 import com.photochecker.service.common.*;
-import com.photochecker.service.mlka.EmployeeService;
+import com.photochecker.service.common.EmployeeService;
 import com.photochecker.service.mlka.NkaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

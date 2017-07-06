@@ -54,6 +54,17 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
             "and pc.`report_type` = ?\n" +
             "order by 2;";
 
+    private String SQL_FIND_BY_RJKAM = "select distinct cc.*, \n" +
+            "case when sav.`save_date` is not null then 1 else 0 end checked\n" +
+            "from `client_card` cc\n" +
+            "inner join `photo_card` pc on pc.`client_id` = cc.`client_id`\n" +
+            "left join (select slka.`client_id`, slka.`save_date` from save_nka_db slka where slka.date_from=? and slka.date_to=?) sav on sav.client_id=cc.client_id\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
+            "and pc.`employee_id` = ?\n" +
+            "and cc.lka_id = ?\n" +
+            "order by 2;";
+
     private final String SQL_FIND_BY_ID = "select *, 0 as checked " +
             "from `client_card` cc " +
             "where `client_id`=? " +
@@ -88,10 +99,13 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     private RowMapper<ClientCard> clientCardRowMapper = (resultSet, i) -> {
 
         int distrId = resultSet.getInt("distributor_id");
-        Distr distr = distrList.stream()
-                .filter(distr1 -> distr1.getId() == distrId)
-                .findFirst()
-                .get();
+        Distr distr = null;
+        if (distrId != 0) {
+            distr = distrList.stream()
+                    .filter(distr1 -> distr1.getId() == distrId)
+                    .findFirst()
+                    .get();
+        }
 
         int lkaId = resultSet.getInt("lka_id");
         Lka lka = null;
@@ -161,9 +175,9 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getClientId(),
                 clientCard.getClientName(),
                 clientCard.getClientAddress(),
-                clientCard.getDistr().getRegion().getId(),
+                clientCard.getDistr() != null ? clientCard.getDistr().getRegion().getId() : 0,
                 clientCard.getObl(),
-                clientCard.getDistr().getId(),
+                clientCard.getDistr() != null ? clientCard.getDistr().getId() : 0,
                 clientCard.getChannelId(),
                 clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
                 clientCard.getClientType(),
@@ -225,6 +239,21 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 nkaId,
                 mlkaId,
                 distrId);
+    }
+
+    @Override
+    public List<ClientCard> findAllByRjkamAndDates(int rjkamId, int nkaId, LocalDate startDate, LocalDate endDate, int repTypeIndex) {
+        setClientCardFields(startDate, endDate, repTypeIndex);
+        endDate = endDate.plusDays(1);
+
+        return jdbcTemplate.query(SQL_FIND_BY_RJKAM, clientCardRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate.minusDays(1)),
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                repTypeIndex,
+                rjkamId,
+                nkaId);
     }
 
     private List<ClientCard> findAllByParams(LocalDate startDate, LocalDate endDate, int repTypeInd, Lka lka, Channel channel) {

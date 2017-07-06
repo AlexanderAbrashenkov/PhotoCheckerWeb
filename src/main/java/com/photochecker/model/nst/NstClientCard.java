@@ -7,15 +7,17 @@ public class NstClientCard {
     private int id;
     private String name;
     private NstObl nstObl;
+    private NstFormat nstFormat;
     private int checked;
 
     public NstClientCard() {
     }
 
-    public NstClientCard(int id, String name, NstObl nstObl, int checked) {
+    public NstClientCard(int id, String name, NstObl nstObl, NstFormat nstFormat, int checked) {
         this.id = id;
         this.name = name;
         this.nstObl = nstObl;
+        this.nstFormat = nstFormat;
         this.checked = checked;
     }
 
@@ -43,6 +45,14 @@ public class NstClientCard {
         this.nstObl = nstObl;
     }
 
+    public NstFormat getNstFormat() {
+        return nstFormat;
+    }
+
+    public void setNstFormat(NstFormat nstFormat) {
+        this.nstFormat = nstFormat;
+    }
+
     public int getChecked() {
         return checked;
     }
@@ -58,14 +68,16 @@ public class NstClientCard {
 
         NstClientCard that = (NstClientCard) o;
 
-        if (!name.toLowerCase().equals(that.name.toLowerCase())) return false;
-        return nstObl.equals(that.nstObl);
+        if (!name.equals(that.name)) return false;
+        if (!nstObl.equals(that.nstObl)) return false;
+        return nstFormat.equals(that.nstFormat);
     }
 
     @Override
     public int hashCode() {
-        int result = name.toLowerCase().hashCode();
+        int result = name.hashCode();
         result = 31 * result + nstObl.hashCode();
+        result = 31 * result + nstFormat.hashCode();
         return result;
     }
 
@@ -75,6 +87,7 @@ public class NstClientCard {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", nstObl=" + nstObl +
+                ", nstFormat=" + nstFormat +
                 ", checked=" + checked +
                 '}';
     }

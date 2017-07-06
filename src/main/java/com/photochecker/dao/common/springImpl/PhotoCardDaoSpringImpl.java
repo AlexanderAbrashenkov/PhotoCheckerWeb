@@ -42,8 +42,8 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
             "and pc.`report_type` = ?";
 
     private final String SQL_SAVE = "INSERT INTO `photo_card`\n" +
-            "(`client_id`, `url`, `date`, `date_add`, `comment`, `report_type`, `employee_id`)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?);";
+            "(`client_id`, `url`, `date`, `date_add`, `comment`, `report_type`, `employee_id`, `tag_id`, `tag_name`)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private final String SQL_FIND_BY_DATES_NST = "select *\n" +
             "from `photo_card` pc\n" +
@@ -84,7 +84,9 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
                 comment,
                 resultSet.getBoolean("checked"),
                 reportType,
-                resultSet.getInt("employee_id"));
+                resultSet.getInt("employee_id"),
+                resultSet.getInt("tag_id"),
+                resultSet.getString("tag_name"));
     };
 
     @Override
@@ -96,7 +98,9 @@ public class PhotoCardDaoSpringImpl implements PhotoCardDao {
                 Timestamp.valueOf(photoCard.getDateAdd()),
                 photoCard.getComment(),
                 photoCard.getReportType().getId(),
-                photoCard.getEmployeeId());
+                photoCard.getEmployeeId(),
+                photoCard.getTagId(),
+                photoCard.getTagName());
     }
 
     @Override

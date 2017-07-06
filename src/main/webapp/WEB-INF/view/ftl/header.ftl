@@ -25,6 +25,12 @@
     <#if pageCategory == 'nst'>
         <link type="text/css" href="<@spring.url "/resources/css/nstStyle.css"/>?${resVer}" rel="stylesheet">
     </#if>
+    <#if pageCategory == 'nka'>
+        <link type="text/css" href="<@spring.url "/resources/css/nkaStyle.css"/>?${resVer}" rel="stylesheet">
+    </#if>
+    <#if pageCategory == 'nkaParam'>
+        <link type="text/css" href="<@spring.url "/resources/css/nkaParamStyle.css"/>?${resVer}" rel="stylesheet">
+    </#if>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="<@spring.url "/resources/js/main.js"/>?${resVer}" type="text/javascript"></script>
@@ -48,6 +54,9 @@
     </#if>
     <#if pageCategory == 'nst'>
         <script src="<@spring.url "/resources/js/nst.js"/>?${resVer}" type="text/javascript"></script>
+    </#if>
+    <#if pageCategory == 'nka' || pageCategory == 'nkaParam'>
+        <script src="<@spring.url "/resources/js/nka.js"/>?${resVer}" type="text/javascript"></script>
     </#if>
 </head>
 <body>

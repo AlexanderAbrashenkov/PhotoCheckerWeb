@@ -1,0 +1,47 @@
+/*Criteria editor styles*/
+
+.paramTableContainer {
+    margin-top: 25px;
+    width: 98%;
+    height: calc(100% - 100px);
+    overflow: scroll;
+}
+
+table, tr, th, td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+table {
+    margin: 10px;
+}
+
+input[type='text'] {
+    border: none;
+    width: 100%;
+}
+
+.button {
+    width: 200px;
+    height: 25px;
+    float: left;
+    margin: 15 10 10 20;
+    border: 1px solid #666;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+.button_save {
+    background-color: green;
+}
+
+.button_cancel {
+    background-color: red;
+}

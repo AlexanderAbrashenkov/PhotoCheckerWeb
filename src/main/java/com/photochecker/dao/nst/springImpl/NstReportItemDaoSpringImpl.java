@@ -1,6 +1,7 @@
 package com.photochecker.dao.nst.springImpl;
 
 import com.photochecker.dao.nst.NstReportItemDao;
+import com.photochecker.model.common.User;
 import com.photochecker.model.nst.NstClientCriterias;
 import com.photochecker.model.nst.NstReportItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_FIND_BY_PARAMS = "SELECT DISTINCT obl.name as nstObl, c.name as nstClient, s.*\n" +
+    private final String SQL_FIND_BY_PARAMS = "SELECT DISTINCT obl.name as nstObl, c.name as nstClient, f.name as nstFormat, s.*\n" +
             "FROM nst_client_card c\n" +
             "  LEFT JOIN photo_card p ON p.client_id = c.id\n" +
             "  LEFT JOIN\n" +
@@ -26,10 +27,26 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
             "     date_from = ? AND date_to = ?\n" +
             "  ) s ON s.client_id = c.id\n" +
             "  LEFT JOIN nst_obl obl ON obl.id = c.obl_id\n" +
+            "  LEFT JOIN nst_format f ON f.id = c.format_id\n" +
             "WHERE\n" +
             "    (p.`date` >= ? AND p.`date` < ? AND p.report_type = ?)\n" +
             "  OR (s.date_from = ? AND s.date_to = ?)\n" +
-            "ORDER BY obl.name, c.name";
+            "ORDER BY f.name, obl.name, c.name";
+
+    //language=SQL
+    private final String SQL_FIND_BY_USER = "SELECT DISTINCT obl.name as nstObl, c.name as nstClient, f.name as nstFormat, s.*\n" +
+            "FROM nst_client_card c\n" +
+            "  LEFT JOIN photo_card p ON p.client_id = c.id\n" +
+            "  LEFT JOIN\n" +
+            "  (SELECT * FROM nst_save_db WHERE\n" +
+            "     date_from = ? AND date_to = ?\n" +
+            "  ) s ON s.client_id = c.id\n" +
+            "  INNER JOIN nst_obl obl ON obl.id = c.obl_id AND obl.id = ?\n" +
+            "  INNER JOIN nst_format f ON f.id = c.format_id AND f.id = ?\n" +
+            "WHERE\n" +
+            "    (p.`date` >= ? AND p.`date` < ? AND p.report_type = ?)\n" +
+            "  OR (s.date_from = ? AND s.date_to = ?)\n" +
+            "ORDER BY f.name, obl.name, c.name";
 
     @Autowired
     public NstReportItemDaoSpringImpl (DataSource dataSource) {
@@ -70,6 +87,7 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
         return new NstReportItem(
                 rs.getString("nstObl"),
                 rs.getString("nstClient"),
+                rs.getString("nstFormat"),
                 clientCriterias
         );
     };
@@ -107,6 +125,20 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
                 Date.valueOf(startDate),
                 Date.valueOf(endDate.plusDays(1)),
                 repType,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate));
+    }
+
+    @Override
+    public List<NstReportItem> findAllByUserParams(User user, int formatId, int nstOblId, LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        return jdbcTemplate.query(SQL_FIND_BY_USER, nstReportItemRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                nstOblId,
+                formatId,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate.plusDays(1)),
+                repTypeInd,
                 Date.valueOf(startDate),
                 Date.valueOf(endDate));
     }

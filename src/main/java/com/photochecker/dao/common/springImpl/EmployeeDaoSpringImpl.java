@@ -1,6 +1,6 @@
-package com.photochecker.dao.mlka.springImpl;
+package com.photochecker.dao.common.springImpl;
 
-import com.photochecker.dao.mlka.EmployeeDao;
+import com.photochecker.dao.common.EmployeeDao;
 import com.photochecker.model.mlka.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,6 +29,12 @@ public class EmployeeDaoSpringImpl implements EmployeeDao {
             "and cc.`distributor_id` = ?\n" +
             "and pc.`report_type` = ?\n" +
             "and cc.`nka_type` = ?\n" +
+            "order by 2;";
+
+    private final String SQL_FIND_ALL_BY_DATES = "select distinct emp.`emp_id`, emp.`name` from `employee_db` emp\n" +
+            "inner join `photo_card` pc on pc.`employee_id` = emp.`emp_id`\n" +
+            "where pc.`date` >= ? and pc.`date` < ?\n" +
+            "and pc.`report_type` = ?\n" +
             "order by 2;";
 
     private JdbcTemplate jdbcTemplate;
@@ -85,5 +91,14 @@ public class EmployeeDaoSpringImpl implements EmployeeDao {
                 distrId,
                 repTypeInd,
                 nkaId);
+    }
+
+    @Override
+    public List<Employee> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd) {
+        endDate = endDate.plusDays(1);
+        return jdbcTemplate.query(SQL_FIND_ALL_BY_DATES, employeeRowMapper,
+                Date.valueOf(startDate),
+                Date.valueOf(endDate),
+                repTypeInd);
     }
 }

@@ -1,4 +1,4 @@
-package com.photochecker.service.mlka;
+package com.photochecker.service.common;
 
 import com.photochecker.model.mlka.Employee;
 
@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface EmployeeService {
     List<Employee> getEmployees(int distrId, LocalDate startDate, LocalDate endDate, int repTypeInd, int nkaId);
+
+    List<Employee> getEmployees(LocalDate startDate, LocalDate endDate, int repTypeInd);
 }

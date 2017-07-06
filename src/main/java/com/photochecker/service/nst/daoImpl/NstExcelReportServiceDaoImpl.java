@@ -27,15 +27,37 @@ public class NstExcelReportServiceDaoImpl implements NstExcelReportService {
 
     @Override
     public Workbook getExcelReport(Workbook workbook, LocalDate dateFrom, LocalDate dateTo, User user) {
-        List<NstReportItem> nstReportItemList = nstReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 4);
+
+        List<NstReportItem> nstReportItemList = new ArrayList<>();
+
+        if (user.getRole() > 1) {
+            nstReportItemList = nstReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 4);
+        }
 
         if (user.getRole() == 1) {
+
             List<NstResp> nstRespList = nstRespDao.findAllByUser(user);
-            List<String> allowedNstObl = nstRespList.stream()
-                    .map(nstResp -> nstResp.getNstObl().getName())
+
+            List<Integer> allowedFormats = nstRespList.stream()
+                    .map(nstResp -> nstResp.getNstFormat().getId())
+                    .distinct()
                     .collect(Collectors.toList());
 
-            nstReportItemList.removeIf(nstReportItem -> !allowedNstObl.contains(nstReportItem.getNstObl()));
+            if (allowedFormats.size() > 0) {
+                for (int formatId : allowedFormats) {
+                    List<Integer> allowedNstObl = nstRespList.stream()
+                            .filter(nstResp -> nstResp.getNstFormat().getId() == formatId)
+                            .map(nstResp -> nstResp.getNstObl().getId())
+                            .distinct()
+                            .collect(Collectors.toList());
+
+                    if (allowedNstObl.size() == 0) continue;
+
+                    for (int nstOblId : allowedNstObl) {
+                        nstReportItemList.addAll(nstReportItemDao.findAllByUserParams(user, formatId, nstOblId, dateFrom, dateTo, 4));
+                    }
+                }
+            }
         }
 
         ApachePoiManager.createApachePoi(4);

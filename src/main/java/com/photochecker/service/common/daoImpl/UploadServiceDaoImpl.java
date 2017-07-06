@@ -1,7 +1,7 @@
 package com.photochecker.service.common.daoImpl;
 
 import com.photochecker.dao.common.*;
-import com.photochecker.dao.mlka.EmployeeDao;
+import com.photochecker.dao.common.EmployeeDao;
 import com.photochecker.dao.mlka.NkaRespDao;
 import com.photochecker.dao.mlka.NkaTypeDao;
 import com.photochecker.model.common.*;
@@ -74,6 +74,7 @@ public class UploadServiceDaoImpl implements UploadService {
         int lkaCounter = 0;
         int lkaDmpCounter = 0;
         int mlkaCounter = 0;
+        int nkaCounter = 0;
 
         try {
             String record = reader.readLine();
@@ -91,13 +92,19 @@ public class UploadServiceDaoImpl implements UploadService {
             if (record.equals("--mlka begin--"))
                 mlkaCounter = readMlkaDatas(reader);
 
+            record = reader.readLine();
+
+            if (record.equals("--nka begin--"))
+                nkaCounter = readNkaDatas(reader);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return "Локальные сети: " + lkaCounter + " строк. <br>" +
                 "Дистрибьюторы, ДМП: " + lkaDmpCounter + " строк. <br>" +
-                "MLKA в федеральных сетях: " + mlkaCounter + " строк.";
+                "MLKA в федеральных сетях: " + mlkaCounter + " строк. <br>" +
+                "Федеральные сети (RJKAM): " + nkaCounter + " строк.";
     }
 
     private int readLkaDatas(BufferedReader reader) {
@@ -187,7 +194,9 @@ public class UploadServiceDaoImpl implements UploadService {
                         recordParts[15],
                         false,
                         reportType,
-                        0);
+                        0,
+                        0,
+                        null);
                 if (!photoCardList.contains(photoCard)) {
                     photoCardDao.save(photoCard);
                     photoCardList.add(photoCard);
@@ -297,7 +306,9 @@ public class UploadServiceDaoImpl implements UploadService {
                         recordParts[16],
                         false,
                         reportType,
-                        0);
+                        0,
+                        22,
+                        "ДМП");
                 if (!photoCardList.contains(photoCard)) {
                     photoCardDao.save(photoCard);
                     photoCardList.add(photoCard);
@@ -428,8 +439,96 @@ public class UploadServiceDaoImpl implements UploadService {
                         recordParts[19],
                         false,
                         reportType,
-                        employee.getId());
+                        employee.getId(),
+                        23,
+                        "Фед. сети");
 
+                if (!photoCardList.contains(photoCard)) {
+                    photoCardDao.save(photoCard);
+                    photoCardList.add(photoCard);
+                }
+
+                recordCounter++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return recordCounter;
+    }
+
+    private int readNkaDatas(BufferedReader reader) {
+
+        int recordCounter = 0;
+
+        String record;
+
+        try {
+            while (!(record = reader.readLine()).equals("--nka end--")) {
+
+                String[] recordParts = record.split("; ");
+
+                if (recordParts.length < 14) continue;
+
+
+                Employee employee = new Employee(Integer.parseInt(recordParts[1]), recordParts[0]);
+                if (!employeeList.contains(employee)) {
+                    employeeDao.save(employee);
+                    employeeList.add(employee);
+                }
+
+
+                Lka lka = new Lka(Integer.parseInt(recordParts[2]),
+                        recordParts[3]);
+                if (!lkaList.contains(lka)) {
+                    lkaDao.save(lka);
+                    lkaList.add(lka);
+                }
+
+
+                ReportType reportType = reportTypeList.stream()
+                        .filter(reportType1 -> reportType1.getId() == 3)
+                        .findFirst()
+                        .get();
+
+
+                ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[4]),
+                        recordParts[5],
+                        recordParts[6],
+                        recordParts[10],
+                        0,
+                        new Distr(0, "", new Region(12, "Сети")),
+                        null,
+                        0,
+                        lka,
+                        0);
+
+                if (clientCardDao.find(clientCard.getClientId()) == null) {
+                    clientCardDao.save(clientCard);
+                } else {
+                    clientCardDao.update(clientCard);
+                }
+
+
+                Timestamp photoDate = Timestamp.valueOf(recordParts[7]);
+                LocalDateTime photoDateLocal = photoDate.toLocalDateTime();
+                Timestamp addDate = Timestamp.valueOf(recordParts[8]);
+                LocalDateTime addDateLocal = addDate.toLocalDateTime();
+                String shortUrl = recordParts[9];
+                String day = Integer.toString(addDateLocal.getDayOfMonth()).length() == 1 ? "0" + addDateLocal.getDayOfMonth() : Integer.toString(addDateLocal.getDayOfMonth());
+                String month = Integer.toString(addDateLocal.getMonthValue()).length() == 1 ? "0" + addDateLocal.getMonthValue() : Integer.toString(addDateLocal.getMonthValue());
+                String fullUrl = "https://report.ncsd.ru/upload/foto100g3/" + addDateLocal.getYear() + "_" + month +
+                        "/" + day + "/" + shortUrl;
+
+                PhotoCard photoCard = new PhotoCard(clientCard.getClientId(),
+                        fullUrl,
+                        photoDateLocal,
+                        addDateLocal,
+                        recordParts[11],
+                        false,
+                        reportType,
+                        employee.getId(),
+                        recordParts[12].length() > 0 ? Integer.parseInt(recordParts[12]) : 0,
+                        recordParts[13]);
                 if (!photoCardList.contains(photoCard)) {
                     photoCardDao.save(photoCard);
                     photoCardList.add(photoCard);

@@ -2,16 +2,10 @@ package com.photochecker.service.nst.daoImpl;
 
 import com.photochecker.dao.common.PhotoCardDao;
 import com.photochecker.dao.common.ReportTypeDao;
-import com.photochecker.dao.nst.NstClientCardDao;
-import com.photochecker.dao.nst.NstClientCriteriasDao;
-import com.photochecker.dao.nst.NstOblDao;
-import com.photochecker.dao.nst.NstRespDao;
+import com.photochecker.dao.nst.*;
 import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.common.ReportType;
-import com.photochecker.model.nst.NstClientCard;
-import com.photochecker.model.nst.NstClientCriterias;
-import com.photochecker.model.nst.NstObl;
-import com.photochecker.model.nst.NstResp;
+import com.photochecker.model.nst.*;
 import com.photochecker.service.nst.NstUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +28,8 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
     @Autowired
     private NstOblDao nstOblDao;
     @Autowired
+    private NstFormatDao nstFormatDao;
+    @Autowired
     private NstRespDao nstRespDao;
     @Autowired
     private PhotoCardDao photoCardDao;
@@ -43,6 +39,7 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
     private List<NstClientCard> nstClientCardList;
     private List<NstClientCriterias> nstClientCriteriasList;
     private List<NstObl> nstOblList;
+    private List<NstFormat> nstFormatList;
     private List<NstResp> nstRespList;
     private List<PhotoCard> photoCardList;
     private List<ReportType> reportTypeList;
@@ -56,9 +53,11 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
         nstClientCardList = nstClientCardDao.findAll();
         nstClientCriteriasList = nstClientCriteriasDao.findAllByDates(dateFrom, dateTo);
         nstOblList = nstOblDao.findAll();
+        nstFormatList = nstFormatDao.findAll();
         nstRespList = nstRespDao.findAll();
         photoCardList = photoCardDao.findAllByDatesAndReport(dateFrom, dateTo, 4);
         reportTypeList = reportTypeDao.findAll();
+
 
         int nstCounter = 0;
 
@@ -87,10 +86,12 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
 
                 String[] recordParts = record.split(";");
 
-                if (recordParts.length < 4) continue;
+                if (recordParts.length < 5) continue;
 
+                NstFormat nstFormat = new NstFormat(Integer.parseInt(recordParts[0]), null);
+                nstFormat = nstFormatList.get(nstFormatList.indexOf(nstFormat));
 
-                NstObl nstObl = new NstObl(0, recordParts[0]);
+                NstObl nstObl = new NstObl(0, recordParts[1]);
                 if (!nstOblList.contains(nstObl)) {
                     int id = nstOblDao.save(nstObl);
                     nstObl.setId(id);
@@ -100,7 +101,7 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
                 }
 
 
-                NstClientCard nstClientCard = new NstClientCard(0, recordParts[1], nstObl, 0);
+                NstClientCard nstClientCard = new NstClientCard(0, recordParts[2], nstObl, nstFormat, 0);
                 if (!nstClientCardList.contains(nstClientCard)) {
                     int id = nstClientCardDao.save(nstClientCard);
                     nstClientCard.setId(id);
@@ -109,13 +110,13 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
                     nstClientCard = nstClientCardList.get(nstClientCardList.indexOf(nstClientCard));
                 }
 
-                NstResp nstResp = new NstResp(nstObl, null);
+                NstResp nstResp = new NstResp(nstFormat, nstObl, null);
                 if (!nstRespList.contains(nstResp)) {
                     int id = nstRespDao.save(nstResp);
                     nstRespList.add(nstResp);
                 }
 
-                if (recordParts[2].equals("-")) {
+                if (recordParts[3].equals("-")) {
                     NstClientCriterias nstClientCriterias = new NstClientCriterias(nstClientCard.getId(), dateFrom, dateTo,
                             LocalDateTime.now(), -1, false, false, false, false, false, false, "",
                             false, false, false, false, false, false, "",
@@ -133,9 +134,9 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
                         .findFirst()
                         .get();
 
-                LocalDate photoDateLocal = LocalDate.parse(recordParts[2], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate photoDateLocal = LocalDate.parse(recordParts[3], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 LocalDateTime photoTime = photoDateLocal.atStartOfDay();
-                String fullUrl = recordParts[3];
+                String fullUrl = recordParts[4];
 
                 PhotoCard photoCard = new PhotoCard(nstClientCard.getId(),
                         fullUrl,
@@ -144,7 +145,9 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
                         "",
                         false,
                         reportType,
-                        0);
+                        0,
+                        0,
+                        null);
                 if (!photoCardList.contains(photoCard)) {
                     photoCardDao.save(photoCard);
                     photoCardList.add(photoCard);

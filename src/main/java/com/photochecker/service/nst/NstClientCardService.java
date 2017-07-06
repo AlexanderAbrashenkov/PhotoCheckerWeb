@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface NstClientCardService {
-    List<NstClientCard> getClientCardList(int nstOblId, LocalDate startDate, LocalDate endDate, int repTypeIndex);
+    List<NstClientCard> getClientCardList(int formatId, int nstOblId, LocalDate startDate, LocalDate endDate, int repTypeIndex);
 }

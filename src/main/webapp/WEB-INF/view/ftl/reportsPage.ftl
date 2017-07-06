@@ -29,8 +29,9 @@
 
             <#if repTypes?seq_contains(3)>
                 <div class="report_group">
-                    <div class="group_title">3. Федеральные сети: ДМП</div>
-                    <div class="report_link" style="display: none"><a href="/">Просмотр фото</a> </div>
+                    <div class="group_title">3. Федеральные сети: RJKAM</div>
+                    <div class="report_link"><a href="/reports/nka">Просмотр фото</a> </div>
+                    <div class="report_link"><a href="/reports/nka_param">Параметры оценки</a> </div>
                 </div>
             </#if>
 
@@ -60,14 +61,14 @@
                 </div>
             </#if>
 
-            <#if Session.user.role gte 2>
+            <#if Session.user.role gte 2 && (repTypes?seq_contains(1) || repTypes?seq_contains(2) || repTypes?seq_contains(5) || repTypes?seq_contains(5))>
                 <div class="report_group">
                     <div class="group_title">Загрузка данных</div>
                     <div class="report_link"><a href="/reports/upload">Загрузить</a> </div>
                 </div>
             </#if>
 
-            <#if Session.user.role gte 2>
+            <#if Session.user.role gte 2 && (repTypes?seq_contains(1) || repTypes?seq_contains(2) || repTypes?seq_contains(5) || repTypes?seq_contains(5))>
                 <div class="report_group">
                     <div class="group_title">Администрирование</div>
                     <#if Session.user.role == 4>

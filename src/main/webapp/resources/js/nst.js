@@ -1,14 +1,15 @@
 $(function () {
+
     $('#dateFrom').change(function () {
         var dateFrom = this.value;
         var dateTo = $('#dateTo').val();
         clearAllFromDates();
         if (dateTo >= dateFrom) {
             $('.datePicker').css('background-color', '');
-            loadNstObl(dateFrom, dateTo);
+            loadNstFormat(dateFrom, dateTo);
         } else {
             $('.datePicker').css('background-color', 'red');
-        }
+        };
     });
 
     $('#dateTo').change(function () {
@@ -17,18 +18,28 @@ $(function () {
         clearAllFromDates();
         if (dateTo >= dateFrom) {
             $('.datePicker').css('background-color', '');
-            loadNstObl(dateFrom, dateTo);
+            loadNstFormat(dateFrom, dateTo);
         } else {
             $('.datePicker').css('background-color', 'red');
         }
     });
 
+    $('#selNstFormat').change(function () {
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var nstFormatId = $('#selNstFormat option:selected').data('value');
+        clearAllFromNstFormat();
+        loadNstObl(dateFrom, dateTo, nstFormatId);
+    });
+
     $('#selNstObl').change(function () {
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
+        var nstFormatId = $('#selNstFormat option:selected').data('value');
         var nstOblId = $('#selNstObl option:selected').data('value');
         clearAllFromNstObl();
-        loadClients(dateFrom, dateTo, nstOblId);
+        loadClients(dateFrom, dateTo, nstFormatId, nstOblId);
+        getNstStat(nstFormatId, nstOblId);
     });
 
     $('#addressTable').on('click', '.addr', function() {
@@ -52,6 +63,9 @@ $(function () {
         date = date.replace("Дата: ", "");
         var count = $('#center_pane .photoBlock:last-child img').data('num');
         $('#showPhoto').css('display', 'block');
+        $('#statPane').css('display', 'none');
+        $('#left_pane').css('display', 'none');
+        $('#center_pane').css('display', 'none');
         $('#fullPhotoCont img').attr('src', url);
         $('#fullPhotoCont img').attr('data-zoom-image', url);
         $('#fullPhotoNum').text(num + " /");
@@ -79,6 +93,9 @@ $(function () {
 
     $('#close').on('click', function () {
         $('#showPhoto').css('display', 'none');
+        $('#statPane').css('display', 'block');
+        $('#left_pane').css('display', 'block');
+        $('#center_pane').css('display', 'block');
     });
 
     $('#toLeft').on('click', function () {
@@ -120,11 +137,21 @@ $(function () {
         }
         $(this).parent().find('.commInput').val(textSel);
         $(this).val('');
-    })
+    });
+
+    $('#selVisitCount').on('change', function () {
+        $('#visitCountField').css('border', '');
+    });
 
     $('#saveButton').on('click', function () {
         var addrRow = $('#addressTable tr.addressSelected');
         var clientId = addrRow.children().eq(1).text();
+        visitCount = $('#selVisitCount option:selected').data('value');
+        if (visitCount == 0) {
+            $('#visitCountField').css('border', '2px solid red');
+            return;
+        }
+        $('#visitCountField').css('border', '');
         saveCriteriasByClient(clientId);
         addrRow.addClass('addressChecked');
     });
@@ -138,9 +165,75 @@ $(function () {
         window.location.href = 'nst/getExcelReport?dateFrom=' + $('#dateFrom').val() +
                 '&dateTo=' + $('#dateTo').val();
     });
+
+    statListeners();
 });
 
+function getNstStat(formatId, oblId) {
+    var dateFrom = $('#dateFrom').val();
+    var dateTo = $('#dateTo').val();
+
+    $.post('nst/getStat',
+        {
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            formatId: formatId,
+            oblId: oblId
+        })
+        .done (function (data) {
+            checkForRedirect(data);
+            $('#totalCount').text(data.totalCount);
+            $('#totalChecked').text(data.totalChecked);
+            $('#totalCheckedToday').text(data.totalCheckedToday);
+
+            $('#oblCount').text(data.oblCount);
+            $('#oblChecked').text(data.oblChecked);
+            $('#oblCheckedToday').text(data.oblCheckedToday);
+        });
+}
+
+function statListeners() {
+    $('#statHeader').click(function() {
+        var currentStatus = $('#statPane').attr('shown');
+
+        if (currentStatus == 0) {
+            $('#statPane').animate({
+                left: '0px'
+            }, 200);
+
+            $('#left_pane').animate({
+                left: '230px'
+            }, 200);
+
+            $('#center_pane').animate({
+                left: '580px',
+            });
+            $('#center_pane').css('width', 'calc(100% - 830px)');
+            $('#statPane').attr('shown', 1);
+        } else {
+            $('#statPane').animate({
+                left: '-200px'
+            }, 200);
+
+            $('#left_pane').animate({
+                left: '30px'
+            }, 200);
+
+            $('#center_pane').animate({
+                left: '380px',
+            });
+            $('#center_pane').css('width', 'calc(100% - 630px)');
+            $('#statPane').attr('shown', 0);
+        }
+    });
+}
+
 function clearAllFromDates() {
+    $('#selNstFormat option').remove();
+    clearAllFromNstFormat();
+}
+
+function clearAllFromNstFormat() {
     $('#selNstObl option').remove();
     clearAllFromNstObl();
 }
@@ -152,7 +245,8 @@ function clearAllFromNstObl() {
 }
 
 function clearCriteriasPane() {
-    $('#selVisitCount').val(1);
+    $('#selVisitCount').val(0);
+    $('#visitCountField').css('border', '');
 
     $('#mzMatrix').prop('checked', true);
     $('#mzPhoto').prop('checked', false);
@@ -178,9 +272,9 @@ function clearCriteriasPane() {
     $('#mCommInput').val('');
 }
 
-function loadNstObl(dateFrom, dateTo) {
+function loadNstFormat(dateFrom, dateTo) {
     $('#loader').css('display', 'block');
-    $.post('nst/getNstObl',
+    $.post('nst/getNstFormat',
         {
             dateFrom: dateFrom,
             dateTo: dateTo
@@ -188,7 +282,7 @@ function loadNstObl(dateFrom, dateTo) {
         .done (function (data) {
             checkForRedirect(data);
             clearAllFromDates();
-            $('#selNstObl').append(data);
+            $('#selNstFormat').append(data);
         })
         .fail (function() {
             showErrorPane();
@@ -198,17 +292,38 @@ function loadNstObl(dateFrom, dateTo) {
         });
 }
 
-function loadClients(dateFrom, dateTo, nstOblId) {
+function loadNstObl(dateFrom, dateTo, nstFormatId) {
+    $('#loader').css('display', 'block');
+    $.post('nst/getNstObl',
+        {
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            formatId: nstFormatId
+        })
+        .done (function (data) {
+            checkForRedirect(data);
+            clearAllFromNstFormat();
+            $('#selNstObl').append(data);
+        })
+        .fail (function () {
+            showErrorPane();
+        })
+        .always (function () {
+            $('#loader').css('display', 'none');
+        });
+}
+
+function loadClients(dateFrom, dateTo, nstFormatId, nstOblId) {
     $('#loader').css('display', 'block');
     $.post('nst/getClients',
         {
             dateFrom: dateFrom,
             dateTo: dateTo,
+            formatId: nstFormatId,
             nstOblId: nstOblId
         })
         .done(function (data) {
             checkForRedirect(data);
-            console.log(data);
             $('#addressTable').append(data);
         })
         .fail(function() {
@@ -229,7 +344,6 @@ function loadPhotos(dateFrom, dateTo, clientId) {
         })
         .done(function (data) {
             checkForRedirect(data);
-            console.log(data);
             $('#center_pane').append(data);
         })
         .fail(function() {
@@ -249,7 +363,6 @@ function loadSavedCriterias(clientId, dateFrom, dateTo) {
         })
         .done(function (data) {
             checkForRedirect(data);
-            console.log(data);
             $('#selVisitCount').val(data.visitCount);
 
             $('#mzMatrix').prop('checked', data.mzMatrix);
@@ -334,6 +447,9 @@ function saveCriteriasByClient(clientId) {
         .done(function (data) {
             checkForRedirect(data);
             showSavedSuccessfullyPane();
+            var nstFormatId = $('#selNstFormat option:selected').data('value');
+            var nstOblId = $('#selNstObl option:selected').data('value');
+            getNstStat(nstFormatId, nstOblId);
         })
         .fail(function (data) {
             showErrorPane();

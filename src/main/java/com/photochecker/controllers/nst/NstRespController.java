@@ -3,7 +3,6 @@ package com.photochecker.controllers.nst;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photochecker.model.common.User;
-import com.photochecker.model.mlka.NkaResp;
 import com.photochecker.model.nst.NstResp;
 import com.photochecker.service.common.UserService;
 import com.photochecker.service.nst.NstRespService;
@@ -49,7 +48,7 @@ public class NstRespController {
     @ResponseBody
     public Map<String, Boolean> saveNstResp (@RequestParam("nstRespList") String nstRespListJson) {
         Gson gson = new Gson();
-        Type type = new TypeToken<List<NkaResp>>(){}.getType();
+        Type type = new TypeToken<List<NstResp>>(){}.getType();
         List<NstResp> nstRespList = gson.fromJson(nstRespListJson, type);
 
         boolean succeed = nstRespService.writeNstResp(nstRespList);

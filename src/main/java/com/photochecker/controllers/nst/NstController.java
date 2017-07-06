@@ -1,15 +1,19 @@
 package com.photochecker.controllers.nst;
 
+import com.photochecker.dao.nst.NstFormatDao;
 import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.common.User;
 import com.photochecker.model.nst.NstClientCard;
+import com.photochecker.model.nst.NstFormat;
 import com.photochecker.model.nst.NstObl;
 import com.photochecker.service.common.CommonService;
 import com.photochecker.service.common.PhotoCardService;
 import com.photochecker.service.nst.NstClientCardService;
+import com.photochecker.service.nst.NstFormatService;
 import com.photochecker.service.nst.NstOblService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +31,8 @@ public class NstController {
     @Autowired
     private CommonService commonService;
     @Autowired
+    private NstFormatService nstFormatService;
+    @Autowired
     private NstOblService nstOblService;
     @Autowired
     private NstClientCardService nstClientCardService;
@@ -39,15 +45,15 @@ public class NstController {
                                     @Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("nst/nstPage");
 
-        LocalDate startDate = commonService.getInitialStartDateNst();
-        LocalDate endDate = commonService.getInitialEndDateNst();
+        LocalDate startDate = commonService.getInitialStartDateWeek();
+        LocalDate endDate = commonService.getInitialEndDateWeek();
         modelAndView.addObject("startDate", startDate);
         modelAndView.addObject("endDate", endDate);
 
-        List<NstObl> nstOblList = nstOblService.getNstObls((User) session.getAttribute("user"),
+        List<NstFormat> nstFormatList = nstFormatService.getNstFormats((User) session.getAttribute("user"),
                 startDate, endDate, REP_TYPE_INDEX);
 
-        modelAndView.addObject("nstOblList", nstOblList);
+        modelAndView.addObject("nstFormatList", nstFormatList);
         modelAndView.addObject("pageTitle", "Фотоотчет Nst");
         modelAndView.addObject("pageCategory", "nst");
         modelAndView.addObject("resVer", resVer);
@@ -55,10 +61,24 @@ public class NstController {
         return modelAndView;
     }
 
+    @PostMapping("/reports/nst/getNstFormat")
+    public ModelAndView nstFormatAjax (@RequestParam("dateFrom") String dateFromS,
+                                       @RequestParam("dateTo") String dateToS,
+                                       HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("nst/ajax_parts/nstFormatOptions");
+
+        LocalDate dateFrom = LocalDate.parse(dateFromS);
+        LocalDate dateTo = LocalDate.parse(dateToS);
+
+        List<NstFormat> nstFormatList = nstFormatService.getNstFormats((User) session.getAttribute("user"), dateFrom, dateTo, REP_TYPE_INDEX);
+        modelAndView.addObject("nstFormatList", nstFormatList);
+        return modelAndView;
+    }
 
     @PostMapping("/reports/nst/getNstObl")
     public ModelAndView nstOblAjax (@RequestParam("dateFrom") String dateFromS,
                                     @RequestParam("dateTo") String dateToS,
+                                    @RequestParam("formatId") int formatId,
                                     HttpSession session) {
 
         ModelAndView modelAndView = new ModelAndView("nst/ajax_parts/nstOblOptions");
@@ -66,7 +86,7 @@ public class NstController {
         LocalDate dateFrom = LocalDate.parse(dateFromS);
         LocalDate dateTo = LocalDate.parse(dateToS);
 
-        List<NstObl> nstOblList = nstOblService.getNstObls((User) session.getAttribute("user"), dateFrom, dateTo, REP_TYPE_INDEX);
+        List<NstObl> nstOblList = nstOblService.getNstObls((User) session.getAttribute("user"), dateFrom, dateTo, formatId, REP_TYPE_INDEX);
         modelAndView.addObject("nstOblList", nstOblList);
         return modelAndView;
     }
@@ -75,6 +95,7 @@ public class NstController {
     @PostMapping("/reports/nst/getClients")
     public ModelAndView nstClientCardsAjax (@RequestParam("dateFrom") String dateFromS,
                                          @RequestParam("dateTo") String dateToS,
+                                         @RequestParam("formatId") int formatId,
                                          @RequestParam("nstOblId") int nstOblId) {
 
         ModelAndView modelAndView = new ModelAndView("nst/ajax_parts/addressTable");
@@ -82,7 +103,7 @@ public class NstController {
         LocalDate dateFrom = LocalDate.parse(dateFromS);
         LocalDate dateTo = LocalDate.parse(dateToS);
 
-        List<NstClientCard> nstClientCardList = nstClientCardService.getClientCardList(nstOblId, dateFrom, dateTo, REP_TYPE_INDEX);
+        List<NstClientCard> nstClientCardList = nstClientCardService.getClientCardList(formatId, nstOblId, dateFrom, dateTo, REP_TYPE_INDEX);
         modelAndView.addObject("clientsList", nstClientCardList);
         return modelAndView;
     }

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by market6 on 05.05.2017.
  */
-public interface LkaReportItemDao extends GenericDao<LkaReportItem> {
+public interface LkaReportItemDao {
 
     List<LkaReportItem> findAllByDatesAndRepType(LocalDate startDate, LocalDate endDate, int repType);
 }

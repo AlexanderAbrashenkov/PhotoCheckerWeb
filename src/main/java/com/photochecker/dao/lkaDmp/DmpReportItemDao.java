@@ -9,6 +9,6 @@ import java.util.List;
 /**
  * Created by market6 on 29.05.2017.
  */
-public interface DmpReportItemDao extends GenericDao<DmpReportItem> {
+public interface DmpReportItemDao {
     List<DmpReportItem> findAllByDatesAndRepType(LocalDate dateFrom, LocalDate dateTo, int i);
 }

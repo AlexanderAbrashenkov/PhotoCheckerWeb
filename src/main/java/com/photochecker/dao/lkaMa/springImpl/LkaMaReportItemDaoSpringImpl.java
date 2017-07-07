@@ -89,31 +89,6 @@ public class LkaMaReportItemDaoSpringImpl implements LkaMaReportItemDao {
     };
 
     @Override
-    public int save(LkaMaReportItem lkaMaReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public LkaMaReportItem find(int id) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public List<LkaMaReportItem> findAll() {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public boolean update(LkaMaReportItem lkaReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public void remove(LkaMaReportItem lkaReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
     public List<LkaMaReportItem> findAllByDatesAndRepType(LocalDate startDate, LocalDate endDate, int repType) {
         endDate = endDate.plusDays(1);
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, lkaReportItemRowMapper,

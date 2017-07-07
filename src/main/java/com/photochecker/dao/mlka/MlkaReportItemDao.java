@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by market6 on 05.05.2017.
  */
-public interface MlkaReportItemDao extends GenericDao<MlkaReportItem> {
+public interface MlkaReportItemDao {
 
     List<MlkaReportItem> findAllByDatesAndRepType(LocalDate startDate, LocalDate endDate, int repType);
 }

@@ -86,31 +86,6 @@ public class DmpReportItemDaoSpringImpl implements DmpReportItemDao {
     };
 
     @Override
-    public int save(DmpReportItem dmpReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public DmpReportItem find(int id) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public List<DmpReportItem> findAll() {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public boolean update(DmpReportItem dmpReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public void remove(DmpReportItem dmpReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
     public List<DmpReportItem> findAllByDatesAndRepType(LocalDate startDate, LocalDate endDate, int repType) {
         endDate = endDate.plusDays(1);
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, dmpReportItemRowMapper,

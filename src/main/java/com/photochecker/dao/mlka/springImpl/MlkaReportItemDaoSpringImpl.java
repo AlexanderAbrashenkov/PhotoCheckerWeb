@@ -84,31 +84,6 @@ public class MlkaReportItemDaoSpringImpl implements MlkaReportItemDao {
     }
 
     @Override
-    public int save(MlkaReportItem mlkaReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public MlkaReportItem find(int id) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public List<MlkaReportItem> findAll() {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public boolean update(MlkaReportItem mlkaReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
-    public void remove(MlkaReportItem mlkaReportItem) {
-        throw new RuntimeException("This method not used");
-    }
-
-    @Override
     public List<MlkaReportItem> findAllByDatesAndRepType(LocalDate startDate, LocalDate endDate, int repType) {
         endDate = endDate.plusDays(1);
         return jdbcTemplate.query(SQL_FIND_BY_PARAMS, mlkaReportItemRowMapper,

@@ -45,9 +45,9 @@ public class NkaClientCriteriasDaoSpringImpl implements NkaClientCriteriasDao {
             "`s_dp` = ?, `s_bb` = ?, `s_mr` = ?, `s_comment` = ?, " +
             "`mz_double` = ?, `k_double` = ?, `s_double` = ?, " +
             "`mz_dm_a` = ?, `k_dm_a` = ?, `s_dm_a` = ?, " +
-            "`mz_dm_na` = ?, `k_dm_na` = ?, `s_dm_na` = ?, " +
-            "WHERE `client_id` = ?\n " +
-            "AND `date_from` = ?\n " +
+            "`mz_dm_na` = ?, `k_dm_na` = ?, `s_dm_na` = ? " +
+            "WHERE `client_id` = ? " +
+            "AND `date_from` = ? " +
             "AND `date_to` = ?";
 
     //language=SQL

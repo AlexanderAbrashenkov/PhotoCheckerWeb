@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,13 +33,23 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
     private final String SQL_FIND_BY_OBL_AND_DATES = "SELECT DISTINCT cc.*, \n" +
             "CASE WHEN sav.`save_date` IS NOT NULL THEN 1 ELSE 0 END checked\n" +
             "FROM `nst_client_card` cc\n" +
-            "INNER JOIN `photo_card` pc ON pc.`client_id` = cc.`id`\n" +
+            "INNER JOIN `nst_photo` pc ON pc.`client_id` = cc.`id`\n" +
             "INNER JOIN `nst_obl` obl ON obl.id = cc.obl_id\n" +
             "LEFT JOIN (SELECT slka.`client_id`, slka.`save_date` FROM `nst_save_db` slka WHERE slka.date_from=? AND slka.date_to=?) sav ON sav.client_id=cc.id\n" +
             "WHERE pc.`date` >= ? AND pc.`date` < ?\n" +
             "AND cc.format_id = ?\n" +
             "AND obl.id = ?\n" +
-            "AND pc.`report_type` = ?\n" +
+            "ORDER BY 2;";
+
+    //language=SQL
+    private final String SQL_FIND_ALL_SIMPLE = "SELECT DISTINCT cc.*, \n" +
+            "CASE WHEN sav.`save_date` IS NOT NULL THEN 1 ELSE 0 END checked\n" +
+            "FROM `nst_client_card` cc\n" +
+            "INNER JOIN %s pc ON pc.`client_id` = cc.`id`\n" +
+            "INNER JOIN `nst_obl` obl ON obl.id = cc.obl_id\n" +
+            "LEFT JOIN (SELECT slka.`client_id`, slka.`save_date` FROM %s slka) sav ON sav.client_id=cc.id\n" +
+            "WHERE cc.format_id = ?\n" +
+            "AND obl.id = ?\n" +
             "ORDER BY 2;";
 
     private JdbcTemplate jdbcTemplate;
@@ -47,6 +59,9 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
     private NstOblDao nstOblDao;
     @Autowired
     private NstFormatDao nstFormatDao;
+
+    @Autowired
+    private Properties properties;
 
     private List<NstObl> nstOblList;
     private List<NstFormat> nstFormatList;
@@ -120,13 +135,27 @@ public class NstClientCardDaoSpringImpl implements NstClientCardDao {
     @Override
     public List<NstClientCard> findAllByOblAndDates(int formatId, int oblId, LocalDate startDate, LocalDate endDate, int repTypeInd) {
         setNstClientCardFields();
-        return jdbcTemplate.query(SQL_FIND_BY_OBL_AND_DATES, nstClientCardRowMapper,
-                Date.valueOf(startDate),
-                Date.valueOf(endDate),
-                Date.valueOf(startDate),
-                Date.valueOf(endDate.plusDays(1)),
-                formatId,
-                oblId,
-                repTypeInd);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String photoTableName = startDate.format(formatter) + "_" + endDate.format(formatter) + "_nst_photo";
+
+        if (photoTableName.equals(properties.getProperty("nst.current.week.photo"))
+                || photoTableName.equals(properties.getProperty("nst.prev.week.photo"))) {
+
+            String saveTableName = startDate.format(formatter) + "_" + endDate.format(formatter) + "_nst_save";
+            String sql = String.format(SQL_FIND_ALL_SIMPLE, photoTableName, saveTableName);
+            return jdbcTemplate.query(sql, nstClientCardRowMapper,
+                    formatId,
+                    oblId);
+
+        } else {
+            return jdbcTemplate.query(SQL_FIND_BY_OBL_AND_DATES, nstClientCardRowMapper,
+                    Date.valueOf(startDate),
+                    Date.valueOf(endDate),
+                    Date.valueOf(startDate),
+                    Date.valueOf(endDate.plusDays(1)),
+                    formatId,
+                    oblId);
+        }
     }
 }

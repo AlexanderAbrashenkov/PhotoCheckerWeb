@@ -1,7 +1,5 @@
 package com.photochecker.service.nst.daoImpl;
 
-import com.photochecker.dao.nst.NstFormatDao;
-import com.photochecker.dao.nst.NstOblDao;
 import com.photochecker.dao.nst.NstRespDao;
 import com.photochecker.dao.nst.NstStatDao;
 import com.photochecker.model.common.User;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,46 +20,17 @@ public class NstStatServiceDaoImpl implements NstStatService {
     private NstStatDao nstStatDao;
     @Autowired
     private NstRespDao nstRespDao;
-    @Autowired
-    private NstFormatDao nstFormatDao;
-    @Autowired
-    private NstOblDao nstOblDao;
 
     @Override
     public NstStat getStat(User user, int targetFormatId, int targetOblId, LocalDate dateFrom, LocalDate dateTo) {
 
         NstStat nstStat = new NstStat();
 
-        LocalDate today = LocalDate.now();
-
         if (user.getRole() > 1) {
-            List<Integer> nstFormatList = nstFormatDao.findAll().stream()
-                    .map(nstFormat -> nstFormat.getId())
-                    .collect(Collectors.toList());
+            nstStat = nstStatDao.getTotalStat(dateFrom, dateTo);
 
-            List<Integer> nstOblList = nstOblDao.findAll().stream()
-                    .map(nstObl -> nstObl.getId())
-                    .collect(Collectors.toList());
+            setOblStat(targetFormatId, targetOblId, dateFrom, dateTo, nstStat);
 
-            for (int formatId : nstFormatList) {
-                for (int nstOblId : nstOblList) {
-                    int ttOblCount = nstStatDao.getTtCount(formatId, nstOblId, dateFrom, dateTo, 4);
-                    List<LocalDateTime> savedDatesObl = nstStatDao.getSavedDates(formatId, nstOblId, dateFrom, dateTo);
-                    int savedTodayObl = (int) savedDatesObl.stream()
-                            .filter(localDateTime -> localDateTime.toLocalDate().equals(today))
-                            .count();
-
-                    nstStat.setTotalCount(nstStat.getTotalCount() + ttOblCount);
-                    nstStat.setTotalChecked(nstStat.getTotalChecked() + savedDatesObl.size());
-                    nstStat.setTotalCheckedToday(nstStat.getTotalCheckedToday() + savedTodayObl);
-
-                    if (targetFormatId == formatId && targetOblId == nstOblId) {
-                        nstStat.setOblCount(ttOblCount);
-                        nstStat.setOblChecked(savedDatesObl.size());
-                        nstStat.setOblCheckedToday(savedTodayObl);
-                    }
-                }
-            }
             return nstStat;
         }
 
@@ -72,6 +40,8 @@ public class NstStatServiceDaoImpl implements NstStatService {
                 .map(nstResp -> nstResp.getNstFormat().getId())
                 .distinct()
                 .collect(Collectors.toList());
+
+        setOblStat(targetFormatId, targetOblId, dateFrom, dateTo, nstStat);
 
         if (allowedFormats.size() > 0) {
             for (int formatId : allowedFormats) {
@@ -84,25 +54,28 @@ public class NstStatServiceDaoImpl implements NstStatService {
                 if (allowedNstObl.size() == 0) continue;
 
                 for (int nstOblId : allowedNstObl) {
-                    int ttOblCount = nstStatDao.getTtCount(formatId, nstOblId, dateFrom, dateTo, 4);
-                    List<LocalDateTime> savedDatesObl = nstStatDao.getSavedDates(formatId, nstOblId, dateFrom, dateTo);
-                    int savedTodayObl = (int) savedDatesObl.stream()
-                            .filter(localDateTime -> localDateTime.toLocalDate().equals(today))
-                            .count();
+                    NstStat oblStat = nstStatDao.getOblStat(formatId, nstOblId, dateFrom, dateTo);
 
-                    nstStat.setTotalCount(nstStat.getTotalCount() + ttOblCount);
-                    nstStat.setTotalChecked(nstStat.getTotalChecked() + savedDatesObl.size());
-                    nstStat.setTotalCheckedToday(nstStat.getTotalCheckedToday() + savedTodayObl);
-
-                    if (targetFormatId == formatId && targetOblId == nstOblId) {
-                        nstStat.setOblCount(ttOblCount);
-                        nstStat.setOblChecked(savedDatesObl.size());
-                        nstStat.setOblCheckedToday(savedTodayObl);
-                    }
+                    nstStat.setTotalCount(nstStat.getTotalCount() + oblStat.getOblCount());
+                    nstStat.setTotalChecked(nstStat.getTotalChecked() + oblStat.getOblChecked());
+                    nstStat.setTotalCheckedToday(nstStat.getTotalCheckedToday() + oblStat.getOblCheckedToday());
                 }
             }
         }
 
         return nstStat;
+    }
+
+    private void setOblStat(int targetFormatId, int targetOblId, LocalDate dateFrom, LocalDate dateTo, NstStat nstStat) {
+        NstStat oblStat = nstStatDao.getOblStat(targetFormatId, targetOblId, dateFrom, dateTo);
+
+        nstStat.setOblCount(oblStat.getOblCount());
+        nstStat.setOblChecked(oblStat.getOblChecked());
+        nstStat.setOblCheckedToday(oblStat.getOblCheckedToday());
+    }
+
+    @Override
+    public int cleanCheckedToday() {
+        return nstStatDao.clearCheckedToday();
     }
 }

@@ -35,7 +35,7 @@ public abstract class CommonService {
     }
 
     public LocalDate getInitialStartDateNst() {
-        LocalDate result = LocalDate.now().minusDays(14);
+        LocalDate result = LocalDate.now().minusDays(7);
         while (!result.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
             result = result.minusDays(1);
         }
@@ -43,7 +43,7 @@ public abstract class CommonService {
     }
 
     public LocalDate getInitialEndDateNst() {
-        LocalDate result = LocalDate.now().minusDays(8);
+        LocalDate result = LocalDate.now().minusDays(1);
         while (!result.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             result = result.minusDays(1);
         }

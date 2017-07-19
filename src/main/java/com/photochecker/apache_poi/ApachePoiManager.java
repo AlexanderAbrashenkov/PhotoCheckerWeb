@@ -7,8 +7,6 @@ public class ApachePoiManager {
         switch (reportNumber) {
             case 1: apachePoi = new ApachePoiLkaDmp(); break;
             case 2: apachePoi = new ApachePoiNkaMlka(); break;
-            //case 2: apachePoi = new ApachePoiNkaDmp(); break;
-            case 4: apachePoi = new ApachePoiNst(); break;
             case 5: apachePoi = new ApachePoiLka(); break;
         }
     }

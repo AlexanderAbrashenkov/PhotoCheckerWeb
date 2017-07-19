@@ -25,8 +25,10 @@ public class NstClientCriteriasController {
 
     @PostMapping(value = "/reports/nst/saveCriterias", produces = "application/json")
     @ResponseBody
-    public Map<String, Boolean> saveNstClientCriterias(@RequestParam("dateFrom") String dateFromS,
+    public Map<String, Integer> saveNstClientCriterias(@RequestParam("dateFrom") String dateFromS,
                                                         @RequestParam("dateTo") String dateToS,
+                                                        @RequestParam("formatId") int formatId,
+                                                        @RequestParam("oblId") int oblId,
                                                         @RequestParam("crit") String critJson) {
 
         Gson gson = new Gson();
@@ -40,7 +42,7 @@ public class NstClientCriteriasController {
         nstClientCriterias.setDateTo(dateTo);
         nstClientCriterias.setSaveDate(LocalDateTime.now());
 
-        boolean answer = nstClientCriteriasService.saveCriterias(nstClientCriterias);
+        int answer = nstClientCriteriasService.saveCriterias(nstClientCriterias, formatId, oblId);
         return Collections.singletonMap("answer", answer);
     }
 

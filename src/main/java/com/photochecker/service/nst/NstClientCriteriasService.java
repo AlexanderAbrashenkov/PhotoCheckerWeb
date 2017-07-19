@@ -6,7 +6,13 @@ import java.time.LocalDate;
 
 public interface NstClientCriteriasService {
 
-    boolean saveCriterias(NstClientCriterias nstClientCriterias);
+    /**
+     * @return -1 - error while saving,
+     * 0 - tt already was saved today,
+     * 1 - tt already was saved earlier,
+     * 2 - new tt saved today
+     */
+    int saveCriterias(NstClientCriterias nstClientCriterias, int formatId, int oblId);
 
     NstClientCriterias getSavedCriterias(int clientId, LocalDate startDate, LocalDate endDate);
 }

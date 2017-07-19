@@ -1,23 +1,24 @@
 package com.photochecker.service.nst.daoImpl;
 
-import com.photochecker.dao.common.PhotoCardDao;
 import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.dao.nst.*;
-import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.common.ReportType;
 import com.photochecker.model.nst.*;
 import com.photochecker.service.nst.NstUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.sql.Timestamp;
+import javax.servlet.ServletContext;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Component
 public class NstUploadServiceDaoImpl implements NstUploadService {
@@ -32,16 +33,23 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
     @Autowired
     private NstRespDao nstRespDao;
     @Autowired
-    private PhotoCardDao photoCardDao;
+    private NstPhotoCardDao nstPhotoCardDao;
     @Autowired
     private ReportTypeDao reportTypeDao;
+    @Autowired
+    private NstStatDao nstStatDao;
+    @Autowired
+    ServletContext servletContext;
+
+    @Autowired
+    private Properties properties;
 
     private List<NstClientCard> nstClientCardList;
     private List<NstClientCriterias> nstClientCriteriasList;
     private List<NstObl> nstOblList;
     private List<NstFormat> nstFormatList;
     private List<NstResp> nstRespList;
-    private List<PhotoCard> photoCardList;
+    private List<NstPhotoCard> nstPhotoCardList;
     private List<ReportType> reportTypeList;
 
     @Override
@@ -50,12 +58,48 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
         LocalDate dateFrom = LocalDate.parse(dateFromS, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         LocalDate dateTo = LocalDate.parse(dateToS, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String photoTableName = dateFrom.format(formatter) + "_" + dateTo.format(formatter) + "_nst_photo";
+
+        if (!photoTableName.equals(properties.getProperty("nst.current.week.photo"))) {
+            //copy photo from prev to common
+            String photoPrev = properties.getProperty("nst.prev.week.photo");
+            if (photoPrev.length() > 0) {
+                nstPhotoCardDao.copyPhotosToCommon(properties.getProperty("nst.prev.week.photo"));
+                nstClientCriteriasDao.copyCritsToCommon(properties.getProperty("nst.prev.week.save"));
+            }
+
+            //props current to prev
+            properties.setProperty("nst.prev.week.photo", properties.getProperty("nst.current.week.photo"));
+            properties.setProperty("nst.prev.week.save", properties.getProperty("nst.current.week.save"));
+
+            //props set current
+            String saveTableName = dateFrom.format(formatter) + "_" + dateTo.format(formatter) + "_nst_save";
+
+            properties.setProperty("nst.current.week.photo", photoTableName);
+            properties.setProperty("nst.current.week.save", saveTableName);
+
+            File file = new File(servletContext.getRealPath("/resources/properties/prop.properties"));
+            try (OutputStream outputStream = new FileOutputStream(file)) {
+                properties.store(outputStream, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //create current tables
+            nstPhotoCardDao.createCurrentTable(photoTableName);
+            nstClientCriteriasDao.createCurrentTable(saveTableName);
+            //nstStatDao.createCurrentTable(statTableName);
+        }
+
         nstClientCardList = nstClientCardDao.findAll();
         nstClientCriteriasList = nstClientCriteriasDao.findAllByDates(dateFrom, dateTo);
         nstOblList = nstOblDao.findAll();
         nstFormatList = nstFormatDao.findAll();
         nstRespList = nstRespDao.findAll();
-        photoCardList = photoCardDao.findAllByDatesAndReport(dateFrom, dateTo, 4);
+        nstPhotoCardList = nstPhotoCardDao.findAllByDates(dateFrom, dateTo);
         reportTypeList = reportTypeDao.findAll();
 
 
@@ -71,6 +115,8 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
             e.printStackTrace();
         }
 
+        nstStatDao.fillUpWeekStat(dateFrom, dateTo);
+
         return "Фото НСТ: " + nstCounter + " строк. <br>";
     }
 
@@ -81,8 +127,12 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
 
         String record;
 
+        int i = 0;
+
         try {
             while (!(record = reader.readLine()).equals("--nst end--")) {
+
+                i++;
 
                 String[] recordParts = record.split(";");
 
@@ -138,19 +188,12 @@ public class NstUploadServiceDaoImpl implements NstUploadService {
                 LocalDateTime photoTime = photoDateLocal.atStartOfDay();
                 String fullUrl = recordParts[4];
 
-                PhotoCard photoCard = new PhotoCard(nstClientCard.getId(),
+                NstPhotoCard photoCard = new NstPhotoCard(nstClientCard.getId(),
                         fullUrl,
-                        photoTime,
-                        photoTime,
-                        "",
-                        false,
-                        reportType,
-                        0,
-                        0,
-                        null);
-                if (!photoCardList.contains(photoCard)) {
-                    photoCardDao.save(photoCard);
-                    photoCardList.add(photoCard);
+                        photoTime);
+                if (!nstPhotoCardList.contains(photoCard)) {
+                    nstPhotoCardDao.save(photoCard);
+                    nstPhotoCardList.add(photoCard);
                 }
 
                 recordCounter++;

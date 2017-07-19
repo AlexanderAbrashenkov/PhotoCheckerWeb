@@ -12,9 +12,11 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @Component
 public class NstOblDaoSpringImpl implements NstOblDao {
@@ -26,14 +28,24 @@ public class NstOblDaoSpringImpl implements NstOblDao {
     private final String SQL_FIND_BY_DATES = "SELECT DISTINCT obl.`name`, obl.`id`\n" +
             "FROM `nst_obl` obl\n" +
             "INNER JOIN `nst_client_card` cc ON cc.`obl_id` = obl.`id`\n" +
-            "INNER JOIN `photo_card` pc ON pc.`client_id` = cc.`id`\n" +
+            "INNER JOIN `nst_photo` pc ON pc.`client_id` = cc.`id`\n" +
             "WHERE pc.`date` >= ? AND pc.`date` < ?\n" +
-            "AND pc.`report_type` = ?\n" +
             "AND cc.`format_id` = ?\n" +
+            "ORDER BY 1;";
+
+    //language=SQL
+    private final String SQL_FIND_ALL_SIMPLE = "SELECT DISTINCT obl.`name`, obl.`id`\n" +
+            "FROM `nst_obl` obl\n" +
+            "INNER JOIN `nst_client_card` cc ON cc.`obl_id` = obl.`id`\n" +
+            "INNER JOIN %s pc ON pc.`client_id` = cc.`id`\n" +
+            "WHERE cc.`format_id` = ?\n" +
             "ORDER BY 1;";
 
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert simpleJdbcInsert;
+
+    @Autowired
+    private Properties properties;
 
     @Autowired
     public NstOblDaoSpringImpl (DataSource dataSource) {
@@ -80,10 +92,20 @@ public class NstOblDaoSpringImpl implements NstOblDao {
 
     @Override
     public List<NstObl> findAllByDates(LocalDate startDate, LocalDate endDate, int formatId, int repTypeInd) {
-        return jdbcTemplate.query(SQL_FIND_BY_DATES, nstOblRowMapper,
-                Date.valueOf(startDate),
-                Date.valueOf(endDate.plusDays(1)),
-                repTypeInd,
-                formatId);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String photoTableName = startDate.format(formatter) + "_" + endDate.format(formatter) + "_nst_photo";
+
+        if (photoTableName.equals(properties.getProperty("nst.current.week.photo"))
+                || photoTableName.equals(properties.getProperty("nst.prev.week.photo"))) {
+            String sql = String.format(SQL_FIND_ALL_SIMPLE, photoTableName);
+            return jdbcTemplate.query(sql, nstOblRowMapper,
+                    formatId);
+        } else {
+            return jdbcTemplate.query(SQL_FIND_BY_DATES, nstOblRowMapper,
+                    Date.valueOf(startDate),
+                    Date.valueOf(endDate.plusDays(1)),
+                    formatId);
+        }
     }
 }

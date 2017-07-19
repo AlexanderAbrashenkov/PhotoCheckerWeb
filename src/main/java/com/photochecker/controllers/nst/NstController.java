@@ -1,19 +1,17 @@
 package com.photochecker.controllers.nst;
 
-import com.photochecker.dao.nst.NstFormatDao;
-import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.common.User;
 import com.photochecker.model.nst.NstClientCard;
 import com.photochecker.model.nst.NstFormat;
 import com.photochecker.model.nst.NstObl;
+import com.photochecker.model.nst.NstPhotoCard;
 import com.photochecker.service.common.CommonService;
-import com.photochecker.service.common.PhotoCardService;
 import com.photochecker.service.nst.NstClientCardService;
 import com.photochecker.service.nst.NstFormatService;
 import com.photochecker.service.nst.NstOblService;
+import com.photochecker.service.nst.NstPhotoCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +35,7 @@ public class NstController {
     @Autowired
     private NstClientCardService nstClientCardService;
     @Autowired
-    private PhotoCardService photoCardService;
+    private NstPhotoCardService nstPhotoCardService;
 
 
     @GetMapping("/reports/nst")
@@ -45,8 +43,8 @@ public class NstController {
                                     @Value("${resVer}") String resVer) {
         ModelAndView modelAndView = new ModelAndView("nst/nstPage");
 
-        LocalDate startDate = commonService.getInitialStartDateWeek();
-        LocalDate endDate = commonService.getInitialEndDateWeek();
+        LocalDate startDate = commonService.getInitialStartDateNst();
+        LocalDate endDate = commonService.getInitialEndDateNst();
         modelAndView.addObject("startDate", startDate);
         modelAndView.addObject("endDate", endDate);
 
@@ -119,7 +117,7 @@ public class NstController {
         LocalDate dateFrom = LocalDate.parse(dateFromS);
         LocalDate dateTo = LocalDate.parse(dateToS);
 
-        List<PhotoCard> photoCardList = photoCardService.getPhotoListNst(clientId, dateFrom, dateTo, REP_TYPE_INDEX);
+        List<NstPhotoCard> photoCardList = nstPhotoCardService.getPhotoListNst(clientId, dateFrom, dateTo);
         modelAndView.addObject("photoList", photoCardList);
         return modelAndView;
     }

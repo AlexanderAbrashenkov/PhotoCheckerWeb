@@ -1,19 +1,21 @@
 package com.photochecker.service.nst.daoImpl;
 
-import com.photochecker.apache_poi.ApachePoi;
-import com.photochecker.apache_poi.ApachePoiManager;
+
 import com.photochecker.dao.nst.NstReportItemDao;
 import com.photochecker.dao.nst.NstRespDao;
 import com.photochecker.model.common.User;
 import com.photochecker.model.nst.NstReportItem;
 import com.photochecker.model.nst.NstResp;
 import com.photochecker.service.nst.NstExcelReportService;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.jxls.common.Context;
+import org.jxls.transform.poi.PoiTransformer;
+import org.jxls.util.JxlsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletContext;
+import java.io.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,11 +26,13 @@ public class NstExcelReportServiceDaoImpl implements NstExcelReportService {
     private NstReportItemDao nstReportItemDao;
     @Autowired
     private NstRespDao nstRespDao;
+    @Autowired
+    private ServletContext servletContext;
 
     @Override
-    public Workbook getExcelReport(Workbook workbook, LocalDate dateFrom, LocalDate dateTo, User user) {
+    public void getExcelReportItems(OutputStream out, LocalDate dateFrom, LocalDate dateTo, User user) {
 
-        List<NstReportItem> nstReportItemList = new ArrayList<>();
+        Set<NstReportItem> nstReportItemList = new TreeSet<>();
 
         if (user.getRole() > 1) {
             nstReportItemList = nstReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 4);
@@ -60,21 +64,23 @@ public class NstExcelReportServiceDaoImpl implements NstExcelReportService {
             }
         }
 
-        ApachePoiManager.createApachePoi(4);
-        ApachePoi apachePoi = ApachePoiManager.getInstance();
+        int i = 1;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        apachePoi.createReportFile(workbook, dateFrom.format(formatter), dateTo.format(formatter));
-
-        String sheetName = "ММ";
-
-        apachePoi.createConcreteSheet(sheetName, null);
         for (NstReportItem nstReportItem : nstReportItemList) {
-            apachePoi.writeOneTtToConcreteSheet(new ArrayList(Arrays.asList(nstReportItem)));
+            nstReportItem.setIndex(i);
+            i++;
         }
 
-        apachePoi.calcSumRowConcreteSheet("NST");
+        File file = new File(servletContext.getRealPath("/resources/excelTemplates/nst_template.xlsx"));
 
-        return workbook;
+        try (InputStream is = new FileInputStream(file)) {
+
+            Context context = PoiTransformer.createInitialContext();
+            context.putVar("nstReportItemList", nstReportItemList);
+            JxlsHelper.getInstance().processTemplate(is, out, context);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

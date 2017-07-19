@@ -14,9 +14,11 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @Component
 public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
@@ -24,11 +26,19 @@ public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
     private final String SQL_FIND_ALL_BY_DATES = "SELECT * FROM `nst_save_db` sav " +
             "WHERE sav.`date_from` = ? AND sav.`date_to` = ?";
 
+    //language=SQL
+    private final String SQL_FIND_ALL_SIMPLE = "SELECT  * FROM %s";
+
     private final String SQL_FIND_BY_DATES_AND_ID = "SELECT * FROM `nst_save_db` sav " +
             "WHERE sav.`date_from` = ? AND sav.`date_to` = ? " +
             "AND sav.`client_id` = ?";
 
-    private final String SQL_UPDATE = "UPDATE `nst_save_db` SET " +
+    //language=SQL
+    private final String SQL_FIND_BY_ID_SIMPLE = "SELECT * FROM %s sav " +
+            "WHERE sav.`client_id` = ?";
+
+    //language=SQL
+    private final String SQL_UPDATE = "UPDATE %s SET " +
             "save_date = ?, visit_count = ?, " +
             "mz_matrix = ?, mz_photo = ?, mz_borders = ?, mz_vert = ?, mz_30 = ?, mz_center = ?, mz_comment = ?, " +
             "ks_matrix = ?, ks_photo = ?, ks_borders = ?, ks_vert = ?, ks_30 = ?, ks_center = ?, ks_comment = ?, " +
@@ -37,15 +47,35 @@ public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
             "AND date_from = ? " +
             "AND date_to = ?";
 
+    //language=SQL
+    private final String SQL_SAVE = "INSERT INTO %s " +
+            "(client_id, date_from, date_to, save_date, visit_count, " +
+            "mz_matrix, mz_photo, mz_borders, mz_vert, mz_30, mz_center, mz_comment, " +
+            "ks_matrix, ks_photo, ks_borders, ks_vert, ks_30, ks_center, ks_comment, " +
+            "m_matrix, m_photo, m_borders, m_vert, m_center, m_comment) " +
+            "VALUES (?, ?, ?, ?, ?, " +
+            "?, ?, ?, ?, ?, ?, ?, " +
+            "?, ?, ?, ?, ?, ?, ?, " +
+            "?, ?, ?, ?, ?, ?)";
+
+    //language=SQL
+    private final String SQL_COPY_DATA_FROM_TABLE = "INSERT INTO nst_save_db " +
+            "SELECT * FROM %s";
+
+    //language=SQL
+    private final String SQL_DROP_TABLE = "DROP TABLE %s";
+
+    //language=SQL
+    private final String SQL_CREATE_NEW_TABLE = "CREATE TABLE %s LIKE `nst_save_db`";
+
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
+
+    @Autowired
+    private Properties properties;
 
     @Autowired
     public NstClientCriteriasDaoSpringImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("nst_save_db")
-                .usingGeneratedKeyColumns("id");
     }
 
     private RowMapper<NstClientCriterias> nstClientCriteriasRowMapper = (rs, rowNum) -> {
@@ -81,37 +111,49 @@ public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
 
     @Override
     public int save(NstClientCriterias nstClientCriterias) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("client_id", nstClientCriterias.getClientId());
-        params.put("date_from", Date.valueOf(nstClientCriterias.getDateFrom()));
-        params.put("date_to", Date.valueOf(nstClientCriterias.getDateTo()));
-        params.put("save_date", Timestamp.valueOf(nstClientCriterias.getSaveDate()));
-        params.put("visit_count", nstClientCriterias.getVisitCount());
 
-        params.put("mz_matrix", nstClientCriterias.isMzMatrix());
-        params.put("mz_photo", nstClientCriterias.isMzPhoto());
-        params.put("mz_borders", nstClientCriterias.isMzBorders());
-        params.put("mz_vert", nstClientCriterias.isMzVert());
-        params.put("mz_30", nstClientCriterias.isMz30());
-        params.put("mz_center", nstClientCriterias.isMzCenter());
-        params.put("mz_comment", nstClientCriterias.getMzComment());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String saveTableName = nstClientCriterias.getDateFrom().format(formatter) + "_"
+                + nstClientCriterias.getDateTo().format(formatter) + "_nst_save";
 
-        params.put("ks_matrix", nstClientCriterias.isKsMatrix());
-        params.put("ks_photo", nstClientCriterias.isKsPhoto());
-        params.put("ks_borders", nstClientCriterias.isKsBorders());
-        params.put("ks_vert", nstClientCriterias.isKsVert());
-        params.put("ks_30", nstClientCriterias.isKs30());
-        params.put("ks_center", nstClientCriterias.isKsCenter());
-        params.put("ks_comment", nstClientCriterias.getKsComment());
+        if (saveTableName.equals(properties.getProperty("nst.current.week.save")) ||
+                saveTableName.equals(properties.getProperty("nst.prev.week.save"))) {
+            /* NONE */
+        } else {
+            saveTableName = "nst_save_db";
+        }
 
-        params.put("m_matrix", nstClientCriterias.ismMatrix());
-        params.put("m_photo", nstClientCriterias.ismPhoto());
-        params.put("m_borders", nstClientCriterias.ismBorders());
-        params.put("m_vert", nstClientCriterias.ismVert());
-        params.put("m_center", nstClientCriterias.ismCenter());
-        params.put("m_comment", nstClientCriterias.getmComment());
+        String sql = String.format(SQL_SAVE, saveTableName);
 
-        return simpleJdbcInsert.executeAndReturnKey(params).intValue();
+        return jdbcTemplate.update(sql,
+                nstClientCriterias.getClientId(),
+                Date.valueOf(nstClientCriterias.getDateFrom()),
+                Date.valueOf(nstClientCriterias.getDateTo()),
+                Timestamp.valueOf(nstClientCriterias.getSaveDate()),
+                nstClientCriterias.getVisitCount(),
+
+                nstClientCriterias.isMzMatrix(),
+                nstClientCriterias.isMzPhoto(),
+                nstClientCriterias.isMzBorders(),
+                nstClientCriterias.isMzVert(),
+                nstClientCriterias.isMz30(),
+                nstClientCriterias.isMzCenter(),
+                nstClientCriterias.getMzComment(),
+
+                nstClientCriterias.isKsMatrix(),
+                nstClientCriterias.isKsPhoto(),
+                nstClientCriterias.isKsBorders(),
+                nstClientCriterias.isKsVert(),
+                nstClientCriterias.isKs30(),
+                nstClientCriterias.isKsCenter(),
+                nstClientCriterias.getKsComment(),
+
+                nstClientCriterias.ismMatrix(),
+                nstClientCriterias.ismPhoto(),
+                nstClientCriterias.ismBorders(),
+                nstClientCriterias.ismVert(),
+                nstClientCriterias.ismCenter(),
+                nstClientCriterias.getmComment());
     }
 
     @Override
@@ -126,7 +168,21 @@ public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
 
     @Override
     public boolean update(NstClientCriterias nstClientCriterias) {
-        jdbcTemplate.update(SQL_UPDATE,
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String saveTableName = nstClientCriterias.getDateFrom().format(formatter) + "_"
+                + nstClientCriterias.getDateTo().format(formatter) + "_nst_save";
+
+        if (saveTableName.equals(properties.getProperty("nst.current.week.save")) ||
+                saveTableName.equals(properties.getProperty("nst.prev.week.save"))) {
+            /* NONE */
+        } else {
+            saveTableName = "nst_save_db";
+        }
+
+        String sql = String.format(SQL_UPDATE,saveTableName);
+
+        jdbcTemplate.update(sql,
                 Timestamp.valueOf(nstClientCriterias.getSaveDate()),
                 nstClientCriterias.getVisitCount(),
 
@@ -166,17 +222,58 @@ public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
 
     @Override
     public NstClientCriterias findByClientAndDates(int clientId, LocalDate startDate, LocalDate endDate) {
-        List<NstClientCriterias> result = jdbcTemplate.query(SQL_FIND_BY_DATES_AND_ID, nstClientCriteriasRowMapper,
-                Date.valueOf(startDate),
-                Date.valueOf(endDate),
-                clientId);
-        return result.size() > 0 ? result.get(0) : null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String saveTableName = startDate.format(formatter) + "_"
+                + endDate.format(formatter) + "_nst_save";
+
+        if (saveTableName.equals(properties.getProperty("nst.current.week.save")) ||
+                saveTableName.equals(properties.getProperty("nst.prev.week.save"))) {
+
+            String sql = String.format(SQL_FIND_BY_ID_SIMPLE, saveTableName);
+            List<NstClientCriterias> result = jdbcTemplate.query(sql, nstClientCriteriasRowMapper,
+                    clientId);
+            return result.size() > 0 ? result.get(0) : null;
+        } else {
+            List<NstClientCriterias> result = jdbcTemplate.query(SQL_FIND_BY_DATES_AND_ID, nstClientCriteriasRowMapper,
+                    Date.valueOf(startDate),
+                    Date.valueOf(endDate),
+                    clientId);
+            return result.size() > 0 ? result.get(0) : null;
+        }
     }
 
     @Override
     public List<NstClientCriterias> findAllByDates(LocalDate startDate, LocalDate endDate) {
-        return jdbcTemplate.query(SQL_FIND_ALL_BY_DATES, nstClientCriteriasRowMapper,
-                Date.valueOf(startDate),
-                Date.valueOf(endDate));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String saveTableName = startDate.format(formatter) + "_" + endDate.format(formatter) + "_nst_save";
+
+        if (saveTableName.equals(properties.getProperty("nst.current.week.save"))
+                || saveTableName.equals(properties.getProperty("nst.prev.week.save"))) {
+            String sql = String.format(SQL_FIND_ALL_SIMPLE, saveTableName);
+            return jdbcTemplate.query(sql, nstClientCriteriasRowMapper);
+        } else {
+            return jdbcTemplate.query(SQL_FIND_ALL_BY_DATES, nstClientCriteriasRowMapper,
+                    Date.valueOf(startDate),
+                    Date.valueOf(endDate));
+        }
+    }
+
+    @Override
+    public int copyCritsToCommon(String saveTableName) {
+        String sql1 = String.format(SQL_COPY_DATA_FROM_TABLE, saveTableName);
+        int rows = jdbcTemplate.update(sql1);
+
+        String sql = String.format(SQL_DROP_TABLE, saveTableName);
+        jdbcTemplate.update(sql);
+        return rows;
+    }
+
+    @Override
+    public boolean createCurrentTable(String saveTableName) {
+        String sql = String.format(SQL_CREATE_NEW_TABLE, saveTableName);
+        int rows = jdbcTemplate.update(sql);
+        return true;
     }
 }

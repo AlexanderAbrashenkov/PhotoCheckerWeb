@@ -13,4 +13,8 @@ public interface NstClientCriteriasDao extends GenericDao<NstClientCriterias> {
     NstClientCriterias findByClientAndDates(int clientId, LocalDate startDate, LocalDate endDate);
 
     List<NstClientCriterias> findAllByDates(LocalDate startDate, LocalDate endDate);
+
+    int copyCritsToCommon(String saveTableName);
+
+    boolean createCurrentTable(String saveTableName);
 }

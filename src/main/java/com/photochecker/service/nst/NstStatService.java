@@ -11,4 +11,6 @@ import java.time.LocalDate;
 public interface NstStatService {
 
     NstStat getStat(User user, int targetFormatId, int targetOblId, LocalDate dateFrom, LocalDate dateTo);
+
+    int cleanCheckedToday();
 }

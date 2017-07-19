@@ -146,13 +146,15 @@ $(function () {
     $('#saveButton').on('click', function () {
         var addrRow = $('#addressTable tr.addressSelected');
         var clientId = addrRow.children().eq(1).text();
+        var nstFormatId = $('#selNstFormat option:selected').data('value');
+        var nstOblId = $('#selNstObl option:selected').data('value');
         visitCount = $('#selVisitCount option:selected').data('value');
         if (visitCount == 0) {
             $('#visitCountField').css('border', '2px solid red');
             return;
         }
         $('#visitCountField').css('border', '');
-        saveCriteriasByClient(clientId);
+        saveCriteriasByClient(clientId, nstFormatId, nstOblId);
         addrRow.addClass('addressChecked');
     });
 
@@ -407,7 +409,7 @@ function fillDatasOnPhotoShow(newPhotoBlockNum) {
     $('#fullPhotoCont img').removeClass('rotateRight');
 }
 
-function saveCriteriasByClient(clientId) {
+function saveCriteriasByClient(clientId, formatId, oblId) {
     $('#loader').css('display', 'block');
 
     var clientCriterias = {
@@ -442,14 +444,23 @@ function saveCriteriasByClient(clientId) {
         {
             crit: JSON.stringify(clientCriterias),
             dateFrom: $('#dateFrom').val(),
-            dateTo: $('#dateTo').val()
+            dateTo: $('#dateTo').val(),
+            formatId: formatId,
+            oblId: oblId
         })
         .done(function (data) {
             checkForRedirect(data);
             showSavedSuccessfullyPane();
-            var nstFormatId = $('#selNstFormat option:selected').data('value');
-            var nstOblId = $('#selNstObl option:selected').data('value');
-            getNstStat(nstFormatId, nstOblId);
+            var answer = data.answer;
+            if (answer == 1) {
+                $('#totalCheckedToday').text($('#totalCheckedToday').text() * 1 + 1);
+                $('#oblCheckedToday').text($('#oblCheckedToday').text() * 1 + 1);
+            } else if (answer == 2) {
+                $('#totalChecked').text($('#totalChecked').text() * 1 + 1);
+                $('#totalCheckedToday').text($('#totalCheckedToday').text() * 1 + 1);
+                $('#oblChecked').text($('#oblChecked').text() * 1 + 1);
+                $('#oblCheckedToday').text($('#oblCheckedToday').text() * 1 + 1);
+            }
         })
         .fail(function (data) {
             showErrorPane();

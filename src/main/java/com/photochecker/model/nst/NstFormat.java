@@ -1,10 +1,15 @@
 package com.photochecker.model.nst;
 
-/**
- * Created by market6 on 05.07.2017.
- */
+import javax.persistence.*;
+
+@Entity
+@Table(name = "nst_format")
 public class NstFormat {
+    @Id
+    @Column
     private int id;
+
+    @Column
     private String name;
 
     public NstFormat() {

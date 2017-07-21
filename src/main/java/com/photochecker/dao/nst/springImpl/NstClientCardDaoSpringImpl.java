@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-@Component
+
 public class NstClientCardDaoSpringImpl implements NstClientCardDao {
 
     private final String SQL_FIND_ALL = "SELECT cc.*, 0 AS checked FROM `nst_client_card` cc";

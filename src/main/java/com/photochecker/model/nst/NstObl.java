@@ -1,10 +1,15 @@
 package com.photochecker.model.nst;
 
-/**
- * Created by market6 on 20.06.2017.
- */
+import javax.persistence.*;
+
+@Entity
+@Table(name = "nst_obl")
 public class NstObl {
+    @Id
+    @Column
     private int id;
+
+    @Column
     private String name;
 
     public NstObl() {

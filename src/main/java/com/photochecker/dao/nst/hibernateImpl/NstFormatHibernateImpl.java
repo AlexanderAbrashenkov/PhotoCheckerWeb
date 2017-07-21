@@ -1,4 +1,4 @@
-package com.photochecker.dao.nst.springImpl;
+package com.photochecker.dao.nst.hibernateImpl;
 
 import com.photochecker.dao.nst.NstFormatDao;
 import com.photochecker.model.nst.NstFormat;
@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,44 +18,48 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
 
-
-public class NstFormatDaoSpringImpl implements NstFormatDao {
+@Repository
+public class NstFormatHibernateImpl implements NstFormatDao {
 
     //language=SQL
-    private final String SQL_FIND_BY_DATES = "SELECT DISTINCT f.`name`, f.`id`\n" +
+    /*private final String SQL_FIND_BY_DATES = "SELECT DISTINCT f.`name`, f.`id`\n" +
             "FROM `nst_format` f\n" +
             "INNER JOIN `nst_client_card` cc ON cc.`format_id` = f.`id`\n" +
             "INNER JOIN `nst_photo` pc ON pc.`client_id` = cc.`id`\n" +
-            "WHERE pc.`date` >= ? AND pc.`date` < ?\n" +
-            "ORDER BY 1;";
+            "WHERE pc.`date` >= :startDate AND pc.`date` < :endDate\n" +
+            "ORDER BY 1;";*/
 
     //language=SQL
-    private final String SQL_FIND_ALL_SIMPLE = "SELECT DISTINCT f.`name`, f.`id`\n" +
+    private final String SQL_FIND_BY_DATES = "SELECT DISTINCT f " +
+            "FROM NstFormat f " +
+            "JOIN NstClientCard cc  " +
+            "JOIN NstPhotoCard pc " +
+            "WHERE pc.date >= :startDate AND pc.date < :endDate " +
+            "ORDER BY f.id";
+
+    //language=SQL
+    /*private final String SQL_FIND_ALL_SIMPLE = "SELECT DISTINCT f.`name`, f.`id`\n" +
             "FROM `nst_format` f\n" +
             "INNER JOIN `nst_client_card` cc ON cc.`format_id` = f.`id`\n" +
             "INNER JOIN %s pc ON pc.`client_id` = cc.`id`\n" +
-            "ORDER BY 1;";
+            "ORDER BY 1;";*/
 
     //language=SQL
-    private final String SQL_FIND_BY_ID = "SELECT * FROM nst_format WHERE id = ?";
-
-    //language=SQL
-    private final String SQL_FIND_ALL = "SELECT * FROM nst_format";
-
-    private JdbcTemplate jdbcTemplate;
+    private final String SQL_FIND_ALL_SIMPLE = "SELECT DISTINCT f " +
+            "FROM NstFormat f " +
+            "JOIN NstClientCard cc " +
+            "JOIN %s pc " +
+            "ORDER BY f.id";
 
     @Autowired
     private Properties properties;
 
-    @Autowired
-    public NstFormatDaoSpringImpl (DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    private RowMapper<NstFormat> nstFormatRowMapper = (rs, rowNum) -> {
-        return new NstFormat(rs.getInt("id"),
-                rs.getString("name"));
-    };
+    @Autowired
+    public NstFormatHibernateImpl(DataSource dataSource) {
+    }
 
     @Override
     public int save(NstFormat nstFormat) {
@@ -59,13 +67,16 @@ public class NstFormatDaoSpringImpl implements NstFormatDao {
     }
 
     @Override
+    @Transactional
     public NstFormat find(int id) {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, nstFormatRowMapper, id);
+        return entityManager.find(NstFormat.class, id);
     }
 
     @Override
+    @Transactional
     public List<NstFormat> findAll() {
-        return jdbcTemplate.query(SQL_FIND_ALL, nstFormatRowMapper);
+        return entityManager.createQuery("select f from NstFormat f", NstFormat.class)
+                .getResultList();
     }
 
     @Override
@@ -79,6 +90,7 @@ public class NstFormatDaoSpringImpl implements NstFormatDao {
     }
 
     @Override
+    @Transactional
     public List<NstFormat> findAllByDates(LocalDate startDate, LocalDate endDate, int repTypeInd) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -87,11 +99,12 @@ public class NstFormatDaoSpringImpl implements NstFormatDao {
         if (photoTableName.equals(properties.getProperty("nst.current.week.photo"))
                 || photoTableName.equals(properties.getProperty("nst.prev.week.photo"))) {
             String sql = String.format(SQL_FIND_ALL_SIMPLE, photoTableName);
-            return jdbcTemplate.query(sql, nstFormatRowMapper);
+            return entityManager.createQuery(sql, NstFormat.class).getResultList();
         } else {
-            return jdbcTemplate.query(SQL_FIND_BY_DATES, nstFormatRowMapper,
-                    Date.valueOf(startDate),
-                    Date.valueOf(endDate.plusDays(1)));
+            return entityManager.createQuery(SQL_FIND_BY_DATES, NstFormat.class)
+                    .setParameter("startDate", Date.valueOf(startDate))
+                    .setParameter("endDate", Date.valueOf(endDate))
+                    .getResultList();
         }
     }
 }

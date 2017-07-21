@@ -1,13 +1,25 @@
 package com.photochecker.model.nst;
 
-/**
- * Created by market6 on 20.06.2017.
- */
+import javax.persistence.*;
+
+@Entity
+@Table(name = "nst_client_card")
 public class NstClientCard {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "obl_id")
     private NstObl nstObl;
+
+    @ManyToOne
+    @JoinColumn(name = "format_id")
     private NstFormat nstFormat;
+
     private int checked;
 
     public NstClientCard() {

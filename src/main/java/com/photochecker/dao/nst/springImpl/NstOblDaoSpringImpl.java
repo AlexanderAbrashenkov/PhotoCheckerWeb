@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-@Component
+
 public class NstOblDaoSpringImpl implements NstOblDao {
 
     private final String SQL_FIND_ALL = "SELECT * FROM `nst_obl`";

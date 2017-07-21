@@ -23,7 +23,6 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
 
     private final String SQL_FIND_BY_PARAMS = "SELECT obl.id as oblId, obl.name as nstObl, c.id as nstClientId, c.name as nstClient, f.id as nstFormatId, f.name as nstFormat, s.*\n" +
             "FROM nst_client_card c\n" +
-            "  LEFT JOIN photo_card p ON p.client_id = c.id\n" +
             "  LEFT JOIN\n" +
             "  (SELECT * FROM nst_save_db WHERE\n" +
             "     date_from = ? AND date_to = ?\n" +
@@ -37,7 +36,6 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
     //language=SQL
     private final String SQL_FIND_BY_PARAMS_SIMPLE = "SELECT obl.id as oblId, obl.name as nstObl, c.id as nstClientId, c.name as nstClient, f.id as nstFormatId, f.name as nstFormat, s.*\n" +
             "FROM nst_client_card c\n" +
-            "LEFT JOIN %s p ON p.client_id = c.id\n" +
             "LEFT JOIN\n" +
             "(SELECT * FROM %s) s ON s.client_id = c.id\n" +
             "LEFT JOIN nst_obl obl ON obl.id = c.obl_id\n" +
@@ -46,7 +44,6 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
     //language=SQL
     private final String SQL_FIND_BY_USER = "SELECT obl.id as oblId, obl.name as nstObl, c.id as nstClientId, c.name as nstClient, f.id as nstFormatId, f.name as nstFormat, s.*\n" +
             "FROM nst_client_card c\n" +
-            "  LEFT JOIN photo_card p ON p.client_id = c.id\n" +
             "  LEFT JOIN\n" +
             "  (SELECT * FROM nst_save_db WHERE\n" +
             "     date_from = ? AND date_to = ?\n" +
@@ -60,7 +57,6 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
     //language=SQL
     private final String SQL_FIND_BY_USER_SIMPLE = "SELECT obl.id as oblId, obl.name as nstObl, c.id as nstClientId, c.name as nstClient, f.id as nstFormatId, f.name as nstFormat, s.*\n" +
             "FROM nst_client_card c\n" +
-            "LEFT JOIN %s p ON p.client_id = c.id\n" +
             "LEFT JOIN\n" +
             "(SELECT * FROM %s) s ON s.client_id = c.id\n" +
             "INNER JOIN nst_obl obl ON obl.id = c.obl_id AND obl.id = ?\n" +
@@ -158,7 +154,7 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
                 || photoTableName.equals(properties.getProperty("nst.prev.week.photo"))) {
 
             String saveTableName = startDate.format(formatter) + "_" + endDate.format(formatter) + "_nst_save";
-            String sql = String.format(SQL_FIND_BY_PARAMS_SIMPLE, photoTableName, saveTableName);
+            String sql = String.format(SQL_FIND_BY_PARAMS_SIMPLE, saveTableName);
             fullList = jdbcTemplate.query(sql, nstReportItemRowMapper);
 
         } else {
@@ -189,7 +185,7 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
                 || photoTableName.equals(properties.getProperty("nst.prev.week.photo"))) {
 
             String saveTableName = startDate.format(formatter) + "_" + endDate.format(formatter) + "_nst_save";
-            String sql = String.format(SQL_FIND_BY_USER_SIMPLE, photoTableName, saveTableName);
+            String sql = String.format(SQL_FIND_BY_USER_SIMPLE, saveTableName);
             fullList = jdbcTemplate.query(sql, nstReportItemRowMapper,
                     nstOblId,
                     formatId);

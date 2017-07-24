@@ -46,7 +46,7 @@ public class NstPhotoCardDaoSpringImpl implements NstPhotoCardDao {
 
     //language=SQL
     private final String SQL_COPY_DATA_FROM_TABLE = "INSERT INTO nst_photo (client_id, url, date) " +
-            "SELECT * FROM %s";
+            "SELECT client_id, url, date FROM %s";
 
     //language=SQL
     private final String SQL_DROP_TABLE = "DROP TABLE %s";

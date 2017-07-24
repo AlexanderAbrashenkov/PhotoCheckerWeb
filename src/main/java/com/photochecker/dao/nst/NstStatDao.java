@@ -1,6 +1,7 @@
 package com.photochecker.dao.nst;
 
 import com.photochecker.model.nst.NstStat;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface NstStatDao {
 
     NstStat getTotalStat(LocalDate startDate, LocalDate endDate);
+
+    List<NstStat> getOblListStat(LocalDate startDate, LocalDate endDate);
 
     NstStat getOblStat(int formatId, int oblId, LocalDate startDate, LocalDate endDate);
 

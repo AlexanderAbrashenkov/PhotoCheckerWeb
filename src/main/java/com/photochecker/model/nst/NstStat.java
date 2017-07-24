@@ -5,6 +5,9 @@ package com.photochecker.model.nst;
  */
 public class NstStat {
 
+    private int formatId;
+    private int oblId;
+
     private int totalCount;
     private int totalChecked;
     private int totalCheckedToday;
@@ -13,7 +16,9 @@ public class NstStat {
     private int oblChecked;
     private int oblCheckedToday;
 
-    public NstStat(int totalCount, int totalChecked, int totalCheckedToday, int oblCount, int oblChecked, int oblCheckedToday) {
+    public NstStat(int formatId, int oblId, int totalCount, int totalChecked, int totalCheckedToday, int oblCount, int oblChecked, int oblCheckedToday) {
+        this.formatId = formatId;
+        this.oblId = oblId;
         this.totalCount = totalCount;
         this.totalChecked = totalChecked;
         this.totalCheckedToday = totalCheckedToday;
@@ -23,6 +28,22 @@ public class NstStat {
     }
 
     public NstStat() {
+    }
+
+    public int getFormatId() {
+        return formatId;
+    }
+
+    public void setFormatId(int formatId) {
+        this.formatId = formatId;
+    }
+
+    public int getOblId() {
+        return oblId;
+    }
+
+    public void setOblId(int oblId) {
+        this.oblId = oblId;
     }
 
     public int getTotalCount() {

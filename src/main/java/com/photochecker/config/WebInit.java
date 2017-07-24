@@ -11,6 +11,6 @@ import javax.servlet.ServletException;
 public class WebInit implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("resVer", "1.3");
+        servletContext.setInitParameter("resVer", "1.3.3");
     }
 }

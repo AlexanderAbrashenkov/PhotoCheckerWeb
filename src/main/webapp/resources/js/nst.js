@@ -143,6 +143,34 @@ $(function () {
         $('#visitCountField').css('border', '');
     });
 
+    $('#mzBorders').on('change', function () {
+        var isDisabled = !$('#mzBorders').is(':checked');
+        $('#mz30').prop('disabled', isDisabled);
+        $('#mzCenter').prop('disabled', isDisabled);
+        if (isDisabled) {
+            $('#mz30').prop('checked', false);
+            $('#mzCenter').prop('checked', false);
+        }
+    });
+
+    $('#ksBorders').on('change', function () {
+        var isDisabled = !$('#ksBorders').is(':checked');
+        $('#ks30').prop('disabled', isDisabled);
+        $('#ksCenter').prop('disabled', isDisabled);
+        if (isDisabled) {
+            $('#ks30').prop('checked', false);
+            $('#ksCenter').prop('checked', false);
+        }
+    });
+
+    $('#mBorders').on('change', function () {
+        var isDisabled = !$('#mBorders').is(':checked');
+        $('#mCenter').prop('disabled', isDisabled);
+        if (isDisabled) {
+            $('#mCenter').prop('checked', false);
+        }
+    });
+
     $('#saveButton').on('click', function () {
         var addrRow = $('#addressTable tr.addressSelected');
         var clientId = addrRow.children().eq(1).text();
@@ -272,6 +300,12 @@ function clearCriteriasPane() {
     $('#mVert').prop('checked', false);
     $('#mCenter').prop('checked', false);
     $('#mCommInput').val('');
+
+    $('#mz30').prop('disabled', true);
+    $('#mzCenter').prop('disabled', true);
+    $('#ks30').prop('disabled', true);
+    $('#ksCenter').prop('disabled', true);
+    $('#mCenter').prop('disabled', true);
 }
 
 function loadNstFormat(dateFrom, dateTo) {
@@ -460,6 +494,9 @@ function saveCriteriasByClient(clientId, formatId, oblId) {
                 $('#totalCheckedToday').text($('#totalCheckedToday').text() * 1 + 1);
                 $('#oblChecked').text($('#oblChecked').text() * 1 + 1);
                 $('#oblCheckedToday').text($('#oblCheckedToday').text() * 1 + 1);
+            }
+            if ($('#oblCount').text() == $('#oblChecked').text()) {
+                $('#selNstObl option:selected').addClass('addressChecked');
             }
         })
         .fail(function (data) {

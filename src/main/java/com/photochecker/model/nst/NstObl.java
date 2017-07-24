@@ -6,6 +6,7 @@ package com.photochecker.model.nst;
 public class NstObl {
     private int id;
     private String name;
+    private boolean checked;
 
     public NstObl() {
     }
@@ -29,6 +30,14 @@ public class NstObl {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     @Override

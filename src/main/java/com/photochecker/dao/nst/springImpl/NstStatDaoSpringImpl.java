@@ -19,12 +19,18 @@ import java.util.Properties;
 public class NstStatDaoSpringImpl implements NstStatDao {
 
     //language=SQL
-    private final String SQL_SELECT_TOTAL_STAT = "SELECT sum(s.tt_count) as tt, sum(s.tt_checked) as checked, sum(s.tt_checked_today) as today\n" +
+    private final String SQL_SELECT_TOTAL_STAT = "SELECT s.format_id, s.obl_id, sum(s.tt_count) as tt, sum(s.tt_checked) as checked, sum(s.tt_checked_today) as today\n" +
             "from nst_stat s\n" +
             "WHERE s.date_from = ?";
 
     //language=SQL
-    private final String SQL_SELECT_OBL_STAT = "SELECT sum(s.tt_count) as tt, sum(s.tt_checked) as checked, sum(s.tt_checked_today) as today\n" +
+    private final String SQL_SELECT_OBL_LIST_STAT = "SELECT s.format_id, s.obl_id, sum(s.tt_count) as tt, sum(s.tt_checked) as checked, sum(s.tt_checked_today) as today\n" +
+            "from nst_stat s\n" +
+            "WHERE s.date_from = ? " +
+            "GROUP BY s.format_id, s.obl_id";
+
+    //language=SQL
+    private final String SQL_SELECT_OBL_STAT = "SELECT s.format_id, s.obl_id, sum(s.tt_count) as tt, sum(s.tt_checked) as checked, sum(s.tt_checked_today) as today\n" +
             "from nst_stat s\n" +
             "WHERE s.date_from = ?\n" +
             "AND s.format_id = ?\n" +
@@ -70,6 +76,8 @@ public class NstStatDaoSpringImpl implements NstStatDao {
     }
 
     private RowMapper<NstStat> totalStatRowMapper = (rs, rowNum) -> new NstStat(
+            rs.getInt("format_id"),
+            rs.getInt("obl_id"),
             rs.getInt("tt"),
             rs.getInt("checked"),
             rs.getInt("today"),
@@ -79,6 +87,8 @@ public class NstStatDaoSpringImpl implements NstStatDao {
     );
 
     private RowMapper<NstStat> oblStatRowMapper = (rs, rowNum) -> new NstStat(
+            rs.getInt("format_id"),
+            rs.getInt("obl_id"),
             0,
             0,
             0,
@@ -92,6 +102,12 @@ public class NstStatDaoSpringImpl implements NstStatDao {
         List<NstStat> totalStatList = jdbcTemplate.query(SQL_SELECT_TOTAL_STAT, totalStatRowMapper,
                 Date.valueOf(startDate));
         return totalStatList.size() > 0 ? totalStatList.get(0) : new NstStat();
+    }
+
+    @Override
+    public List<NstStat> getOblListStat(LocalDate startDate, LocalDate endDate) {
+        return jdbcTemplate.query(SQL_SELECT_OBL_LIST_STAT, oblStatRowMapper,
+                startDate);
     }
 
     @Override

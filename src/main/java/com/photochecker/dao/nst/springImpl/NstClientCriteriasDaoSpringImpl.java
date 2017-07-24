@@ -59,8 +59,16 @@ public class NstClientCriteriasDaoSpringImpl implements NstClientCriteriasDao {
             "?, ?, ?, ?, ?, ?)";
 
     //language=SQL
-    private final String SQL_COPY_DATA_FROM_TABLE = "INSERT INTO nst_save_db " +
-            "SELECT * FROM %s";
+    private final String SQL_COPY_DATA_FROM_TABLE = "INSERT INTO nst_save_db (client_id, date_from, date_to, save_date, visit_count, " +
+            "mz_matrix, mz_photo, mz_borders, mz_vert, mz_30, mz_center, mz_comment, " +
+            "ks_matrix, ks_photo, ks_borders, ks_vert, ks_30, ks_center, ks_comment, " +
+            "m_matrix, m_photo, m_borders, m_vert, m_center, m_comment)  " +
+            "SELECT " +
+            "client_id, date_from, date_to, save_date, visit_count, " +
+            "mz_matrix, mz_photo, mz_borders, mz_vert, mz_30, mz_center, mz_comment, " +
+            "ks_matrix, ks_photo, ks_borders, ks_vert, ks_30, ks_center, ks_comment, " +
+            "m_matrix, m_photo, m_borders, m_vert, m_center, m_comment " +
+            "FROM %s";
 
     //language=SQL
     private final String SQL_DROP_TABLE = "DROP TABLE %s";

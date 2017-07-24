@@ -42,6 +42,7 @@ public class NstStatServiceDaoImpl implements NstStatService {
                 .collect(Collectors.toList());
 
         setOblStat(targetFormatId, targetOblId, dateFrom, dateTo, nstStat);
+        List<NstStat> nstStatList = nstStatDao.getOblListStat(dateFrom, dateTo);
 
         if (allowedFormats.size() > 0) {
             for (int formatId : allowedFormats) {
@@ -54,7 +55,11 @@ public class NstStatServiceDaoImpl implements NstStatService {
                 if (allowedNstObl.size() == 0) continue;
 
                 for (int nstOblId : allowedNstObl) {
-                    NstStat oblStat = nstStatDao.getOblStat(formatId, nstOblId, dateFrom, dateTo);
+                    NstStat oblStat = nstStatList.stream()
+                            .filter(nstStat1 -> nstStat1.getFormatId() == formatId)
+                            .filter(nstStat1 -> nstStat1.getOblId() == nstOblId)
+                            .findFirst()
+                            .get();
 
                     nstStat.setTotalCount(nstStat.getTotalCount() + oblStat.getOblCount());
                     nstStat.setTotalChecked(nstStat.getTotalChecked() + oblStat.getOblChecked());

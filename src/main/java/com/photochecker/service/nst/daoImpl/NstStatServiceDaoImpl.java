@@ -55,15 +55,18 @@ public class NstStatServiceDaoImpl implements NstStatService {
                 if (allowedNstObl.size() == 0) continue;
 
                 for (int nstOblId : allowedNstObl) {
-                    NstStat oblStat = nstStatList.stream()
+                    NstStat oblStat = null;
+                    List<NstStat> nstStats = nstStatList.stream()
                             .filter(nstStat1 -> nstStat1.getFormatId() == formatId)
                             .filter(nstStat1 -> nstStat1.getOblId() == nstOblId)
-                            .findFirst()
-                            .get();
+                            .collect(Collectors.toList());
 
-                    nstStat.setTotalCount(nstStat.getTotalCount() + oblStat.getOblCount());
-                    nstStat.setTotalChecked(nstStat.getTotalChecked() + oblStat.getOblChecked());
-                    nstStat.setTotalCheckedToday(nstStat.getTotalCheckedToday() + oblStat.getOblCheckedToday());
+                    if (nstStats.size() > 0) {
+                        oblStat = nstStats.get(0);
+                        nstStat.setTotalCount(nstStat.getTotalCount() + oblStat.getOblCount());
+                        nstStat.setTotalChecked(nstStat.getTotalChecked() + oblStat.getOblChecked());
+                        nstStat.setTotalCheckedToday(nstStat.getTotalCheckedToday() + oblStat.getOblCheckedToday());
+                    }
                 }
             }
         }

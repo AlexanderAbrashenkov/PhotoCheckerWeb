@@ -16,7 +16,7 @@ import java.util.List;
 public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_FIND_BY_PARAMS = "select distinct c.lka_id, l.lka_name, c.type_name, c.client_id as cl_id, c.client_name, c.client_address,\n" +
+    private final String SQL_FIND_BY_PARAMS = "select distinct c.lka_id, l.lka_name, f. name as type_name, c.client_id as cl_id, c.client_name, c.client_address,\n" +
             "s.*, par.*\n" +
             "from client_card c\n" +
             "LEFT JOIN nka_param par on par.nka_id = c.lka_id\n" +
@@ -26,6 +26,7 @@ public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
             "date_from = ? and date_to = ?\n" +
             ") s on s.client_id = c.client_id\n" +
             "left join lka_db l on l.lka_id = c.lka_id\n" +
+            "left join format_type f on f.id = c.format_id\n" +
             "where\n" +
             "p.`date` >= ? and p.`date` < ?\n" +
             "and p.report_type = ?\n" +

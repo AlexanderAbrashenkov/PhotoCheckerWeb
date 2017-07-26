@@ -12,6 +12,6 @@
         <td>${client.clientName}</td>
         <td>${client.clientAddress}</td>
         <td class="hidden">${client.clientId?string["0"]}</td>
-        <td class="hidden">${client.clientType}</td>
+        <td class="hidden">${client.formatType.name}</td>
     </tr>
 </#list>

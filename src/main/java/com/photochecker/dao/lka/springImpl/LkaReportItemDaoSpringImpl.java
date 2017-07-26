@@ -18,7 +18,7 @@ public class LkaReportItemDaoSpringImpl implements LkaReportItemDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_FIND_BY_PARAMS = "select distinct r.region_name, d.distr_name, c.lka_id, l.lka_name, c.type_name, c.client_id, c.client_name, c.client_address,\n" +
+    private final String SQL_FIND_BY_PARAMS = "select distinct r.region_name, d.distr_name, c.lka_id, l.lka_name, f.name as type_name, c.client_id, c.client_name, c.client_address,\n" +
             "s.*, date_format(p.date, '%Y-%m-%d') as 'photo_date'\n" +
             "from client_card c\n" +
             "left join photo_card p on p.client_id = c.client_id\n" +
@@ -29,6 +29,7 @@ public class LkaReportItemDaoSpringImpl implements LkaReportItemDao {
             "left join region_db r on c.region_id = r.region_id\n" +
             "left join distr_db d on d.distr_id = c.distributor_id\n" +
             "left join lka_db l on l.lka_id = c.lka_id\n" +
+            "left join format_type f on f.id = c.format_id\n" +
             "where \n" +
             "p.`date` >= ? and p.`date` < ?\n" +
             "and p.report_type = ?\n" +

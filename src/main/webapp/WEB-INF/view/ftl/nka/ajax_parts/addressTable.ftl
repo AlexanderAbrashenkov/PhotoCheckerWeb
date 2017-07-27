@@ -13,5 +13,6 @@
         <td>${client.clientAddress}</td>
         <td class="hidden">${client.clientId?string["0"]}</td>
         <td class="hidden">${client.formatType.name}</td>
+        <td class="hidden">${client.formatType.id?string["0"]}</td>
     </tr>
 </#list>

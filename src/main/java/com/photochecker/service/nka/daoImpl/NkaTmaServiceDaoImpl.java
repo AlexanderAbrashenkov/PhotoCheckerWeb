@@ -1,14 +1,13 @@
 package com.photochecker.service.nka.daoImpl;
 
-import com.photochecker.dao.common.FormatTypeDao;
 import com.photochecker.dao.common.LkaDao;
-import com.photochecker.dao.nka.NkaParamDao;
+import com.photochecker.dao.common.PhotoCardDao;
+import com.photochecker.dao.common.ReportTypeDao;
 import com.photochecker.dao.nka.NkaTmaDao;
-import com.photochecker.model.common.FormatType;
 import com.photochecker.model.common.Lka;
-import com.photochecker.model.nka.NkaParam;
+import com.photochecker.model.common.PhotoCard;
+import com.photochecker.model.common.ReportType;
 import com.photochecker.model.nka.NkaTma;
-import com.photochecker.service.nka.NkaParamService;
 import com.photochecker.service.nka.NkaTmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,30 +23,29 @@ public class NkaTmaServiceDaoImpl implements NkaTmaService {
     private LkaDao lkaDao;
     @Autowired
     private NkaTmaDao nkaTmaDao;
+    @Autowired
+    private PhotoCardDao photoCardDao;
+    @Autowired
+    private ReportTypeDao reportTypeDao;
 
     @Override
-    public List<NkaTma> getNkaTmaByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId) {
-        return nkaTmaDao.findAllByDates(nkaId, startDate, endDate, formatId);
-    }
-
-    @Override
-    public Map<Integer, List<NkaTma>> getAllNkaTmaMap() {
+    public Map<String, List<NkaTma>> getAllNkaTmaMap() {
         List<Lka> nkaList = lkaDao.findAllNka();
         List<NkaTma> nkaTmaList = nkaTmaDao.findAll();
 
-        List<Integer> nkaIdWithTma = nkaTmaList.stream()
-                .map(nkaTma -> nkaTma.getLka().getId())
+        List<String> nkaNameWithTma = nkaTmaList.stream()
+                .map(nkaTma -> nkaTma.getLka().getName())
                 .collect(Collectors.toList());
 
-        Map<Integer, List<NkaTma>> result = new HashMap<>();
+        Map<String, List<NkaTma>> result = new HashMap<>();
         for (Lka nka : nkaList) {
-            if (nkaIdWithTma.contains(nka.getId())) {
+            if (nkaNameWithTma.contains(nka.getName())) {
                 List<NkaTma> nkaTmas = nkaTmaList.stream()
                         .filter(nkaTma -> nkaTma.getLka().getId() == nka.getId())
                         .collect(Collectors.toList());
-                result.put(nka.getId(), nkaTmas);
+                result.put(nka.getName(), nkaTmas);
             } else {
-                result.put(nka.getId(), new ArrayList<>());
+                result.put(nka.getName(), new ArrayList<>());
             }
         }
 
@@ -69,5 +67,63 @@ public class NkaTmaServiceDaoImpl implements NkaTmaService {
         }
 
         return 1;
+    }
+
+    @Override
+    public Map<String, Map<String, String>> getNkaTmaByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId, int clientId) {
+        ReportType reportType = reportTypeDao.find(3);
+        List<PhotoCard> photoCardList = photoCardDao.findAllByRepClientDates(reportType, clientId, startDate, endDate);
+
+        LocalDate firstPhotoDate = photoCardList.stream()
+                .map(photoCard -> photoCard.getDate())
+                .min(Comparator.naturalOrder())
+                .get().toLocalDate();
+
+        LocalDate lastPhotoDate = photoCardList.stream()
+                .map(photoCard -> photoCard.getDate())
+                .max(Comparator.naturalOrder())
+                .get().toLocalDate();
+
+        List<NkaTma> nkaTmaList = nkaTmaDao.findAllByNkaAndFormat(nkaId, formatId);
+        nkaTmaList.removeIf(nkaTma ->
+                !((
+                        (nkaTma.getStartDate().isBefore(firstPhotoDate) || nkaTma.getStartDate().isEqual(firstPhotoDate))
+                                &&
+                                (nkaTma.getEndDate().isAfter(firstPhotoDate) || nkaTma.getEndDate().isEqual(firstPhotoDate))
+                )
+                        ||
+                        (
+                                (nkaTma.getStartDate().isBefore(lastPhotoDate) || nkaTma.getStartDate().isEqual(lastPhotoDate))
+                                        &&
+                                        (nkaTma.getEndDate().isAfter(lastPhotoDate) || nkaTma.getEndDate().isEqual(lastPhotoDate))
+                        )
+                ));
+
+        List<String> tgNames = Arrays.asList("Майонез", "Кетчуп", "Соус");
+        Map<String, Map<String, String>> result = new HashMap<>();
+
+        for (String tg : tgNames) {
+            List<NkaTma> nkaTmas = nkaTmaList.stream()
+                    .filter(nkaTma -> nkaTma.getTgName().equals(tg))
+                    .collect(Collectors.toList());
+            Map<String, String> tgMap = new HashMap<>();
+            int count = 0;
+            String comment = "";
+
+            if (nkaTmas.size() > 0) {
+                for (NkaTma nkaTma : nkaTmas) {
+                    count += nkaTma.getSkuCount();
+                    comment += ("; " + nkaTma.getComment());
+                }
+                comment = comment.substring(2);
+            }
+
+            tgMap.put("count", Integer.toString(count));
+            tgMap.put("comment", comment);
+
+            result.put(tg, tgMap);
+        }
+
+        return result;
     }
 }

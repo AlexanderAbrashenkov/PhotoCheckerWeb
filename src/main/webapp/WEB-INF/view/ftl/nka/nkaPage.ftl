@@ -122,9 +122,9 @@
         </div>
         <div class="clientInfoBlock" id="dmAInfoBlock">
             <div class="tgName">Доп. места акционные</div>
-            <input type="checkbox" id="mzDmA"><label for="mzDmA" id="mzDmALabel">Майонез</label><br>
-            <input type="checkbox" id="kDmA"><label for="kDmA" id="kDmALable">Кетчуп</label><br>
-            <input type="checkbox" id="sDmA"><label for="sDmA" id="sDmALable">Соус</label>
+            <input type="text" class="tgNum" id="mzDmA"> / <label id="mzTmaPlan" class="tmaPlan"></label>   <label for="mzDmA" id="mzDmALabel">Майонез</label><br>
+            <input type="text" class="tgNum" id="kDmA"> / <label id="kTmaPlan" class="tmaPlan"></label>   <label for="kDmA" id="kDmALable">Кетчуп</label><br>
+            <input type="text" class="tgNum" id="sDmA"> / <label id="sTmaPlan" class="tmaPlan"></label>   <label for="sDmA" id="sDmALable">Соус</label>
         </div>
         <div class="clientInfoBlock" id="dmNaInfoBlock">
             <div class="tgName">Доп. места неакционные</div>

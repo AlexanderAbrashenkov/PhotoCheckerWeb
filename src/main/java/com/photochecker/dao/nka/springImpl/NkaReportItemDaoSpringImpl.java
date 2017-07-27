@@ -94,6 +94,9 @@ public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
                 rs.getInt("mz_double"),
                 rs.getInt("k_double"),
                 rs.getInt("s_double"),
+                rs.getInt("mz_dm_a_plan") +
+                        rs.getInt("k_dm_a_plan") +
+                        rs.getInt("s_dm_a_plan"),
                 rs.getInt("mz_dm_a") +
                         rs.getInt("k_dm_a") +
                         rs.getInt("s_dm_a"),

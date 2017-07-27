@@ -34,6 +34,11 @@ public class NkaTmaDaoSpringImpl implements NkaTmaDao {
     //language=SQL
     private final String SQL_DELETE_ALL = "TRUNCATE nka_tma";
 
+    //language=SQL
+    private final String SQL_FIND_BY_NKA_AND_FORMAT = "SELECT * FROM nka_tma t " +
+            "WHERE t.format_id = ? " +
+            "AND t.lka_id = ?";
+
     @Autowired
     private LkaDao lkaDao;
     @Autowired
@@ -123,7 +128,10 @@ public class NkaTmaDaoSpringImpl implements NkaTmaDao {
     }
 
     @Override
-    public List<NkaTma> findAllByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId) {
-        return null;
+    public List<NkaTma> findAllByNkaAndFormat(int nkaId, int formatId) {
+        setEntityFields();
+        return jdbcTemplate.query(SQL_FIND_BY_NKA_AND_FORMAT, nkaTmaRowMapper,
+                formatId,
+                nkaId);
     }
 }

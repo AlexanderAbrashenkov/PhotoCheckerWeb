@@ -33,6 +33,7 @@ public class NkaReportItem {
     private int kDouble;
     private int sDouble;
 
+    private int dmAPlan;
     private int dmA;
     private int dmNa;
 
@@ -45,7 +46,7 @@ public class NkaReportItem {
                          int kDp, int kBb, int kMr, String kComment,
                          int sDp, int sBb, int sMr, String sComment,
                          int mzDouble, int kDouble, int sDouble,
-                         int dmA, int dmNa) {
+                         int dmAPlan, int dmA, int dmNa) {
         this.nkaId = nkaId;
         this.nkaName = nkaName;
         this.type = type;
@@ -69,6 +70,7 @@ public class NkaReportItem {
         this.mzDouble = mzDouble;
         this.kDouble = kDouble;
         this.sDouble = sDouble;
+        this.dmAPlan = dmAPlan;
         this.dmA = dmA;
         this.dmNa = dmNa;
     }
@@ -255,6 +257,14 @@ public class NkaReportItem {
 
     public void setsDouble(int sDouble) {
         this.sDouble = sDouble;
+    }
+
+    public int getDmAPlan() {
+        return dmAPlan;
+    }
+
+    public void setDmAPlan(int dmAPlan) {
+        this.dmAPlan = dmAPlan;
     }
 
     public int getDmA() {

@@ -324,3 +324,9 @@ tr.addr:hover{
     width: calc(100% - 10px);
     resize: none;
 }
+
+input.tgnum {
+    width: 20px;
+    margin-left: 5px;
+    margin-bottom: 3px;
+}

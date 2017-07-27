@@ -26,15 +26,17 @@ public class NkaClientCriteriasDaoSpringImpl implements NkaClientCriteriasDao {
             "`s_dp`, `s_bb`, `s_mr`, `s_comment`, " +
             "`mz_double`, `k_double`, `s_double`, " +
             "`mz_dm_a`, `k_dm_a`, `s_dm_a`, " +
+            "mz_dm_a_plan, k_dm_a_plan, s_dm_a_plan, " +
             "`mz_dm_na`, `k_dm_na`, `s_dm_na`, " +
             "`client_id`, `date_from`, `date_to`)\n" +
             "VALUES (?, " +
             "?, ?, ?, ?, " +
             "?, ?, ?, ?, " +
             "?, ?, ?, ?, " +
-            "?, ?, ?," +
-            "?, ?, ?," +
-            "?, ?, ?," +
+            "?, ?, ?, " +
+            "?, ?, ?, " +
+            "?, ?, ?, " +
+            "?, ?, ?, " +
             "?, ?, ?);";
 
     //language=SQL
@@ -45,6 +47,7 @@ public class NkaClientCriteriasDaoSpringImpl implements NkaClientCriteriasDao {
             "`s_dp` = ?, `s_bb` = ?, `s_mr` = ?, `s_comment` = ?, " +
             "`mz_double` = ?, `k_double` = ?, `s_double` = ?, " +
             "`mz_dm_a` = ?, `k_dm_a` = ?, `s_dm_a` = ?, " +
+            "mz_dm_a_plan = ?, k_dm_a_plan = ?, s_dm_a_plan = ?, " +
             "`mz_dm_na` = ?, `k_dm_na` = ?, `s_dm_na` = ? " +
             "WHERE `client_id` = ? " +
             "AND `date_from` = ? " +
@@ -86,9 +89,13 @@ public class NkaClientCriteriasDaoSpringImpl implements NkaClientCriteriasDao {
                 rs.getBoolean("k_double"),
                 rs.getBoolean("s_double"),
 
-                rs.getBoolean("mz_dm_a"),
-                rs.getBoolean("k_dm_a"),
-                rs.getBoolean("s_dm_a"),
+                rs.getInt("mz_dm_a"),
+                rs.getInt("k_dm_a"),
+                rs.getInt("s_dm_a"),
+
+                rs.getInt("mz_dm_a_plan"),
+                rs.getInt("k_dm_a_plan"),
+                rs.getInt("s_dm_a_plan"),
 
                 rs.getBoolean("mz_dm_na"),
                 rs.getBoolean("k_dm_na"),
@@ -118,9 +125,13 @@ public class NkaClientCriteriasDaoSpringImpl implements NkaClientCriteriasDao {
                 nkaClientCriterias.iskDouble(),
                 nkaClientCriterias.issDouble(),
 
-                nkaClientCriterias.isMzDmA(),
-                nkaClientCriterias.iskDmA(),
-                nkaClientCriterias.issDmA(),
+                nkaClientCriterias.getMzDmA(),
+                nkaClientCriterias.getkDmA(),
+                nkaClientCriterias.getsDmA(),
+
+                nkaClientCriterias.getMzDmAPlan(),
+                nkaClientCriterias.getkDmAPlan(),
+                nkaClientCriterias.getsDmAPlan(),
 
                 nkaClientCriterias.isMzDmNa(),
                 nkaClientCriterias.iskDmNa(),
@@ -165,9 +176,13 @@ public class NkaClientCriteriasDaoSpringImpl implements NkaClientCriteriasDao {
                 nkaClientCriterias.iskDouble(),
                 nkaClientCriterias.issDouble(),
 
-                nkaClientCriterias.isMzDmA(),
-                nkaClientCriterias.iskDmA(),
-                nkaClientCriterias.issDmA(),
+                nkaClientCriterias.getMzDmA(),
+                nkaClientCriterias.getkDmA(),
+                nkaClientCriterias.getsDmA(),
+
+                nkaClientCriterias.getMzDmAPlan(),
+                nkaClientCriterias.getkDmAPlan(),
+                nkaClientCriterias.getsDmAPlan(),
 
                 nkaClientCriterias.isMzDmNa(),
                 nkaClientCriterias.iskDmNa(),

@@ -1,8 +1,11 @@
 package com.photochecker.model.nka;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.Objects;
 import com.photochecker.model.common.FormatType;
 import com.photochecker.model.common.Lka;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ext.JodaSerializers;
 
 import java.time.LocalDate;
 

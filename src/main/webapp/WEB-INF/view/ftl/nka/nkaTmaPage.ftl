@@ -22,15 +22,15 @@
         </tr>
         </thead>
         <#list nkaTmaMap?keys as key>
-        <tbody data-value="${key}">
+        <tbody data-value="${nkaMap[key]?string["0"]}">
             <tr>
-                <td rowspan="${nkaTmaMap[key]?size + 2}"><span class="nkaName">${nkaTmaMap[key]}</span></td>
-                <td rowspan="${nkaTmaMap[key]?size + 2}"><span class="nkaId">${key}</span></td>
+                <td rowspan="${nkaTmaMap[key]?size + 2}"><span class="nkaName">${key}</span></td>
+                <td rowspan="${nkaTmaMap[key]?size + 2}"><span class="nkaId">${nkaMap[key]?string["0"]}</span></td>
             </tr>
             <#list nkaTmaMap[key] as nkaTma>
                 <tr>
-                    <td><input class="startDate" type="date"></td>
-                    <td><input class="endDate" type="date"></td>
+                    <td><input class="startDate" type="date" value="${nkaTma.startDate}"></td>
+                    <td><input class="endDate" type="date" value="${nkaTma.endDate}"></td>
                     <td>
                         <select class="selFormat">
                             <#list formatTypeList as formatType>
@@ -40,111 +40,25 @@
                     </td>
                     <td>
                         <select class="selTg">
-                            <option>Майонез</option>
-                            <option>Кетчуп</option>
-                            <option>Соус</option>
+                            <#list tgList as tg>
+                                <option <#if tg == nkaTma.tgName>selected="selected"</#if> >${tg}</option>
+                            </#list>
                         </select>
                     </td>
-                    <td><input type="text" class="skuComment" value="${nkaTma.skuCount}"></td>
+                    <td><input type="text" class="skuCount" value="${nkaTma.skuCount}"></td>
                     <td><input type="text" class="comment" value="${nkaTma.comment}"></td>
-                    <td style="background-color: orange;">Удалить</td>
+                    <td class="removeSection">Удалить</td>
                 </tr>
             </#list>
-        </#if>
-        <tr>
-            <td rowspan="${nkaTmaMap[key]?size + 1}"><span class="nkaName">${nkaTmaMap[key]}</span></td>
-            <td rowspan="5"><span class="nkaId">2669</span></td>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-            <td>
-                <select>
-                    <option>ГМ</option>
-                    <option>СМ</option>
-                    <option>ММ</option>
-                </select>
-            </td>
-            <td>
-                <select>
-                    <option>Майонез</option>
-                    <option>Кетчуп</option>
-                    <option>Соус</option>
-                </select>
-            </td>
-            <td><input type="text" value="1"></td>
-            <td><input type="text" class="mzDpFullInput" value="фыа ыв пывпыв пы"></td>
-            <td style="background-color: orange;">Удалить</td>
-        </tr>
-        <tr>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-            <td>
-                <select>
-                    <option>ГМ</option>
-                    <option>СМ</option>
-                    <option>ММ</option>
-                </select>
-            </td>
-            <td>
-                <select>
-                    <option>Майонез</option>
-                    <option>Кетчуп</option>
-                    <option>Соус</option>
-                </select>
-            </td>
-            <td><input type="text" value="1"></td>
-            <td><input type="text" class="mzDpFullInput" value="ывпы ичси чси чси"></td>
-            <td style="background-color: orange;">Удалить</td>
-        </tr>
-        <tr>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-            <td>
-                <select>
-                    <option>ГМ</option>
-                    <option>СМ</option>
-                    <option>ММ</option>
-                </select>
-            </td>
-            <td>
-                <select>
-                    <option>Майонез</option>
-                    <option>Кетчуп</option>
-                    <option>Соус</option>
-                </select>
-            </td>
-            <td><input type="text" value="1"></td>
-            <td><input type="text" class="mzDpFullInput" value="цуе ц цуецу еуц"></td>
-            <td style="background-color: orange;">Удалить</td>
-        </tr>
-        <tr>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-            <td>
-                <select>
-                    <option>ГМ</option>
-                    <option>СМ</option>
-                    <option>ММ</option>
-                </select>
-            </td>
-            <td>
-                <select>
-                    <option>Майонез</option>
-                    <option>Кетчуп</option>
-                    <option>Соус</option>
-                </select>
-            </td>
-            <td><input type="text" value="1"></td>
-            <td><input type="text" class="mzDpFullInput" value="рва тап ппаропа"></td>
-            <td style="background-color: orange;">Удалить</td>
-        </tr>
-        <tr>
-            <td colspan="7" style="background-color: lightgreen;">Добавить</td>
-        </tr>
+            <tr>
+                <td class="addSection" colspan="7">Добавить</td>
+            </tr>
         </tbody>
+        </#list>
     </table>
 
-    <div class="button button_save" id="nka_param_save">Сохранить изменения</div>
-    <div class="button button_cancel" id="nka_param_cancel">Отменить изменения</div>
+    <div class="button button_save" id="nka_tma_save">Сохранить изменения</div>
+    <div class="button button_cancel" id="nka_tma_cancel">Отменить изменения</div>
 
 </div>
 

@@ -12,5 +12,5 @@ public interface NkaTmaDao extends GenericDao<NkaTma> {
 
     void clearAll();
 
-    List<NkaTma> findAllByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId);
+    List<NkaTma> findAllByNkaAndFormat(int nkaId, int formatId);
 }

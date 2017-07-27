@@ -10,9 +10,9 @@ import java.util.Map;
 
 public interface NkaTmaService {
 
-    List<NkaTma> getNkaTmaByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId);
+    Map<String, Map<String, String>> getNkaTmaByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId, int clientId);
 
-    public Map<Integer, List<NkaTma>> getAllNkaTmaMap();
+    public Map<String, List<NkaTma>> getAllNkaTmaMap();
 
     public int writeNewNkaTma(List<NkaTma> nkaTmaList);
 }

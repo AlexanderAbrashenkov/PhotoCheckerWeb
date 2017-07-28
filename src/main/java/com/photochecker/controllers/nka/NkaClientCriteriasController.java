@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ public class NkaClientCriteriasController {
     @ResponseBody
     public Map<String, Boolean> saveNkaClientCriterias(@RequestParam("dateFrom") String dateFromS,
                                                         @RequestParam("dateTo") String dateToS,
+                                                        @RequestParam("photoUrls") String photoUrls,
                                                         @RequestParam("crit") String critJson) {
 
         Gson gson = new Gson();
@@ -40,7 +43,12 @@ public class NkaClientCriteriasController {
         nkaClientCriterias.setDateTo(dateTo);
         nkaClientCriterias.setSaveDate(LocalDateTime.now());
 
-        boolean answer = nkaClientCriteriasService.saveCriterias(nkaClientCriterias);
+        photoUrls = photoUrls.replace("[", "")
+                .replace("]", "")
+                .replace("\"", "");
+        ArrayList<String> photoUrlList = new ArrayList<>(Arrays.asList(photoUrls.split(",")));
+
+        boolean answer = nkaClientCriteriasService.saveCriterias(nkaClientCriterias, photoUrlList);
         return Collections.singletonMap("answer", answer);
     }
 

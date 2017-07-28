@@ -50,7 +50,7 @@ $(function () {
         $(this).addClass('addressSelected');
         loadPhotos(dateFrom, dateTo, client_id);
         loadTmaPlan(dateFrom, dateTo, nkaId, formatId, client_id);
-        if ($(this).hasClass('addressChecked')) {
+        if ($(this).children().eq(5).text() > 0) {
             loadSavedCriterias(client_id, dateFrom, dateTo);
         }
     });
@@ -61,6 +61,11 @@ $(function () {
         var date = $(this).parent().find('.photoDate').text();
         var dateAdd = $(this).parent().find('.addDate').text();
         var comment = $(this).parent().find('textarea').val();
+        if ($(this).parent().hasClass('photoChecked')) {
+            $('#fullPhotoCont').addClass('photoChecked');
+        } else {
+            $('#fullPhotoCont').removeClass('photoChecked');
+        }
         date = date.replace("Дата: ", "");
         dateAdd = dateAdd.replace("Дата добавления: ", "");
         var count = $('#center_pane .photoBlock:last-child img').data('num');
@@ -464,6 +469,11 @@ function fillDatasOnPhotoShow(newPhotoBlockNum) {
     var comment = newPhotoBlock.find('textarea').val();
     date = date.replace("Дата: ", "");
     dateAdd = dateAdd.replace("Дата добавления: ", "");
+    if ($(newPhotoBlock).hasClass('photoChecked')) {
+        $('#fullPhotoCont').addClass('photoChecked');
+    } else {
+        $('#fullPhotoCont').removeClass('photoChecked');
+    }
     $('#fullPhotoDate').text(date);
     $('#fullPhotoAddDate').text(dateAdd);
     $('#fullPhotoComment').text(comment);
@@ -491,6 +501,13 @@ function saveCriteriasByClient(clientId) {
     var sDmA = $('#sDmA').val();
     if (sDmA == "") {
         sDmA = "0";
+    }
+
+    var photos = $('.photoBlock');
+    var photoUrls = [];
+
+    for (var i = 0; i < photos.length; i++) {
+        photoUrls.push(photos.eq(i).find('img').attr('src'));
     }
 
     var crit = {
@@ -531,12 +548,14 @@ function saveCriteriasByClient(clientId) {
     $.post('nka/saveCriterias',
         {
             crit: JSON.stringify(crit),
+            photoUrls: JSON.stringify(photoUrls),
             dateFrom: $('#dateFrom').val(),
             dateTo: $('#dateTo').val()
         })
         .done(function (data) {
             checkForRedirect(data);
             showSavedSuccessfullyPane();
+            addCheckedClassToPhotos();
         })
         .fail(function (data) {
             showErrorPane();
@@ -545,6 +564,14 @@ function saveCriteriasByClient(clientId) {
             $('#loader').css('display', 'none');
         })
 }
+
+function addCheckedClassToPhotos() {
+    var photos = $('.photoBlock');
+    for (var i = 0; i < photos.length; i++) {
+        photos.eq(i).addClass('photoChecked');
+    }
+}
+
 function saveAllCriterias() {
     var criteriasArray = new Array();
     var nkaParamList = $('tbody');

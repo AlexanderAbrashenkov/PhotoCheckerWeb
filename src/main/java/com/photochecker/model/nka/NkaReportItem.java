@@ -1,13 +1,11 @@
 package com.photochecker.model.nka;
 
-/**
- * Created by market6 on 07.07.2017.
- */
 public class NkaReportItem {
     private int nkaId;
     private String nkaName;
     private String type;
     private int clientId;
+    private String clientName;
     private String clientAddress;
 
     private int mzPlan;
@@ -33,24 +31,35 @@ public class NkaReportItem {
     private int kDouble;
     private int sDouble;
 
-    private int dmAPlan;
-    private int dmA;
-    private int dmNa;
+    private int mzDmAPlan;
+    private int kDmAPlan;
+    private int sDmAPlan;
+
+    private int mzDmA;
+    private int kDmA;
+    private int sDmA;
+
+    private int mzDmNa;
+    private int kDmNa;
+    private int sDmNa;
 
     public NkaReportItem() {
     }
 
-    public NkaReportItem(int nkaId, String nkaName, String type, int clientId, String clientAddress,
+    public NkaReportItem(int nkaId, String nkaName, String type, int clientId, String clientName, String clientAddress,
                          int mzPlan, int kPlan, int sPlan,
                          int mzDp, int mzBb, int mzMr, String mzComment,
                          int kDp, int kBb, int kMr, String kComment,
                          int sDp, int sBb, int sMr, String sComment,
                          int mzDouble, int kDouble, int sDouble,
-                         int dmAPlan, int dmA, int dmNa) {
+                         int mzDmAPlan, int kDmAPlan, int sDmAPlan,
+                         int mzDmA, int kDmA, int sDmA,
+                         int mzDmNa, int kDmNa, int sDmNa) {
         this.nkaId = nkaId;
         this.nkaName = nkaName;
         this.type = type;
         this.clientId = clientId;
+        this.clientName = clientName;
         this.clientAddress = clientAddress;
         this.mzPlan = mzPlan;
         this.kPlan = kPlan;
@@ -70,9 +79,15 @@ public class NkaReportItem {
         this.mzDouble = mzDouble;
         this.kDouble = kDouble;
         this.sDouble = sDouble;
-        this.dmAPlan = dmAPlan;
-        this.dmA = dmA;
-        this.dmNa = dmNa;
+        this.mzDmAPlan = mzDmAPlan;
+        this.kDmAPlan = kDmAPlan;
+        this.sDmAPlan = sDmAPlan;
+        this.mzDmA = mzDmA;
+        this.kDmA = kDmA;
+        this.sDmA = sDmA;
+        this.mzDmNa = mzDmNa;
+        this.kDmNa = kDmNa;
+        this.sDmNa = sDmNa;
     }
 
     public int getNkaId() {
@@ -105,6 +120,14 @@ public class NkaReportItem {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public String getClientAddress() {
@@ -259,27 +282,75 @@ public class NkaReportItem {
         this.sDouble = sDouble;
     }
 
-    public int getDmAPlan() {
-        return dmAPlan;
+    public int getMzDmAPlan() {
+        return mzDmAPlan;
     }
 
-    public void setDmAPlan(int dmAPlan) {
-        this.dmAPlan = dmAPlan;
+    public void setMzDmAPlan(int mzDmAPlan) {
+        this.mzDmAPlan = mzDmAPlan;
     }
 
-    public int getDmA() {
-        return dmA;
+    public int getkDmAPlan() {
+        return kDmAPlan;
     }
 
-    public void setDmA(int dmA) {
-        this.dmA = dmA;
+    public void setkDmAPlan(int kDmAPlan) {
+        this.kDmAPlan = kDmAPlan;
     }
 
-    public int getDmNa() {
-        return dmNa;
+    public int getsDmAPlan() {
+        return sDmAPlan;
     }
 
-    public void setDmNa(int dmNa) {
-        this.dmNa = dmNa;
+    public void setsDmAPlan(int sDmAPlan) {
+        this.sDmAPlan = sDmAPlan;
+    }
+
+    public int getMzDmA() {
+        return mzDmA;
+    }
+
+    public void setMzDmA(int mzDmA) {
+        this.mzDmA = mzDmA;
+    }
+
+    public int getkDmA() {
+        return kDmA;
+    }
+
+    public void setkDmA(int kDmA) {
+        this.kDmA = kDmA;
+    }
+
+    public int getsDmA() {
+        return sDmA;
+    }
+
+    public void setsDmA(int sDmA) {
+        this.sDmA = sDmA;
+    }
+
+    public int getMzDmNa() {
+        return mzDmNa;
+    }
+
+    public void setMzDmNa(int mzDmNa) {
+        this.mzDmNa = mzDmNa;
+    }
+
+    public int getkDmNa() {
+        return kDmNa;
+    }
+
+    public void setkDmNa(int kDmNa) {
+        this.kDmNa = kDmNa;
+    }
+
+    public int getsDmNa() {
+        return sDmNa;
+    }
+
+    public void setsDmNa(int sDmNa) {
+        this.sDmNa = sDmNa;
     }
 }

@@ -75,6 +75,7 @@ public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
                 rs.getString("lka_name"),
                 rs.getString("type_name"),
                 rs.getInt("cl_id"),
+                rs.getString("client_name"),
                 rs.getString("client_address"),
                 mzPlan,
                 kPlan,
@@ -94,15 +95,15 @@ public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
                 rs.getInt("mz_double"),
                 rs.getInt("k_double"),
                 rs.getInt("s_double"),
-                rs.getInt("mz_dm_a_plan") +
-                        rs.getInt("k_dm_a_plan") +
-                        rs.getInt("s_dm_a_plan"),
-                rs.getInt("mz_dm_a") +
-                        rs.getInt("k_dm_a") +
-                        rs.getInt("s_dm_a"),
-                rs.getInt("mz_dm_na") +
-                        rs.getInt("k_dm_na") +
-                        rs.getInt("s_dm_na")
+                rs.getInt("mz_dm_a_plan"),
+                rs.getInt("k_dm_a_plan"),
+                rs.getInt("s_dm_a_plan"),
+                rs.getInt("mz_dm_a"),
+                rs.getInt("k_dm_a"),
+                rs.getInt("s_dm_a"),
+                rs.getInt("mz_dm_na"),
+                rs.getInt("k_dm_na"),
+                rs.getInt("s_dm_na")
         );
         return nkaReportItem;
     };

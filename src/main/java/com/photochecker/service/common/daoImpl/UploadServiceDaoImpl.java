@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UploadServiceDaoImpl implements UploadService {
@@ -43,6 +44,8 @@ public class UploadServiceDaoImpl implements UploadService {
     private NkaRespDao nkaRespDao;
     @Autowired
     private EmployeeDao employeeDao;
+    @Autowired
+    private FormatTypeDao formatTypeDao;
 
     private List<Region> regionList;
     private List<Distr> distrList;
@@ -54,6 +57,7 @@ public class UploadServiceDaoImpl implements UploadService {
     private List<Employee> employeeList;
     private List<PhotoCard> photoCardList;
     private List<ReportType> reportTypeList;
+    private List<FormatType> formatTypeList;
 
     @Override
     public String uploadDatas(BufferedReader reader, String date) {
@@ -67,6 +71,7 @@ public class UploadServiceDaoImpl implements UploadService {
         nkaRespList = nkaRespDao.findAll();
         employeeList = employeeDao.findAll();
         reportTypeList = reportTypeDao.findAll();
+        formatTypeList = formatTypeDao.findAll();
 
         LocalDate dateAdd = LocalDate.parse(date);
         photoCardList = photoCardDao.findAllByDates(dateAdd, dateAdd);
@@ -159,10 +164,24 @@ public class UploadServiceDaoImpl implements UploadService {
                 }
 
 
+                List<FormatType> result = formatTypeList.stream()
+                        .filter(formatType1 -> formatType1.getName().equals(recordParts[14]))
+                        .collect(Collectors.toList());
+
+                FormatType formatType = null;
+                if (result.size() > 0) {
+                    formatType = result.get(0);
+                } else {
+                    formatType = new FormatType(0, recordParts[14]);
+                    int id = formatTypeDao.save(formatType);
+                    formatType.setId(id);
+                    formatTypeList.add(formatType);
+                }
+
                 ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[7]),
                         recordParts[8],
                         recordParts[9],
-                        recordParts[14],
+                        formatType,
                         0,
                         distr,
                         recordParts[2],
@@ -271,10 +290,25 @@ public class UploadServiceDaoImpl implements UploadService {
                 }
 
 
+                List<FormatType> result = formatTypeList.stream()
+                        .filter(formatType1 -> formatType1.getName().equals(recordParts[15]))
+                        .collect(Collectors.toList());
+
+                FormatType formatType = null;
+                if (result.size() > 0) {
+                    formatType = result.get(0);
+                } else {
+                    formatType = new FormatType(0, recordParts[15]);
+                    int id = formatTypeDao.save(formatType);
+                    formatType.setId(id);
+                    formatTypeList.add(formatType);
+                }
+
+
                 ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[7]),
                         recordParts[8],
                         recordParts[9],
-                        recordParts[15],
+                        formatType,
                         0,
                         distr,
                         recordParts[2],
@@ -404,10 +438,26 @@ public class UploadServiceDaoImpl implements UploadService {
                     nkaRespList.add(nkaResp);
                 }
 
+
+                List<FormatType> result = formatTypeList.stream()
+                        .filter(formatType1 -> formatType1.getName().equals(recordParts[18]))
+                        .collect(Collectors.toList());
+
+                FormatType formatType = null;
+                if (result.size() > 0) {
+                    formatType = result.get(0);
+                } else {
+                    formatType = new FormatType(0, recordParts[18]);
+                    int id = formatTypeDao.save(formatType);
+                    formatType.setId(id);
+                    formatTypeList.add(formatType);
+                }
+
+
                 ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[10]),
                         recordParts[11],
                         recordParts[12],
-                        recordParts[18],
+                        formatType,
                         0,
                         distr,
                         recordParts[3],
@@ -491,10 +541,25 @@ public class UploadServiceDaoImpl implements UploadService {
                         .get();
 
 
+                List<FormatType> result = formatTypeList.stream()
+                        .filter(formatType1 -> formatType1.getName().equals(recordParts[10]))
+                        .collect(Collectors.toList());
+
+                FormatType formatType = null;
+                if (result.size() > 0) {
+                    formatType = result.get(0);
+                } else {
+                    formatType = new FormatType(0, recordParts[10]);
+                    int id = formatTypeDao.save(formatType);
+                    formatType.setId(id);
+                    formatTypeList.add(formatType);
+                }
+
+
                 ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[4]),
                         recordParts[5],
                         recordParts[6],
-                        recordParts[10],
+                        formatType,
                         0,
                         new Distr(0, "", new Region(12, "Сети")),
                         null,

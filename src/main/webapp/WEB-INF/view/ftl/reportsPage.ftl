@@ -32,6 +32,7 @@
                     <div class="group_title">3. Федеральные сети: RJKAM</div>
                     <div class="report_link"><a href="/reports/nka">Просмотр фото</a> </div>
                     <div class="report_link"><a href="/reports/nka_param">Параметры оценки</a> </div>
+                    <div class="report_link"><a href="/reports/nka_tma_param">Акции по сетям</a> </div>
                 </div>
             </#if>
 

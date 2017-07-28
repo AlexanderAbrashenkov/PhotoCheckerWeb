@@ -1,5 +1,7 @@
 package com.photochecker.model.common;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * Created by market6 on 27.03.2017.
  */
@@ -7,7 +9,7 @@ public class ClientCard {
     private int clientId;
     private String clientName;
     private String clientAddress;
-    private String clientType;
+    private FormatType formatType;
     private int checked;
     private Distr distr;
     private String obl;
@@ -18,12 +20,12 @@ public class ClientCard {
     public ClientCard() {
     }
 
-    public ClientCard(int clientId, String clientName, String clientAddress, String clientType,
+    public ClientCard(int clientId, String clientName, String clientAddress, FormatType formatType,
                       int checked, Distr distr, String obl, int channelId, Lka lka, int nkaType) {
         this.clientId = clientId;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
-        this.clientType = clientType;
+        this.formatType = formatType;
         this.checked = checked;
         this.distr = distr;
         this.obl = obl;
@@ -56,12 +58,12 @@ public class ClientCard {
         this.clientAddress = clientAddress;
     }
 
-    public String getClientType() {
-        return clientType;
+    public FormatType getFormatType() {
+        return formatType;
     }
 
-    public void setClientType(String clientType) {
-        this.clientType = clientType;
+    public void setFormatType(FormatType formatType) {
+        this.formatType = formatType;
     }
 
     public int getChecked() {
@@ -114,18 +116,18 @@ public class ClientCard {
 
     @Override
     public String toString() {
-        return "ClientCard{" +
-                "clientId=" + clientId +
-                ", clientName='" + clientName + '\'' +
-                ", clientAddress='" + clientAddress + '\'' +
-                ", clientType='" + clientType + '\'' +
-                ", checked=" + checked +
-                ", distr=" + distr +
-                ", obl='" + obl + '\'' +
-                ", channelId=" + channelId +
-                ", lka=" + lka +
-                ", nkaType=" + nkaType +
-                '}';
+        return MoreObjects.toStringHelper(this)
+                .add("clientId", clientId)
+                .add("clientName", clientName)
+                .add("clientAddress", clientAddress)
+                .add("formatType", formatType)
+                .add("checked", checked)
+                .add("distr", distr)
+                .add("obl", obl)
+                .add("channelId", channelId)
+                .add("lka", lka)
+                .add("nkaType", nkaType)
+                .toString();
     }
 
     @Override

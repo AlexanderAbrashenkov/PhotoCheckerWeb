@@ -1,9 +1,6 @@
 package com.photochecker.dao.common.springImpl;
 
-import com.photochecker.dao.common.ClientCardDao;
-import com.photochecker.dao.common.DistrDao;
-import com.photochecker.dao.common.LkaDao;
-import com.photochecker.dao.common.PhotoCardDao;
+import com.photochecker.dao.common.*;
 import com.photochecker.model.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -76,11 +73,11 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
 
     private final String SQL_SAVE = "INSERT INTO `client_card`\n" +
             "(`client_id`, `client_name`, `client_address`, `region_id`, " +
-            "`obl`, `distributor_id`, `channel_id`, `lka_id`, `type_name`, `nka_type`)\n" +
+            "`obl`, `distributor_id`, `channel_id`, `lka_id`, `format_id`, `nka_type`)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private final String SQL_UPDATE = "UPDATE `client_card`\n" +
-            "SET `client_name` = ?, `client_address` = ?, `channel_id` = ?, `lka_id` = ?, `type_name` = ?, `nka_type` = ?\n" +
+            "SET `client_name` = ?, `client_address` = ?, `channel_id` = ?, `lka_id` = ?, `format_id` = ?, `nka_type` = ?\n" +
             "WHERE `client_id` = ?";
 
 
@@ -88,6 +85,7 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     private List<Distr> distrList;
     private List<Lka> lkaList;
     private List<PhotoCard> photoCardList;
+    private List<FormatType> formatTypeList;
 
     @Autowired
     private DistrDao distrDao;
@@ -95,6 +93,8 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
     private LkaDao lkaDao;
     @Autowired
     private PhotoCardDao photoCardDao;
+    @Autowired
+    private FormatTypeDao formatTypeDao;
 
     private RowMapper<ClientCard> clientCardRowMapper = (resultSet, i) -> {
 
@@ -116,13 +116,22 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                     .get();
         }
 
+        int formatId = resultSet.getInt("format_id");
+        FormatType formatType = null;
+        if (formatId != 0) {
+            formatType = formatTypeList.stream()
+                    .filter(formatType1 -> formatType1.getId() == formatId)
+                    .findFirst()
+                    .get();
+        }
+
         int clientId = resultSet.getInt("client_id");
 
         ClientCard clientCard = new ClientCard(
                 clientId,
                 resultSet.getString("client_name"),
                 resultSet.getString("client_address"),
-                resultSet.getString("type_name"),
+                formatType,
                 resultSet.getInt("checked"),
                 distr,
                 resultSet.getString("obl"),
@@ -156,6 +165,7 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
             photoCardList = photoCardDao.findAllByDates(startDate, endDate);
             photoCardList.removeIf(photoCard -> photoCard.getReportType().getId() != repTypeInd);
         }
+        formatTypeList = formatTypeDao.findAll();
     }
 
     private String getDbName(int repTypeInd) {
@@ -180,7 +190,7 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getDistr() != null ? clientCard.getDistr().getId() : 0,
                 clientCard.getChannelId(),
                 clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
-                clientCard.getClientType(),
+                clientCard.getFormatType().getId(),
                 clientCard.getNkaType());
     }
 
@@ -204,7 +214,7 @@ public class ClientCardDaoSpringImpl implements ClientCardDao {
                 clientCard.getClientAddress(),
                 clientCard.getChannelId(),
                 clientCard.getLka() != null ? clientCard.getLka().getId() : 0,
-                clientCard.getClientType(),
+                clientCard.getFormatType().getId(),
                 clientCard.getNkaType(),
                 clientCard.getClientId());
         return true;

@@ -45,3 +45,14 @@ input[type='text'] {
 .button_cancel {
     background-color: red;
 }
+
+/* NKA Tma addition styles */
+.removeSection {
+    background-color: orange;
+    cursor: pointer;
+}
+
+.addSection {
+    background-color: lightgreen;
+    cursor: pointer;
+}

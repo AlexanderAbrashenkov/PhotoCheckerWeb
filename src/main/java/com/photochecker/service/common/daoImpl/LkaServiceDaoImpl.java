@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class LkaServiceDaoImpl implements LkaService {
@@ -37,5 +39,15 @@ public class LkaServiceDaoImpl implements LkaService {
     public List<Lka> getLkaByRjkam(LocalDate dateFrom, LocalDate dateTo, int repTypeIndex, int rjkamId) {
         List<Lka> lkaList = lkaDao.findAllByRjkamAndDates(rjkamId, dateFrom, dateTo, repTypeIndex);
         return lkaList;
+    }
+
+    @Override
+    public Map<String, Integer> getAllNkaMap() {
+        List<Lka> lkaList = lkaDao.findAllNka();
+        Map<String, Integer> map = new HashMap<>();
+        for (Lka lka : lkaList) {
+            map.put(lka.getName(), lka.getId());
+        }
+        return map;
     }
 }

@@ -1,5 +1,7 @@
 package com.photochecker.model.nka;
 
+import com.google.common.base.MoreObjects;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -32,9 +34,13 @@ public class NkaClientCriterias {
     private boolean kDouble;
     private boolean sDouble;
 
-    private boolean mzDmA;
-    private boolean kDmA;
-    private boolean sDmA;
+    private int mzDmA;
+    private int kDmA;
+    private int sDmA;
+
+    private int mzDmAPlan;
+    private int kDmAPlan;
+    private int sDmAPlan;
 
     private boolean mzDmNa;
     private boolean kDmNa;
@@ -48,7 +54,8 @@ public class NkaClientCriterias {
                               boolean kDP, boolean kBB, boolean kMR, String kComment,
                               boolean sDP, boolean sBB, boolean sMR, String sComment,
                               boolean mzDouble, boolean kDouble, boolean sDouble,
-                              boolean mzDmA, boolean kDmA, boolean sDmA,
+                              int mzDmA, int kDmA, int sDmA,
+                              int mzDmAPlan, int kDmAPlan, int sDmAPlan,
                               boolean mzDmNa, boolean kDmNa, boolean sDmNa) {
         this.clientId = clientId;
         this.dateFrom = dateFrom;
@@ -72,6 +79,9 @@ public class NkaClientCriterias {
         this.mzDmA = mzDmA;
         this.kDmA = kDmA;
         this.sDmA = sDmA;
+        this.mzDmAPlan = mzDmAPlan;
+        this.kDmAPlan = kDmAPlan;
+        this.sDmAPlan = sDmAPlan;
         this.mzDmNa = mzDmNa;
         this.kDmNa = kDmNa;
         this.sDmNa = sDmNa;
@@ -229,28 +239,52 @@ public class NkaClientCriterias {
         this.sDouble = sDouble;
     }
 
-    public boolean isMzDmA() {
+    public int getMzDmA() {
         return mzDmA;
     }
 
-    public void setMzDmA(boolean mzDmA) {
+    public void setMzDmA(int mzDmA) {
         this.mzDmA = mzDmA;
     }
 
-    public boolean iskDmA() {
+    public int getkDmA() {
         return kDmA;
     }
 
-    public void setkDmA(boolean kDmA) {
+    public void setkDmA(int kDmA) {
         this.kDmA = kDmA;
     }
 
-    public boolean issDmA() {
+    public int getsDmA() {
         return sDmA;
     }
 
-    public void setsDmA(boolean sDmA) {
+    public void setsDmA(int sDmA) {
         this.sDmA = sDmA;
+    }
+
+    public int getMzDmAPlan() {
+        return mzDmAPlan;
+    }
+
+    public void setMzDmAPlan(int mzDmAPlan) {
+        this.mzDmAPlan = mzDmAPlan;
+    }
+
+    public int getkDmAPlan() {
+        return kDmAPlan;
+    }
+
+    public void setkDmAPlan(int kDmAPlan) {
+        this.kDmAPlan = kDmAPlan;
+    }
+
+    public int getsDmAPlan() {
+        return sDmAPlan;
+    }
+
+    public void setsDmAPlan(int sDmAPlan) {
+        this.sDmAPlan = sDmAPlan;
     }
 
     public boolean isMzDmNa() {
@@ -299,32 +333,35 @@ public class NkaClientCriterias {
 
     @Override
     public String toString() {
-        return "NkaClientCriterias{" +
-                "clientId=" + clientId +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
-                ", saveDate=" + saveDate +
-                ", mzDP=" + mzDP +
-                ", mzBB=" + mzBB +
-                ", mzMR=" + mzMR +
-                ", mzComment='" + mzComment + '\'' +
-                ", kDP=" + kDP +
-                ", kBB=" + kBB +
-                ", kMR=" + kMR +
-                ", kComment='" + kComment + '\'' +
-                ", sDP=" + sDP +
-                ", sBB=" + sBB +
-                ", sMR=" + sMR +
-                ", sComment='" + sComment + '\'' +
-                ", mzDouble=" + mzDouble +
-                ", kDouble=" + kDouble +
-                ", sDouble=" + sDouble +
-                ", mzDmA=" + mzDmA +
-                ", kDmA=" + kDmA +
-                ", sDmA=" + sDmA +
-                ", mzDmNa=" + mzDmNa +
-                ", kDmNa=" + kDmNa +
-                ", sDmNa=" + sDmNa +
-                '}';
+        return MoreObjects.toStringHelper(this)
+                .add("clientId", clientId)
+                .add("dateFrom", dateFrom)
+                .add("dateTo", dateTo)
+                .add("saveDate", saveDate)
+                .add("mzDP", mzDP)
+                .add("mzBB", mzBB)
+                .add("mzMR", mzMR)
+                .add("mzComment", mzComment)
+                .add("kDP", kDP)
+                .add("kBB", kBB)
+                .add("kMR", kMR)
+                .add("kComment", kComment)
+                .add("sDP", sDP)
+                .add("sBB", sBB)
+                .add("sMR", sMR)
+                .add("sComment", sComment)
+                .add("mzDouble", mzDouble)
+                .add("kDouble", kDouble)
+                .add("sDouble", sDouble)
+                .add("mzDmA", mzDmA)
+                .add("kDmA", kDmA)
+                .add("sDmA", sDmA)
+                .add("mzDmAPlan", mzDmAPlan)
+                .add("kDmAPlan", kDmAPlan)
+                .add("sDmAPlan", sDmAPlan)
+                .add("mzDmNa", mzDmNa)
+                .add("kDmNa", kDmNa)
+                .add("sDmNa", sDmNa)
+                .toString();
     }
 }

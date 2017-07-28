@@ -41,13 +41,16 @@ $(function () {
         clearCriteriasPane();
         var client_id = $(this).children().eq(2).text();
         var client_type = $(this).children().eq(3).text();
+        var formatId = $(this).children().eq(4).text();
+        var nkaId = $('#selNka option:selected').data('value');
         $('#clientId').text('ID: ' + client_id);
         $('#clientType').text('Тип: ' + client_type);
         var dateFrom = $('#dateFrom').val();
         var dateTo = $("#dateTo").val();
         $(this).addClass('addressSelected');
         loadPhotos(dateFrom, dateTo, client_id);
-        if ($(this).hasClass('addressChecked')) {
+        loadTmaPlan(dateFrom, dateTo, nkaId, formatId, client_id);
+        if ($(this).children().eq(5).text() > 0) {
             loadSavedCriterias(client_id, dateFrom, dateTo);
         }
     });
@@ -58,6 +61,11 @@ $(function () {
         var date = $(this).parent().find('.photoDate').text();
         var dateAdd = $(this).parent().find('.addDate').text();
         var comment = $(this).parent().find('textarea').val();
+        if ($(this).parent().hasClass('photoChecked')) {
+            $('#fullPhotoCont').addClass('photoChecked');
+        } else {
+            $('#fullPhotoCont').removeClass('photoChecked');
+        }
         date = date.replace("Дата: ", "");
         dateAdd = dateAdd.replace("Дата добавления: ", "");
         var count = $('#center_pane .photoBlock:last-child img').data('num');
@@ -148,23 +156,37 @@ $(function () {
     $('#nka_param_save').on('click', function () {
         saveAllCriterias();
     });
-});
 
+    $('.addSection').on('click', function (event) {
+        var target = event.target;
+        addNewTmaRow(target);
+    });
+
+    $('.paramTableContainer').on('click', '.removeSection', function (event) {
+        var target = event.target;
+        removeTmaRow(target);
+    });
+
+    $('#nka_tma_cancel').on('click', function () {
+        location.reload();
+    });
+
+    $('#nka_tma_save').on('click', function () {
+        saveAllNkaTma();
+    });
+});
 function checkDatesAndLoadRjkam(dateFrom, dateTo) {
     clearAllFromDates();
     loadRjkam(dateFrom, dateTo);
 }
-
 function clearAllFromDates() {
     $('#selRjkam option').remove();
     clearAllFromRjkam();
 }
-
 function clearAllFromRjkam() {
     $('#selNka option').remove();
     clearAllFromNka();
 }
-
 function clearAllFromNka() {
     clearNkaParams();
     $('#addressTable tr').remove();
@@ -173,7 +195,6 @@ function clearAllFromNka() {
     $('#clientType').text("Тип: ");
     clearCriteriasPane();
 }
-
 function clearNkaParams() {
     $('#mzDPLabel').text('Доля полки');
     $('#mzBBLabel').text('Бренд-блок');
@@ -208,9 +229,13 @@ function clearCriteriasPane() {
     $('#kDouble').prop('checked', false);
     $('#sDouble').prop('checked', false);
 
-    $('#mzDmA').prop('checked', false);
-    $('#kDmA').prop('checked', false);
-    $('#sDmA').prop('checked', false);
+    $('#mzDmA').val('');
+    $('#kDmA').val('');
+    $('#sDmA').val('');
+
+    $('#mzTmaPlan').text("");
+    $('#kTmaPlan').text("");
+    $('#sTmaPlan').text("");
 
     $('#mzDmNa').prop('checked', false);
     $('#kDmNa').prop('checked', false);
@@ -375,6 +400,26 @@ function loadPhotos(dateFrom, dateTo, clientId) {
         })
 }
 
+function loadTmaPlan(dateFrom, dateTo, nkaId, formatId, client_id) {
+    $.post('nka/getTmaPlan',
+        {
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            clientId: client_id,
+            nkaId: nkaId,
+            formatId: formatId
+        })
+        .done(function (data) {
+            checkForRedirect(data);
+            $('#mzTmaPlan').append("<abbr title='" + data["Майонез"]["comment"] + "'>" + data["Майонез"]["count"] + "</abbr>");
+            $('#kTmaPlan').append("<abbr title='" + data["Кетчуп"]["comment"] + "'>" + data["Кетчуп"]["count"] + "</abbr>");
+            $('#sTmaPlan').append("<abbr title='" + data["Соус"]["comment"] + "'>" + data["Соус"]["count"] + "</abbr>");
+        })
+        .fail(function (data) {
+
+        })
+}
+
 function loadSavedCriterias(clientId, dateFrom, dateTo) {
     $.post('nka/getSavedCriterias',
         {
@@ -403,9 +448,9 @@ function loadSavedCriterias(clientId, dateFrom, dateTo) {
             $('#kDouble').prop('checked', data.kDouble);
             $('#sDouble').prop('checked', data.sDouble);
 
-            $('#mzDmA').prop('checked', data.mzDmA);
-            $('#kDmA').prop('checked', data.kDmA);
-            $('#sDmA').prop('checked', data.sDmA);
+            $('#mzDmA').val(data.mzDmA);
+            $('#kDmA').val(data.kDmA);
+            $('#sDmA').val(data.sDmA);
 
             $('#mzDmNa').prop('checked', data.mzDmNa);
             $('#kDmNa').prop('checked', data.kDmNa);
@@ -424,6 +469,11 @@ function fillDatasOnPhotoShow(newPhotoBlockNum) {
     var comment = newPhotoBlock.find('textarea').val();
     date = date.replace("Дата: ", "");
     dateAdd = dateAdd.replace("Дата добавления: ", "");
+    if ($(newPhotoBlock).hasClass('photoChecked')) {
+        $('#fullPhotoCont').addClass('photoChecked');
+    } else {
+        $('#fullPhotoCont').removeClass('photoChecked');
+    }
     $('#fullPhotoDate').text(date);
     $('#fullPhotoAddDate').text(dateAdd);
     $('#fullPhotoComment').text(comment);
@@ -437,6 +487,29 @@ function fillDatasOnPhotoShow(newPhotoBlockNum) {
 
 function saveCriteriasByClient(clientId) {
     $('#loader').css('display', 'block');
+
+    var mzDmA = $('#mzDmA').val();
+    if (mzDmA == "") {
+        mzDmA = "0";
+    }
+
+    var kDmA = $('#kDmA').val();
+    if (kDmA == "") {
+        kDmA = "0";
+    }
+
+    var sDmA = $('#sDmA').val();
+    if (sDmA == "") {
+        sDmA = "0";
+    }
+
+    var photos = $('.photoBlock');
+    var photoUrls = [];
+
+    for (var i = 0; i < photos.length; i++) {
+        photoUrls.push(photos.eq(i).find('img').attr('src'));
+    }
+
     var crit = {
         clientId: clientId,
 
@@ -459,9 +532,13 @@ function saveCriteriasByClient(clientId) {
         kDouble: $('#kDouble').is(':checked'),
         sDouble: $('#sDouble').is(':checked'),
 
-        mzDmA: $('#mzDmA').is(':checked'),
-        kDmA: $('#kDmA').is(':checked'),
-        sDmA: $('#sDmA').is(':checked'),
+        mzDmA: mzDmA,
+        kDmA: kDmA,
+        sDmA: sDmA,
+
+        mzDmAPlan: $('#mzTmaPlan').text(),
+        kDmAPlan: $('#kTmaPlan').text(),
+        sDmAPlan: $('#sTmaPlan').text(),
 
         mzDmNa: $('#mzDmNa').is(':checked'),
         kDmNa: $('#kDmNa').is(':checked'),
@@ -471,12 +548,14 @@ function saveCriteriasByClient(clientId) {
     $.post('nka/saveCriterias',
         {
             crit: JSON.stringify(crit),
+            photoUrls: JSON.stringify(photoUrls),
             dateFrom: $('#dateFrom').val(),
             dateTo: $('#dateTo').val()
         })
         .done(function (data) {
             checkForRedirect(data);
             showSavedSuccessfullyPane();
+            addCheckedClassToPhotos();
         })
         .fail(function (data) {
             showErrorPane();
@@ -484,6 +563,13 @@ function saveCriteriasByClient(clientId) {
         .always(function (data) {
             $('#loader').css('display', 'none');
         })
+}
+
+function addCheckedClassToPhotos() {
+    var photos = $('.photoBlock');
+    for (var i = 0; i < photos.length; i++) {
+        photos.eq(i).addClass('photoChecked');
+    }
 }
 
 function saveAllCriterias() {
@@ -523,9 +609,92 @@ function saveAllCriterias() {
         })
         .done(function (data) {
             checkForRedirect(data);
-            console.log(data);
             if (data.answer === true) {
                 showSavedSuccessfullyPane();
+            } else {
+                showErrorPane();
+            }
+        })
+        .fail(function (data) {
+            showErrorPane();
+        })
+        .always(function () {
+            $('#loader').css('display', 'none');
+        })
+
+};
+function addNewTmaRow(target) {
+    $('#loader').css('display', 'block');
+    $.post('nka/getNkaTmaRow')
+        .done(function (data) {
+            checkForRedirect(data);
+            $(target).parent().before(data);
+            var nkaNameElem = $(target).parent().parent().find('td').eq(0);
+            $(nkaNameElem).attr('rowspan', $(nkaNameElem).attr('rowspan') * 1 + 1);
+            var nkaIdElem = $(target).parent().parent().find('td').eq(1);
+            $(nkaIdElem).attr('rowspan', $(nkaIdElem).attr('rowspan') * 1 + 1);
+        })
+        .fail(function (data) {
+            showErrorPane();
+        })
+        .always(function () {
+            $('#loader').css('display', 'none');
+        });
+
+};
+
+function removeTmaRow(target) {
+    var nkaNameElem = $(target).parent().parent().find('td').eq(0);
+    $(nkaNameElem).attr('rowspan', $(nkaNameElem).attr('rowspan') * 1 - 1);
+    var nkaIdElem = $(target).parent().parent().find('td').eq(1);
+    $(nkaIdElem).attr('rowspan', $(nkaIdElem).attr('rowspan') * 1 - 1);
+    $(target).parent().remove();
+}
+
+function saveAllNkaTma() {
+    $('#loader').css('display', 'block');
+    var allNkaTma = new Array();
+
+    var nkaList = $('tbody');
+    for (var i = 0; i < nkaList.length; i++) {
+        var nkaElem = $(nkaList).eq(i);
+        var nkaId = $(nkaElem).find('.nkaId').eq(0).text();
+        var nkaName = $(nkaElem).find('.nkaName').eq(0).text();
+
+        var nkaTmaList = $(nkaElem).find('tr');
+        for (var k = 1; k < nkaTmaList.length - 1; k++) {
+            var nkaTmaElem = nkaTmaList.eq(k);
+            var startDate = nkaTmaElem.find('.startDate').val();
+            var endDate = nkaTmaElem.find('.endDate').val();
+            var formatElem = nkaTmaElem.find('.selFormat option:selected');
+            var nkaTma = {
+                lka: {
+                    id: nkaId,
+                    name: nkaName
+                },
+                startDate: startDate,
+                endDate: endDate,
+                formatType: {
+                    id: formatElem.data('val'),
+                    name: formatElem.text()
+                },
+                tgName: nkaTmaElem.find('.selTg option:selected').text(),
+                skuCount: nkaTmaElem.find('.skuCount').val(),
+                comment: nkaTmaElem.find('.comment').val()
+            }
+            allNkaTma.push(nkaTma);
+        }
+    }
+
+    $.post('nka/saveNewTmaList', {
+            tmaList: JSON.stringify(allNkaTma)
+        })
+        .done(function (data) {
+            checkForRedirect(data);
+            if (data.answer === 1) {
+                showSavedSuccessfullyPane();
+            } else if (data.answer == 2) {
+                alert("В списке акций есть дубликаты");
             } else {
                 showErrorPane();
             }

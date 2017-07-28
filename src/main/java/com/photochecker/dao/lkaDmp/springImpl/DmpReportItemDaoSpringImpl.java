@@ -17,7 +17,7 @@ import java.util.List;
 public class DmpReportItemDaoSpringImpl implements DmpReportItemDao {
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_FIND_BY_PARAMS = "select distinct r.region_name, d.distr_name, ch.name as channel, c.lka_id, l.lka_name, c.type_name, c.client_id, c.client_name, c.client_address, " +
+    private final String SQL_FIND_BY_PARAMS = "select distinct r.region_name, d.distr_name, ch.name as channel, c.lka_id, l.lka_name, f.name as type_name, c.client_id, c.client_name, c.client_address, " +
     "s.* " +
     "from client_card c " +
     "left join photo_card p on p.client_id = c.client_id " +
@@ -29,6 +29,7 @@ public class DmpReportItemDaoSpringImpl implements DmpReportItemDao {
     "left join distr_db d on d.distr_id = c.distributor_id " +
     "left join lka_db l on l.lka_id = c.lka_id " +
     "left join channel_db ch on ch.id = c.channel_id " +
+            "left join format_type f on f.id = c.format_id " +
     "where " +
     "p.`date` >= ? and p.`date` < ? " +
     "and p.report_type = ? " +

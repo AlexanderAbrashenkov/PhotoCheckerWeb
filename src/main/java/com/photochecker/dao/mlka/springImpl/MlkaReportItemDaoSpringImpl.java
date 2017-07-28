@@ -17,7 +17,7 @@ import java.util.List;
 public class MlkaReportItemDaoSpringImpl implements MlkaReportItemDao {
 
     private final String SQL_FIND_BY_PARAMS = "select distinct nka.name as nka_name, r.region_name, d.distr_name, emp.name as emp_name, " +
-            "c.type_name, c.client_id, c.client_name, c.client_address, " +
+            "f.name as type_name, c.client_id, c.client_name, c.client_address, " +
             "s.*, date_format(p.date, '%Y-%m-%d') as 'photo_date' " +
             "from `client_card` c " +
             "INNER JOIN `nka_type_db` nka ON nka.`id` = c.`nka_type` " +
@@ -29,6 +29,7 @@ public class MlkaReportItemDaoSpringImpl implements MlkaReportItemDao {
             ") s on s.client_id = c.client_id and s.date_from = date_format(p.date, '%Y-%m-%d') " +
             "left join region_db r on c.region_id = r.region_id " +
             "left join distr_db d on d.distr_id = c.distributor_id " +
+            "left join format_type f on f.id = c.format_id " +
             "where " +
             "p.`date` >= ? and p.`date` < ? " +
             "and p.report_type = ? " +

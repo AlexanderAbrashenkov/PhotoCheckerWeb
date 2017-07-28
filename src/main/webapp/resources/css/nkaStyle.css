@@ -59,7 +59,6 @@ div#fullPhotoCont {
     height: 100%;
     float: left;
     overflow: scroll;
-    background-color: white;
 }
 
 #fullPhotoCont img {
@@ -115,6 +114,10 @@ div.photoNum {
     width: 40px;
     margin: 10px;
     cursor:pointer;
+}
+
+.photoChecked {
+    background-color: lightgreen;
 }
 
 /*Left part of page content*/
@@ -323,4 +326,10 @@ tr.addr:hover{
     height: 35px;
     width: calc(100% - 10px);
     resize: none;
+}
+
+input.tgnum {
+    width: 20px;
+    margin-left: 5px;
+    margin-bottom: 3px;
 }

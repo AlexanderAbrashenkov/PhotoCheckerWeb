@@ -1,6 +1,8 @@
 package com.photochecker.service.nka.daoImpl;
 
+import com.photochecker.dao.common.PhotoCardDao;
 import com.photochecker.dao.nka.NkaClientCriteriasDao;
+import com.photochecker.model.common.PhotoCard;
 import com.photochecker.model.nka.NkaClientCriterias;
 import com.photochecker.service.nka.NkaClientCriteriasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,11 @@ public class NkaClientCriteriasServiceDaoImpl implements NkaClientCriteriasServi
 
     @Autowired
     private NkaClientCriteriasDao nkaClientCriteriasDao;
+    @Autowired
+    private PhotoCardDao photoCardDao;
 
     @Override
-    public boolean saveCriterias(NkaClientCriterias clientCriterias) {
+    public boolean saveCriterias(NkaClientCriterias clientCriterias, List<String> photoUrlList) {
         boolean succeed;
         int id = -1;
         List<NkaClientCriterias> savedClientCriterias = nkaClientCriteriasDao.findAllByClientAndDates(clientCriterias.getClientId(),
@@ -28,6 +32,8 @@ public class NkaClientCriteriasServiceDaoImpl implements NkaClientCriteriasServi
             id = nkaClientCriteriasDao.save(clientCriterias);
             succeed = true;
         }
+
+        photoCardDao.markCheckedByUrl(photoUrlList);
 
         return succeed;
     }

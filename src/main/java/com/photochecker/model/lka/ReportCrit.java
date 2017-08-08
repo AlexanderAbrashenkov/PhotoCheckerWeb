@@ -2,54 +2,55 @@ package com.photochecker.model.lka;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by market6 on 30.03.2017.
  */
-public class ClientCriterias {
+public class ReportCrit {
     private int clientId;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private LocalDateTime saveDate;
 
     private boolean hasMz;
-    private boolean hasPhotoMz;
-    private boolean correctMz;
-    private boolean hasAddProdMz;
-    private boolean crit1Mz;
-    private boolean crit2Mz;
+    private Integer hasPhotoMz;
+    private Integer correctMz;
+    private Integer hasAddProdMz;
+    private Integer crit1Mz;
+    private Integer crit2Mz;
 
     private boolean hasK;
-    private boolean hasPhotoK;
-    private boolean correctK;
-    private boolean crit1K;
-    private boolean crit2K;
+    private Integer hasPhotoK;
+    private Integer correctK;
+    private Integer crit1K;
+    private Integer crit2K;
 
     private boolean hasS;
-    private boolean hasPhotoS;
-    private boolean correctS;
-    private boolean crit1S;
-    private boolean crit2S;
+    private Integer hasPhotoS;
+    private Integer correctS;
+    private Integer crit1S;
+    private Integer crit2S;
 
     private boolean hasM;
-    private boolean hasPhotoM;
-    private boolean correctM;
-    private boolean crit1M;
-    private boolean crit2M;
+    private Integer hasPhotoM;
+    private Integer correctM;
+    private Integer crit1M;
+    private Integer crit2M;
 
-    private boolean oos;
+    private Integer oos;
     private String comment;
 
-    public ClientCriterias() {
+    public ReportCrit() {
     }
 
-    public ClientCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo, LocalDateTime saveDate,
-                           boolean hasMz, boolean hasPhotoMz, boolean correctMz, boolean hasAddProdMz,
-                           boolean crit1Mz, boolean crit2Mz,
-                           boolean hasK, boolean hasPhotoK, boolean correctK, boolean crit1K, boolean crit2K,
-                           boolean hasS, boolean hasPhotoS, boolean correctS, boolean crit1S, boolean crit2S,
-                           boolean hasM, boolean hasPhotoM, boolean correctM, boolean crit1M, boolean crit2M,
-                           boolean oos, String comment) {
+    public ReportCrit(int clientId, LocalDate dateFrom, LocalDate dateTo, LocalDateTime saveDate,
+                      boolean hasMz, Integer hasPhotoMz, Integer correctMz, Integer hasAddProdMz,
+                      Integer crit1Mz, Integer crit2Mz,
+                      boolean hasK, Integer hasPhotoK, Integer correctK, Integer crit1K, Integer crit2K,
+                      boolean hasS, Integer hasPhotoS, Integer correctS, Integer crit1S, Integer crit2S,
+                      boolean hasM, Integer hasPhotoM, Integer correctM, Integer crit1M, Integer crit2M,
+                      Integer oos, String comment) {
         this.clientId = clientId;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
@@ -112,6 +113,11 @@ public class ClientCriterias {
         return saveDate;
     }
 
+    public String getSaveDateString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return saveDate.format(formatter);
+    }
+
     public void setSaveDate(LocalDateTime saveDate) {
         this.saveDate = saveDate;
     }
@@ -124,43 +130,43 @@ public class ClientCriterias {
         this.hasMz = hasMz;
     }
 
-    public boolean isHasPhotoMz() {
+    public Integer getHasPhotoMz() {
         return hasPhotoMz;
     }
 
-    public void setHasPhotoMz(boolean hasPhotoMz) {
+    public void setHasPhotoMz(Integer hasPhotoMz) {
         this.hasPhotoMz = hasPhotoMz;
     }
 
-    public boolean isCorrectMz() {
+    public Integer getCorrectMz() {
         return correctMz;
     }
 
-    public void setCorrectMz(boolean correctMz) {
+    public void setCorrectMz(Integer correctMz) {
         this.correctMz = correctMz;
     }
 
-    public boolean isHasAddProdMz() {
+    public Integer getHasAddProdMz() {
         return hasAddProdMz;
     }
 
-    public void setHasAddProdMz(boolean hasAddProdMz) {
+    public void setHasAddProdMz(Integer hasAddProdMz) {
         this.hasAddProdMz = hasAddProdMz;
     }
 
-    public boolean isCrit1Mz() {
+    public Integer getCrit1Mz() {
         return crit1Mz;
     }
 
-    public void setCrit1Mz(boolean crit1Mz) {
+    public void setCrit1Mz(Integer crit1Mz) {
         this.crit1Mz = crit1Mz;
     }
 
-    public boolean isCrit2Mz() {
+    public Integer getCrit2Mz() {
         return crit2Mz;
     }
 
-    public void setCrit2Mz(boolean crit2Mz) {
+    public void setCrit2Mz(Integer crit2Mz) {
         this.crit2Mz = crit2Mz;
     }
 
@@ -172,35 +178,35 @@ public class ClientCriterias {
         this.hasK = hasK;
     }
 
-    public boolean isHasPhotoK() {
+    public Integer getHasPhotoK() {
         return hasPhotoK;
     }
 
-    public void setHasPhotoK(boolean hasPhotoK) {
+    public void setHasPhotoK(Integer hasPhotoK) {
         this.hasPhotoK = hasPhotoK;
     }
 
-    public boolean isCorrectK() {
+    public Integer getCorrectK() {
         return correctK;
     }
 
-    public void setCorrectK(boolean correctK) {
+    public void setCorrectK(Integer correctK) {
         this.correctK = correctK;
     }
 
-    public boolean isCrit1K() {
+    public Integer getCrit1K() {
         return crit1K;
     }
 
-    public void setCrit1K(boolean crit1K) {
+    public void setCrit1K(Integer crit1K) {
         this.crit1K = crit1K;
     }
 
-    public boolean isCrit2K() {
+    public Integer getCrit2K() {
         return crit2K;
     }
 
-    public void setCrit2K(boolean crit2K) {
+    public void setCrit2K(Integer crit2K) {
         this.crit2K = crit2K;
     }
 
@@ -212,35 +218,35 @@ public class ClientCriterias {
         this.hasS = hasS;
     }
 
-    public boolean isHasPhotoS() {
+    public Integer getHasPhotoS() {
         return hasPhotoS;
     }
 
-    public void setHasPhotoS(boolean hasPhotoS) {
+    public void setHasPhotoS(Integer hasPhotoS) {
         this.hasPhotoS = hasPhotoS;
     }
 
-    public boolean isCorrectS() {
+    public Integer getCorrectS() {
         return correctS;
     }
 
-    public void setCorrectS(boolean correctS) {
+    public void setCorrectS(Integer correctS) {
         this.correctS = correctS;
     }
 
-    public boolean isCrit1S() {
+    public Integer getCrit1S() {
         return crit1S;
     }
 
-    public void setCrit1S(boolean crit1S) {
+    public void setCrit1S(Integer crit1S) {
         this.crit1S = crit1S;
     }
 
-    public boolean isCrit2S() {
+    public Integer getCrit2S() {
         return crit2S;
     }
 
-    public void setCrit2S(boolean crit2S) {
+    public void setCrit2S(Integer crit2S) {
         this.crit2S = crit2S;
     }
 
@@ -252,43 +258,43 @@ public class ClientCriterias {
         this.hasM = hasM;
     }
 
-    public boolean isHasPhotoM() {
+    public Integer getHasPhotoM() {
         return hasPhotoM;
     }
 
-    public void setHasPhotoM(boolean hasPhotoM) {
+    public void setHasPhotoM(Integer hasPhotoM) {
         this.hasPhotoM = hasPhotoM;
     }
 
-    public boolean isCorrectM() {
+    public Integer getCorrectM() {
         return correctM;
     }
 
-    public void setCorrectM(boolean correctM) {
+    public void setCorrectM(Integer correctM) {
         this.correctM = correctM;
     }
 
-    public boolean isCrit1M() {
+    public Integer getCrit1M() {
         return crit1M;
     }
 
-    public void setCrit1M(boolean crit1M) {
+    public void setCrit1M(Integer crit1M) {
         this.crit1M = crit1M;
     }
 
-    public boolean isCrit2M() {
+    public Integer getCrit2M() {
         return crit2M;
     }
 
-    public void setCrit2M(boolean crit2M) {
+    public void setCrit2M(Integer crit2M) {
         this.crit2M = crit2M;
     }
 
-    public boolean isOos() {
+    public Integer getOos() {
         return oos;
     }
 
-    public void setOos(boolean oos) {
+    public void setOos(Integer oos) {
         this.oos = oos;
     }
 
@@ -338,7 +344,7 @@ public class ClientCriterias {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ClientCriterias that = (ClientCriterias) o;
+        ReportCrit that = (ReportCrit) o;
 
         if (clientId != that.clientId) return false;
         if (!dateFrom.equals(that.dateFrom)) return false;

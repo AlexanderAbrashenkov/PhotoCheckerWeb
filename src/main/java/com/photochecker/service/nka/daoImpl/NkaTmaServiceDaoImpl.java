@@ -71,10 +71,10 @@ public class NkaTmaServiceDaoImpl implements NkaTmaService {
 
     @Override
     public Map<String, Map<String, String>> getNkaTmaByDates(int nkaId, LocalDate startDate, LocalDate endDate, int formatId, int clientId) {
-        ReportType reportType = reportTypeDao.find(3);
-        List<PhotoCard> photoCardList = photoCardDao.findAllByRepClientDates(reportType, clientId, startDate, endDate);
+        //ReportType reportType = reportTypeDao.find(3);
+        //List<PhotoCard> photoCardList = photoCardDao.findAllByRepClientDates(reportType, clientId, startDate, endDate);
 
-        LocalDate firstPhotoDate = photoCardList.stream()
+       /* LocalDate firstPhotoDate = photoCardList.stream()
                 .map(photoCard -> photoCard.getDate())
                 .min(Comparator.naturalOrder())
                 .get().toLocalDate();
@@ -82,20 +82,20 @@ public class NkaTmaServiceDaoImpl implements NkaTmaService {
         LocalDate lastPhotoDate = photoCardList.stream()
                 .map(photoCard -> photoCard.getDate())
                 .max(Comparator.naturalOrder())
-                .get().toLocalDate();
+                .get().toLocalDate();*/
 
         List<NkaTma> nkaTmaList = nkaTmaDao.findAllByNkaAndFormat(nkaId, formatId);
         nkaTmaList.removeIf(nkaTma ->
                 !((
-                        (nkaTma.getStartDate().isBefore(firstPhotoDate) || nkaTma.getStartDate().isEqual(firstPhotoDate))
+                        (nkaTma.getStartDate().isBefore(startDate) || nkaTma.getStartDate().isEqual(startDate))
                                 &&
-                                (nkaTma.getEndDate().isAfter(firstPhotoDate) || nkaTma.getEndDate().isEqual(firstPhotoDate))
+                                (nkaTma.getEndDate().isAfter(startDate) || nkaTma.getEndDate().isEqual(startDate))
                 )
                         ||
                         (
-                                (nkaTma.getStartDate().isBefore(lastPhotoDate) || nkaTma.getStartDate().isEqual(lastPhotoDate))
+                                (nkaTma.getStartDate().isBefore(endDate) || nkaTma.getStartDate().isEqual(endDate))
                                         &&
-                                        (nkaTma.getEndDate().isAfter(lastPhotoDate) || nkaTma.getEndDate().isEqual(lastPhotoDate))
+                                        (nkaTma.getEndDate().isAfter(endDate) || nkaTma.getEndDate().isEqual(endDate))
                         )
                 ));
 

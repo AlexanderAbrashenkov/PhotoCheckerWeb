@@ -125,7 +125,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
 	            <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -159,7 +159,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -193,7 +193,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -227,7 +227,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -261,7 +261,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -295,7 +295,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -329,7 +329,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -363,7 +363,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">
@@ -397,7 +397,7 @@
 	        <div class="clientInfoBlock" class="corr">
 	            <div class="corrTitle">Корректность фото:</div>
                 <input type="button" class="allOk" value="все ОК"><br>
-	            <input type="checkbox" class="isPhotoCorr"> Фото корректное<br>
+	            <input type="checkbox" class="photoCorr"> Фото корректное<br>
 	            <input type="checkbox" class="keyword"> Наличие кодового слова
 	        </div>
 	        <div class="clientInfoBlock" class="tgList">

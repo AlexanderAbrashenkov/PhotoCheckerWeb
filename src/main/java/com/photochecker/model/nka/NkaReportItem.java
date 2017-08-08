@@ -43,6 +43,8 @@ public class NkaReportItem {
     private int kDmNa;
     private int sDmNa;
 
+    private String lastPhotoDate;
+
     public NkaReportItem() {
     }
 
@@ -54,7 +56,7 @@ public class NkaReportItem {
                          int mzDouble, int kDouble, int sDouble,
                          int mzDmAPlan, int kDmAPlan, int sDmAPlan,
                          int mzDmA, int kDmA, int sDmA,
-                         int mzDmNa, int kDmNa, int sDmNa) {
+                         int mzDmNa, int kDmNa, int sDmNa, String lastPhotoDate) {
         this.nkaId = nkaId;
         this.nkaName = nkaName;
         this.type = type;
@@ -88,6 +90,7 @@ public class NkaReportItem {
         this.mzDmNa = mzDmNa;
         this.kDmNa = kDmNa;
         this.sDmNa = sDmNa;
+        this.lastPhotoDate = lastPhotoDate;
     }
 
     public int getNkaId() {
@@ -352,5 +355,13 @@ public class NkaReportItem {
 
     public void setsDmNa(int sDmNa) {
         this.sDmNa = sDmNa;
+    }
+
+    public String getLastPhotoDate() {
+        return lastPhotoDate;
+    }
+
+    public void setLastPhotoDate(String lastPhotoDate) {
+        this.lastPhotoDate = lastPhotoDate;
     }
 }

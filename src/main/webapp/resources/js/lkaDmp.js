@@ -243,7 +243,7 @@ function clearAllCriteriaPanes() {
 }
 
 function clearCriteriasPane(criteriasPane) {
-    criteriasPane.find('.isPhotoCorr').prop('checked', false);
+    criteriasPane.find('.photoCorr').prop('checked', false);
     criteriasPane.find('.keyWord').prop('checked', false);
 
     criteriasPane.find('.mz').prop('checked', false);
@@ -416,7 +416,7 @@ function loadSavedCriterias(clientId, dateFrom, dateTo) {
 function setDmpCriterias(dmpNum, dmpCriterias) {
     var dmp = $('.dmp').eq(dmpNum);
 
-    dmp.find('.isPhotoCorr').prop('checked', dmpCriterias.isPhotoCorr);
+    dmp.find('.photoCorr').prop('checked', dmpCriterias.photoCorr);
     dmp.find('.keyword').prop('checked', dmpCriterias.keyword);
 
     dmp.find('.mz').prop('checked', dmpCriterias.mz);
@@ -484,7 +484,7 @@ function saveCriteriasByClient(clientId) {
             dmpNum: i,
             dmpCount: dmpCount,
 
-            isPhotoCorr: tabContents.eq(i).find('.isPhotoCorr').is(':checked'),
+            photoCorr: tabContents.eq(i).find('.photoCorr').is(':checked'),
             keyword: tabContents.eq(i).find('.keyword').is(':checked'),
 
             mz: tabContents.eq(i).find('.mz').is(':checked'),
@@ -582,7 +582,7 @@ function openDmp(evt, dmpNum) {
 }
 
 function checkAllOnTab(tab) {
-    tab.find('.isPhotoCorr').prop('checked', true);
+    tab.find('.photoCorr').prop('checked', true);
     tab.find('.keyWord').prop('checked', true);
 
     tab.find('.minSize').prop('checked', true);

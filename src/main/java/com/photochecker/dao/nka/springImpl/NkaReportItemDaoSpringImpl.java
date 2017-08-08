@@ -10,14 +10,17 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
 public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
     private JdbcTemplate jdbcTemplate;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private final String SQL_FIND_BY_PARAMS = "select distinct c.lka_id, l.lka_name, f. name as type_name, c.client_id as cl_id, c.client_name, c.client_address,\n" +
-            "s.*, par.*\n" +
+            "s.*, par.*,\n" +
+            "max(p.date) as lastPhotoDate\n" +
             "from client_card c\n" +
             "LEFT JOIN nka_param par on par.nka_id = c.lka_id\n" +
             "left join photo_card p on p.client_id = c.client_id\n" +
@@ -30,7 +33,8 @@ public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
             "where\n" +
             "p.`date` >= ? and p.`date` < ?\n" +
             "and p.report_type = ?\n" +
-            "and p.employee_id = ?";
+            "and p.employee_id = ?\n" +
+            "group by c.lka_id, l.lka_name, f.name, c.client_id, c.client_name, c.client_address";
 
     @Autowired
     public NkaReportItemDaoSpringImpl(DataSource dataSource) {
@@ -103,7 +107,8 @@ public class NkaReportItemDaoSpringImpl implements NkaReportItemDao {
                 rs.getInt("s_dm_a"),
                 rs.getInt("mz_dm_na"),
                 rs.getInt("k_dm_na"),
-                rs.getInt("s_dm_na")
+                rs.getInt("s_dm_na"),
+                rs.getTimestamp("lastPhotoDate").toLocalDateTime().format(formatter)
         );
         return nkaReportItem;
     };

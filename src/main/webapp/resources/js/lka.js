@@ -403,23 +403,23 @@ function loadSavedCriterias(clientId, dateFrom, dateTo) {
             checkForRedirect(data);
             console.log(data);
             $('#mzPhoto').prop('checked', data.hasPhotoMz);
-            $('#mzCorrect').prop('checked', data.isCorrectMz);
+            $('#mzCorrect').prop('checked', data.correctMz);
             $('#mzSP').prop('checked', data.hasAddProdMz);
             $('#mzCrit1').prop('checked', data.crit1Mz);
             $('#mzCrit2').prop('checked', data.crit2Mz);
 
             $('#kPhoto').prop('checked', data.hasPhotoK);
-            $('#kCorrect').prop('checked', data.isCorrectK);
+            $('#kCorrect').prop('checked', data.correctK);
             $('#kCrit1').prop('checked', data.crit1K);
             $('#kCrit2').prop('checked', data.crit2K);
 
             $('#sPhoto').prop('checked', data.hasPhotoS);
-            $('#sCorrect').prop('checked', data.isCorrectS);
+            $('#sCorrect').prop('checked', data.correctS);
             $('#sCrit1').prop('checked', data.crit1S);
             $('#sCrit2').prop('checked', data.crit2S);
 
             $('#mPhoto').prop('checked', data.hasPhotoM);
-            $('#mCorrect').prop('checked', data.isCorrectM);
+            $('#mCorrect').prop('checked', data.correctM);
             $('#mCrit1').prop('checked', data.crit1M);
             $('#mCrit2').prop('checked', data.crit2M);
 
@@ -458,26 +458,26 @@ function saveCriteriasByClient(clientId) {
 
         hasMz: !($('#mzInfoBlock').hasClass('hidden')),
         hasPhotoMz: $('#mzPhoto').is(':checked'),
-        isCorrectMz: $('#mzCorrect').is(':checked'),
+        correctMz: $('#mzCorrect').is(':checked'),
         hasAddProdMz: $('#mzSP').is(':checked'),
         crit1Mz: $('#mzCrit1').is(':checked'),
         crit2Mz: $('#mzCrit2').is(':checked'),
 
         hasK: !($('#kInfoBlock').hasClass('hidden')),
         hasPhotoK: $('#kPhoto').is(':checked'),
-        isCorrectK: $('#kCorrect').is(':checked'),
+        correctK: $('#kCorrect').is(':checked'),
         crit1K: $('#kCrit1').is(':checked'),
         crit2K: $('#kCrit2').is(':checked'),
 
         hasS: !($('#sInfoBlock').hasClass('hidden')),
         hasPhotoS: $('#sPhoto').is(':checked'),
-        isCorrectS: $('#sCorrect').is(':checked'),
+        correctS: $('#sCorrect').is(':checked'),
         crit1S: $('#sCrit1').is(':checked'),
         crit2S: $('#sCrit2').is(':checked'),
 
         hasM: !($('#mInfoBlock').hasClass('hidden')),
         hasPhotoM: $('#mPhoto').is(':checked'),
-        isCorrectM: $('#mCorrect').is(':checked'),
+        correctM: $('#mCorrect').is(':checked'),
         crit1M: $('#mCrit1').is(':checked'),
         crit2M: $('#mCrit2').is(':checked'),
 

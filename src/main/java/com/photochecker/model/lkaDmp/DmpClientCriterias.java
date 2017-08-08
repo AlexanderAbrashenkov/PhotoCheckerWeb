@@ -15,7 +15,7 @@ public class DmpClientCriterias {
     private int dmpNum;
     private int dmpCount;
 
-    private boolean isPhotoCorr;
+    private boolean photoCorr;
     private boolean keyword;
 
     private boolean mz;
@@ -41,7 +41,7 @@ public class DmpClientCriterias {
     }
 
     public DmpClientCriterias(int clientId, LocalDate dateFrom, LocalDate dateTo, LocalDateTime saveDate,
-                              int dmpNum, int dmpCount, boolean isPhotoCorr, boolean keyword,
+                              int dmpNum, int dmpCount, boolean photoCorr, boolean keyword,
                               boolean mz, boolean mzRicco, boolean mzRSpec, boolean mzMilad, boolean mzMSpec,
                               boolean k, boolean s, boolean sSpec, boolean m, boolean mSpec,
                               boolean minSize, boolean tmaProd, boolean price, boolean fill80, boolean place, String comment) {
@@ -51,7 +51,7 @@ public class DmpClientCriterias {
         this.saveDate = saveDate;
         this.dmpNum = dmpNum;
         this.dmpCount = dmpCount;
-        this.isPhotoCorr = isPhotoCorr;
+        this.photoCorr = photoCorr;
         this.keyword = keyword;
         this.mz = mz;
         this.mzRicco = mzRicco;
@@ -120,11 +120,11 @@ public class DmpClientCriterias {
     }
 
     public boolean isPhotoCorr() {
-        return isPhotoCorr;
+        return photoCorr;
     }
 
     public void setPhotoCorr(boolean photoCorr) {
-        isPhotoCorr = photoCorr;
+        this.photoCorr = photoCorr;
     }
 
     public boolean isKeyword() {
@@ -296,7 +296,7 @@ public class DmpClientCriterias {
                 ", saveDate=" + saveDate +
                 ", dmpNum=" + dmpNum +
                 ", dmpCount=" + dmpCount +
-                ", isPhotoCorr=" + isPhotoCorr +
+                ", photoCorr=" + photoCorr +
                 ", keyword=" + keyword +
                 ", mz=" + mz +
                 ", mzRicco=" + mzRicco +

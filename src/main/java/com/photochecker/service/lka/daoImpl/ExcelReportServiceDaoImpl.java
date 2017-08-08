@@ -9,9 +9,14 @@ import com.photochecker.model.common.User;
 import com.photochecker.model.lka.LkaReportItem;
 import com.photochecker.service.lka.ExcelReportService;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.jxls.common.Context;
+import org.jxls.transform.poi.PoiTransformer;
+import org.jxls.util.JxlsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletContext;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,9 +31,11 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
     private LkaReportItemDao lkaReportItemDao;
     @Autowired
     private ResponsibilityDao responsibilityDao;
+    @Autowired
+    private ServletContext servletContext;
 
     @Override
-    public Workbook getExcelReport(Workbook workbook, LocalDate dateFrom, LocalDate dateTo, User user) {
+    public void getExcelReport(OutputStream out, LocalDate dateFrom, LocalDate dateTo, User user) {
         List<LkaReportItem> lkaReportItemList = lkaReportItemDao.findAllByDatesAndRepType(dateFrom, dateTo, 5);
 
         if (user.getRole() == 1) {
@@ -41,25 +48,22 @@ public class ExcelReportServiceDaoImpl implements ExcelReportService {
             lkaReportItemList.removeIf(lkaReportItem -> !allowedDistrNames.contains(lkaReportItem.getDistr()));
         }
 
-        ApachePoiManager.createApachePoi(5);
-        ApachePoi apachePoi = ApachePoiManager.getInstance();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        apachePoi.createReportFile(workbook, dateFrom.format(formatter), dateTo.format(formatter));
-
-        String sheetName = "LKA";
-        if (user.getRole() == 1) {
-            sheetName = user.getUserName().substring(0, user.getUserName().indexOf(" ") + 2);
+        for (int i = 0; i < lkaReportItemList.size(); i++) {
+            lkaReportItemList.get(i).setIndex(i + 1);
         }
 
-        apachePoi.createConcreteSheet(sheetName, null);
-        for (LkaReportItem lkaReportItem : lkaReportItemList) {
-            apachePoi.writeOneTtToConcreteSheet(new ArrayList(Arrays.asList(lkaReportItem)));
+
+
+        File file = new File(servletContext.getRealPath("/resources/excelTemplates/lka_template.xlsx"));
+
+        try (InputStream is = new FileInputStream(file)) {
+
+            Context context = PoiTransformer.createInitialContext();
+            context.putVar("lkaReportItemList", lkaReportItemList);
+            JxlsHelper.getInstance().processTemplate(is, out, context);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        apachePoi.calcSumRowConcreteSheet("LKA");
-        workbook = apachePoi.endWriting("LKA");
-
-        return workbook;
     }
 }

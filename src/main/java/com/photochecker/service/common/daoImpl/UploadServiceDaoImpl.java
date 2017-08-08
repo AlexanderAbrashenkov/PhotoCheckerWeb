@@ -178,6 +178,12 @@ public class UploadServiceDaoImpl implements UploadService {
                     formatTypeList.add(formatType);
                 }
 
+                Employee employee = new Employee(Integer.parseInt(recordParts[17]), recordParts[16]);
+                if (!employeeList.contains(employee)) {
+                    employeeDao.save(employee);
+                    employeeList.add(employee);
+                }
+
                 ClientCard clientCard = new ClientCard(Integer.parseInt(recordParts[7]),
                         recordParts[8],
                         recordParts[9],
@@ -213,7 +219,7 @@ public class UploadServiceDaoImpl implements UploadService {
                         recordParts[15],
                         false,
                         reportType,
-                        0,
+                        employee.getId(),
                         0,
                         null);
                 if (!photoCardList.contains(photoCard)) {

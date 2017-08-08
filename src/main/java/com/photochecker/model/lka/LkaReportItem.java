@@ -1,11 +1,13 @@
 package com.photochecker.model.lka;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by market6 on 05.05.2017.
  */
 public class LkaReportItem {
+    private int index;
     private String region;
     private String distr;
     private int lkaId;
@@ -14,12 +16,16 @@ public class LkaReportItem {
     private int clientId;
     private String clientName;
     private String clientAddress;
-    private ClientCriterias clientCriterias;
+    private ReportCrit clientCriterias;
     private LocalDate photo_date;
+    private int empId;
+    private String empName;
+    private int checked;
 
     public LkaReportItem(String region, String distr, int lkaId, String lkaName, String clientType,
                          int clientId, String clientName, String clientAddress,
-                         ClientCriterias clientCriterias, LocalDate photo_date) {
+                         ReportCrit clientCriterias, LocalDate photo_date, int empId, String empName,
+                         int checked) {
         this.region = region;
         this.distr = distr;
         this.lkaId = lkaId;
@@ -30,9 +36,20 @@ public class LkaReportItem {
         this.clientAddress = clientAddress;
         this.clientCriterias = clientCriterias;
         this.photo_date = photo_date;
+        this.empId = empId;
+        this.empName = empName;
+        this.checked = checked;
     }
 
     public LkaReportItem() {
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getRegion() {
@@ -99,11 +116,11 @@ public class LkaReportItem {
         this.clientAddress = clientAddress;
     }
 
-    public ClientCriterias getClientCriterias() {
+    public ReportCrit getClientCriterias() {
         return clientCriterias;
     }
 
-    public void setClientCriterias(ClientCriterias clientCriterias) {
+    public void setClientCriterias(ReportCrit clientCriterias) {
         this.clientCriterias = clientCriterias;
     }
 
@@ -111,7 +128,36 @@ public class LkaReportItem {
         return photo_date;
     }
 
+    public String getPhotoDateString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return photo_date.format(formatter);
+    }
+
     public void setPhoto_date(LocalDate photo_date) {
         this.photo_date = photo_date;
+    }
+
+    public int getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public int getChecked() {
+        return checked;
+    }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
     }
 }

@@ -47,7 +47,7 @@ public class NkaExcelReportServiceDaoImpl implements NkaExcelReportService {
             nkaRjkamReportItemList.add(new NkaRjkamReportItem(employee.getId(), employee.getName(), nkaReportItems));
         }
 
-        File file = new File(servletContext.getRealPath("/resources/excelTemplates/rjkam_template.xlsx"));
+        File file = new File(servletContext.getRealPath("/resources/excelTemplates/rjkam_template.xlsm"));
 
         try (InputStream is = new FileInputStream(file)) {
             Context context = PoiTransformer.createInitialContext();

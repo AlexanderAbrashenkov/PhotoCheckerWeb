@@ -31,9 +31,9 @@ public class NkaExcelReportController {
         LocalDate dateFrom = LocalDate.parse(request.getParameter("dateFrom"));
         LocalDate dateTo = LocalDate.parse(request.getParameter("dateTo"));
 
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setContentType("application/vnd.ms-excel.sheet.macroEnabled.12");
         response.setHeader("Content-disposition",
-                "attachment; filename=rjkam_" + dateFrom + "_" + dateTo + ".xlsx");
+                "attachment; filename=rjkam_" + dateFrom + "_" + dateTo + ".xlsm");
 
         try {
             OutputStream out = response.getOutputStream();

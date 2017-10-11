@@ -30,8 +30,7 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
             "  LEFT JOIN nst_obl obl ON obl.id = c.obl_id\n" +
             "  LEFT JOIN nst_format f ON f.id = c.format_id\n" +
             "WHERE\n" +
-            "    (p.`date` >= ? AND p.`date` < ? AND p.report_type = ?)\n" +
-            "  OR (s.date_from = ? AND s.date_to = ?)";
+            "  (s.date_from = ? AND s.date_to = ?)";
 
     //language=SQL
     private final String SQL_FIND_BY_PARAMS_SIMPLE = "SELECT obl.id as oblId, obl.name as nstObl, c.id as nstClientId, c.name as nstClient, f.id as nstFormatId, f.name as nstFormat, s.*\n" +
@@ -50,8 +49,7 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
             "  INNER JOIN nst_obl obl ON obl.id = c.obl_id AND obl.id = ?\n" +
             "  INNER JOIN nst_format f ON f.id = c.format_id AND f.id = ?\n" +
             "WHERE\n" +
-            "    (p.`date` >= ? AND p.`date` < ? AND p.report_type = ?)\n" +
-            "  OR (s.date_from = ? AND s.date_to = ?)";
+            "  (s.date_from = ? AND s.date_to = ?)";
 
     //language=SQL
     private final String SQL_FIND_BY_USER_SIMPLE = "SELECT obl.id as oblId, obl.name as nstObl, c.id as nstClientId, c.name as nstClient, f.id as nstFormatId, f.name as nstFormat, s.*\n" +

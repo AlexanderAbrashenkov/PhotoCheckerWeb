@@ -1,5 +1,6 @@
 package com.photochecker.schedulers;
 
+import com.photochecker.service.nst.NstPhotoCardService;
 import com.photochecker.service.nst.NstStatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -11,4 +11,6 @@ import java.util.List;
 public interface NstPhotoCardService {
 
     List<NstPhotoCard> getPhotoListNst(int clientId, LocalDate dateFrom, LocalDate dateTo);
+
+    void archivatePhotoIfNeed();
 }

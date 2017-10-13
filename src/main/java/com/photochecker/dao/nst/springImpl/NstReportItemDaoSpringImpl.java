@@ -158,9 +158,6 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
                     Date.valueOf(startDate),
                     Date.valueOf(endDate),
                     Date.valueOf(startDate),
-                    Date.valueOf(endDate.plusDays(1)),
-                    repType,
-                    Date.valueOf(startDate),
                     Date.valueOf(endDate));
         }
         Set<NstReportItem> sortedUnicResult = new TreeSet<>();
@@ -191,9 +188,6 @@ public class NstReportItemDaoSpringImpl implements NstReportItemDao {
                     Date.valueOf(endDate),
                     nstOblId,
                     formatId,
-                    Date.valueOf(startDate),
-                    Date.valueOf(endDate.plusDays(1)),
-                    repTypeInd,
                     Date.valueOf(startDate),
                     Date.valueOf(endDate));
         }
